@@ -1559,6 +1559,10 @@ async function getRunConfig() {
 }
 
 async function runMultiple() {
+  if (AUTO_GIT_UPDATE) {
+    console.log("dY>> Auto git sync before runs...");
+    runGitUpdate("startup");
+  }
   const { runs, delayMs, batchMin, batchMax } = await getRunConfig();
   let remaining = runs;
   let runIndex = 1;

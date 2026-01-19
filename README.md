@@ -83,3 +83,4 @@ node index.js
 - Screenshots are saved to `screenshots/` unless disabled.
 - The bot will prompt for run count and delay if not provided.
 - Auto git updates require `git` and saved credentials for the remote.
+- When `AUTO_GIT_UPDATE=1`, the script pulls before starting runs to sync compliments.
