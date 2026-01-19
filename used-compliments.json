@@ -12,6 +12,7 @@
   "Counter visit was quick",
   "Dine in was quick today",
   "chicken was super good",
+<<<<<<< Updated upstream
   "Staff were friendly today"
 =======
   "Sauce was good",
@@ -24,5 +25,9 @@
   "Loved the spicy flavor",
   "Chicken was hot",
   "order was accurte"
+>>>>>>> Stashed changes
+=======
+  "Staff were friendly today",
+  "nice staff"
 >>>>>>> Stashed changes
 ]
