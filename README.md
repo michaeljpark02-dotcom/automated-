@@ -44,6 +44,12 @@ Set environment variables to override defaults:
 - `FULLPAGE_SCREENSHOTS` - set to `1` for full-page shots
 - `SCREENSHOT_THROTTLE_MS` - minimum ms between screenshots
 - `INPUT_DELAY_EXTRA_MS` - add extra typing delay
+- `AUTO_GIT_UPDATE` - set to `1` to auto pull/commit/push used compliments
+- `AUTO_GIT_REMOTE` - git remote name (default `origin`)
+- `AUTO_GIT_BRANCH` - git branch name (default `main`)
+- `AUTO_GIT_MESSAGE` - commit message for auto updates
+- `AUTO_GIT_DELAY_MS` - delay before auto git update (default `1200`)
+- `AUTO_GIT_FILES` - comma-separated files to stage (default `used-compliments.json,compliments.js`)
 
 ## Run controls
 The script prompts for run count and delay between runs unless you provide:
@@ -76,3 +82,4 @@ node index.js
 ## Notes
 - Screenshots are saved to `screenshots/` unless disabled.
 - The bot will prompt for run count and delay if not provided.
+- Auto git updates require `git` and saved credentials for the remote.

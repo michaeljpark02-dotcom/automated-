@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
+const { execFileSync } = require("child_process");
 const { compliments } = require("./compliments");
 
 const screenshotFolder = path.join(__dirname, "screenshots");
@@ -50,9 +51,20 @@ const CHROME_PATH = process.env.CHROME_PATH ||
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 const CHROME_PATH_X86 = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 const CHROME_PATH_MAC = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const AUTO_GIT_UPDATE = readEnvBool("AUTO_GIT_UPDATE", false);
+const AUTO_GIT_REMOTE = process.env.AUTO_GIT_REMOTE || "origin";
+const AUTO_GIT_BRANCH = process.env.AUTO_GIT_BRANCH || "main";
+const AUTO_GIT_MESSAGE = process.env.AUTO_GIT_MESSAGE || "Update compliments usage";
+const AUTO_GIT_DELAY_MS = Math.max(0, readEnvInt("AUTO_GIT_DELAY_MS", 1200));
+const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,compliments.js")
+  .split(",")
+  .map(item => item.trim())
+  .filter(Boolean);
 
 let activeBrowser = null;
 let shuttingDown = false;
+let gitUpdateTimer = null;
+let gitUpdateInProgress = false;
 
 function resolveChromePath() {
   if (fs.existsSync(CHROME_PATH)) return CHROME_PATH;
@@ -231,10 +243,59 @@ function loadUsedCompliments() {
   }
 }
 
+function scheduleGitUpdate(reason) {
+  if (!AUTO_GIT_UPDATE) return;
+  if (gitUpdateTimer) return;
+  gitUpdateTimer = setTimeout(() => {
+    gitUpdateTimer = null;
+    runGitUpdate(reason);
+  }, AUTO_GIT_DELAY_MS);
+}
+
+function runGitUpdate(reason) {
+  if (!AUTO_GIT_UPDATE || gitUpdateInProgress) return;
+  if (AUTO_GIT_FILES.length === 0) return;
+  gitUpdateInProgress = true;
+  try {
+    execFileSync("git", ["rev-parse", "--is-inside-work-tree"], {
+      cwd: __dirname,
+      stdio: "ignore"
+    });
+    execFileSync("git", ["pull", "--rebase", "--autostash", AUTO_GIT_REMOTE, AUTO_GIT_BRANCH], {
+      cwd: __dirname,
+      stdio: "ignore"
+    });
+    const statusBefore = execFileSync(
+      "git",
+      ["status", "--porcelain", "--", ...AUTO_GIT_FILES],
+      { cwd: __dirname, stdio: ["ignore", "pipe", "ignore"] }
+    ).toString().trim();
+    if (!statusBefore) return;
+    execFileSync("git", ["add", "--", ...AUTO_GIT_FILES], { cwd: __dirname, stdio: "ignore" });
+    const statusAfter = execFileSync(
+      "git",
+      ["status", "--porcelain", "--", ...AUTO_GIT_FILES],
+      { cwd: __dirname, stdio: ["ignore", "pipe", "ignore"] }
+    ).toString().trim();
+    if (!statusAfter) return;
+    const message = reason ? `${AUTO_GIT_MESSAGE} (${reason})` : AUTO_GIT_MESSAGE;
+    execFileSync("git", ["commit", "-m", message], { cwd: __dirname, stdio: "ignore" });
+    execFileSync("git", ["push", AUTO_GIT_REMOTE, AUTO_GIT_BRANCH], {
+      cwd: __dirname,
+      stdio: "ignore"
+    });
+  } catch (err) {
+    console.log("WARN auto git update failed:", err.message);
+  } finally {
+    gitUpdateInProgress = false;
+  }
+}
+
 function saveUsedCompliments(usedSet) {
   try {
     usedComplimentsCache = usedSet;
     fs.writeFileSync(usedComplimentsPath, JSON.stringify([...usedSet], null, 2));
+    scheduleGitUpdate("used-compliments");
   } catch {
     // Best-effort persistence; ignore write errors.
   }
