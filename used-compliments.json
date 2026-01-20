@@ -19,6 +19,7 @@
   "Biscuits were warm and good",
   "Pickup line was quick",
   "Food was really good",
+<<<<<<< Updated upstream
   "Will be back"
 =======
   "Clean tables",
@@ -38,5 +39,9 @@
   "Nice stop",
   "Order was correct and came out fast.",
   "Food was delish today"
+>>>>>>> Stashed changes
+=======
+  "Will be back",
+  "tasted fresh"
 >>>>>>> Stashed changes
 ]
