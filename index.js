@@ -1317,7 +1317,22 @@ async function runSurvey() {
       // --- MENU ITEM FOLLOW-UPS ---
       const menuResult = await page.evaluate(async (cajunRiceChance) => {
         const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-        const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        const randInt = (max) => {
+          const buf = new Uint32Array(1);
+          crypto.getRandomValues(buf);
+          return buf[0] % max;
+        };
+        const rand = (min, max) => min + randInt((max - min) + 1);
+        const randFloat = () => randInt(1_000_000) / 1_000_000;
+        const shuffleInPlace = (list) => {
+          for (let i = list.length - 1; i > 0; i--) {
+            const j = randInt(i + 1);
+            const tmp = list[i];
+            list[i] = list[j];
+            list[j] = tmp;
+          }
+          return list;
+        };
         const map = window.__surveyQuestionMap || {};
         const cssEscape = (value) =>
           (window.CSS && CSS.escape) ? CSS.escape(value) : value.replace(/["\\]/g, "\\$&");
@@ -1350,7 +1365,7 @@ async function runSurvey() {
           {
             key: "Sides",
             match: "Which of the following Sides did you order",
-            allow: (text) => !isCajunRice(text) || Math.random() < cajunRiceChance
+            allow: (text) => !isCajunRice(text) || randFloat() < cajunRiceChance
           },
           {
             key: "Boneless Chicken",
@@ -1473,8 +1488,8 @@ async function runSurvey() {
           }
 
           const maxSelect = Math.min(allowed.length, 4);
-          const totalToSelect = Math.floor(Math.random() * maxSelect) + 1;
-          const shuffled = allowed.sort(() => 0.5 - Math.random());
+          const totalToSelect = rand(1, maxSelect);
+          const shuffled = shuffleInPlace(allowed);
           for (let i = 0; i < totalToSelect; i++) {
             const choice = shuffled[i];
             const clickTarget =
