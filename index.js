@@ -615,11 +615,6 @@ async function fillVisibleDropdowns(page) {
       crypto.getRandomValues(buf);
       return buf[0] % max;
     };
-    const randBool = (chance) => {
-      const buf = new Uint32Array(1);
-      crypto.getRandomValues(buf);
-      return (buf[0] % 1_000_000) / 1_000_000 < chance;
-    };
     const isVisible = (el) => el && el.offsetParent !== null;
     const selects = Array.from(document.querySelectorAll(".ant-select"))
       .filter(isVisible);
