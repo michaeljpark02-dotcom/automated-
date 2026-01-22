@@ -44,6 +44,20 @@ const STORE_ID = process.env.STORE_ID || "14276";
 const HEADLESS = readEnvBool("HEADLESS", false);
 const USER_AGENT = process.env.USER_AGENT;
 const PROXY = process.env.PROXY;
+const PROXY_USERNAME = process.env.PROXY_USERNAME;
+const PROXY_PASSWORD = process.env.PROXY_PASSWORD;
+const PROXY_BYPASS = process.env.PROXY_BYPASS;
+const VPN_SAFE = readEnvBool("VPN_SAFE", true);
+const NORDVPN_AUTO = readEnvBool("NORDVPN_AUTO", false);
+const NORDVPN_PATH = process.env.NORDVPN_PATH ||
+  "C:\\Program Files\\NordVPN\\nordvpn.exe";
+const NORDVPN_SERVER_NAME = process.env.NORDVPN_SERVER_NAME;
+const NORDVPN_GROUP = process.env.NORDVPN_GROUP;
+const NORDVPN_COUNTRY = process.env.NORDVPN_COUNTRY;
+const NORDVPN_WAIT_MS = Math.max(0, readEnvInt("NORDVPN_WAIT_MS", 8000));
+const NORDVPN_DISCONNECT = readEnvBool("NORDVPN_DISCONNECT", true);
+const NORDVPN_STATUS_RETRIES = Math.max(0, readEnvInt("NORDVPN_STATUS_RETRIES", 3));
+const NORDVPN_STATUS_DELAY_MS = Math.max(0, readEnvInt("NORDVPN_STATUS_DELAY_MS", 2000));
 const RETRY_ATTEMPTS = readEnvInt("RETRY_ATTEMPTS", 2);
 const RETRY_DELAY_MS = readEnvInt("RETRY_DELAY_MS", 1200);
 const INPUT_DELAY_EXTRA_MS = Math.max(0, readEnvInt("INPUT_DELAY_EXTRA_MS", 0));
@@ -60,6 +74,11 @@ const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,com
   .split(",")
   .map(item => item.trim())
   .filter(Boolean);
+const CAJUN_RICE_PICK_CHANCE = (() => {
+  const raw = readEnvFloat("CAJUN_RICE_PICK_CHANCE");
+  if (raw === null) return 0;
+  return Math.min(Math.max(raw, 0), 1);
+})();
 
 let activeBrowser = null;
 let shuttingDown = false;
@@ -71,6 +90,82 @@ function resolveChromePath() {
   if (fs.existsSync(CHROME_PATH_X86)) return CHROME_PATH_X86;
   if (fs.existsSync(CHROME_PATH_MAC)) return CHROME_PATH_MAC;
   return null;
+}
+
+function resolveNordVpnPath() {
+  if (fs.existsSync(NORDVPN_PATH)) return NORDVPN_PATH;
+  return null;
+}
+
+function buildNordVpnConnectArgs() {
+  if (NORDVPN_SERVER_NAME) return ["-c", "-n", NORDVPN_SERVER_NAME];
+  if (NORDVPN_GROUP) return ["-c", "-g", NORDVPN_GROUP];
+  if (NORDVPN_COUNTRY) return ["-c", "-g", NORDVPN_COUNTRY];
+  return ["-c"];
+}
+
+function runNordVpn(args, label) {
+  const nordPath = resolveNordVpnPath();
+  if (!nordPath) {
+    console.log("WARN NordVPN CLI not found; skipping", label);
+    return false;
+  }
+  try {
+    execFileSync(nordPath, args, {
+      cwd: path.dirname(nordPath),
+      stdio: "ignore"
+    });
+    return true;
+  } catch (err) {
+    console.log(`WARN NordVPN ${label} failed:`, err.message);
+    return false;
+  }
+}
+
+function getNordVpnStatus() {
+  const nordPath = resolveNordVpnPath();
+  if (!nordPath) return null;
+  try {
+    const raw = execFileSync(nordPath, ["status"], {
+      cwd: path.dirname(nordPath),
+      stdio: ["ignore", "pipe", "ignore"]
+    }).toString();
+    if (/Status:\s*Connected/i.test(raw)) return "connected";
+    if (/Status:\s*Disconnected/i.test(raw)) return "disconnected";
+    return "unknown";
+  } catch {
+    return null;
+  }
+}
+
+async function waitForNordVpnConnected() {
+  for (let i = 0; i <= NORDVPN_STATUS_RETRIES; i++) {
+    const status = getNordVpnStatus();
+    if (status === "connected") return true;
+    if (i < NORDVPN_STATUS_RETRIES) {
+      await sleep(NORDVPN_STATUS_DELAY_MS);
+    }
+  }
+  return false;
+}
+
+async function connectNordVpn() {
+  if (!NORDVPN_AUTO) return;
+  const ok = runNordVpn(buildNordVpnConnectArgs(), "connect");
+  if (ok && NORDVPN_WAIT_MS > 0) {
+    await sleep(NORDVPN_WAIT_MS);
+  }
+  if (ok) {
+    const connected = await waitForNordVpnConnected();
+    if (!connected) {
+      console.log("WARN NordVPN status not connected after retries.");
+    }
+  }
+}
+
+function disconnectNordVpn() {
+  if (!NORDVPN_AUTO || !NORDVPN_DISCONNECT) return;
+  runNordVpn(["-d"], "disconnect");
 }
 
 process.on("SIGINT", async () => {
@@ -122,6 +217,7 @@ async function takeScreenshot(page, label) {
 }
 
 async function clickContinue(page, postClickWaitMs = 1200) {
+  await takeScreenshot(page, `before-continue-${Date.now()}`);
   await inputDelay(2500, 4200);
   for (let i = 0; i < 3; i++) {
     const clicked = await page.evaluate(() => {
@@ -420,6 +516,20 @@ const LIKELIHOOD_QUESTIONS = [
   "How likely are you to recommend this Popeyes"
 ];
 
+const WEIGHTED_SINGLE_CHOICE_QUESTIONS = [
+  {
+    text: "How did you place your order",
+    options: [
+      { text: "Delivery partner", weight: 1 },
+      { text: "Drive-thru speaker", weight: 4 },
+      { text: "Front counter", weight: 4 },
+      { text: "Popeyes mobile app", weight: 2 },
+      { text: "Popeyes mobile website", weight: 2 },
+      { text: "Self-service kiosk", weight: 2 }
+    ]
+  }
+];
+
 const MENU_QUESTION_MATCHES = [
   "Which of the following Sides did you order",
   "Which of the following Boneless Chicken did you order",
@@ -439,8 +549,10 @@ const GRID_QUESTION_TEXTS = [
 const QUESTION_TEXTS = Array.from(new Set([
   ...DROPDOWN_QUESTIONS.map(q => q.text),
   ...LIKELIHOOD_QUESTIONS,
+  ...WEIGHTED_SINGLE_CHOICE_QUESTIONS.map(q => q.text),
   ...MENU_QUESTION_MATCHES,
   ...GRID_QUESTION_TEXTS,
+  "Was your order for",
   "Which of the following menu items did you order"
 ]));
 
@@ -708,8 +820,10 @@ async function selectVisitDate(page, dateStr) {
 
 async function selectOrderType(page) {
   const choice = pickWeighted([
-    { text: "Takeout/Pickup", weight: 3 },
-    { text: "Dine-In", weight: 2 }
+    { text: "Takeout/Pickup", weight: 5 },
+    { text: "Dine-In", weight: 4 },
+    { text: "Delivery", weight: 1 },
+    { text: "Catering", weight: 1 }
   ]);
   console.log("ðŸ½ Order type:", choice);
 
@@ -733,6 +847,17 @@ async function runSurvey() {
   }
   if (PROXY) {
     launchArgs.push(`--proxy-server=${PROXY}`);
+    if (PROXY_BYPASS) {
+      launchArgs.push(`--proxy-bypass-list=${PROXY_BYPASS}`);
+    } else {
+      launchArgs.push("--proxy-bypass-list=<-loopback>");
+    }
+  }
+  if (VPN_SAFE) {
+    launchArgs.push(
+      "--force-webrtc-ip-handling-policy=disable_non_proxied_udp",
+      "--enable-features=WebRtcHideLocalIpsWithMdns"
+    );
   }
   const chromePath = resolveChromePath();
   const browser = await puppeteer.launch({
@@ -743,6 +868,12 @@ async function runSurvey() {
   });
   activeBrowser = browser;
   const page = await browser.newPage();
+  if (PROXY && (PROXY_USERNAME || PROXY_PASSWORD)) {
+    await page.authenticate({
+      username: PROXY_USERNAME || "",
+      password: PROXY_PASSWORD || ""
+    });
+  }
   if (USER_AGENT) {
     await page.setUserAgent(USER_AGENT);
   }
@@ -865,6 +996,102 @@ async function runSurvey() {
         summary.emojisClicked += emojiResult.length;
         await takeScreenshot(page, `emoji-final-${iteration}`);
         didSomething = true;
+      }
+
+      // --- WEIGHTED SINGLE-CHOICE QUESTIONS ---
+      for (const q of WEIGHTED_SINGLE_CHOICE_QUESTIONS) {
+        const choiceText = pickWeighted(q.options);
+        const result = await page.evaluate((questionText, selectedTextValue) => {
+          const normalize = (value) =>
+            (value || "")
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, " ")
+              .trim();
+          const map = window.__surveyQuestionMap || {};
+          const cssEscape = (value) =>
+            (window.CSS && CSS.escape) ? CSS.escape(value) : value.replace(/["\\]/g, "\\$&");
+          const resolveContainer = (text) => {
+            const meta = map[text];
+            if (!meta) return null;
+            if (meta.testId) {
+              const el = document.querySelector(`[data-testid="${cssEscape(meta.testId)}"]`);
+              if (el) return el;
+            }
+            if (meta.ariaLabel) {
+              const el = document.querySelector(`[aria-label="${cssEscape(meta.ariaLabel)}"]`);
+              if (el) return el;
+            }
+            if (meta.id) {
+              const el = document.getElementById(meta.id);
+              if (el) return el;
+            }
+            return null;
+          };
+
+          let container = resolveContainer(questionText);
+          if (!container) {
+            const textNodes = window.__surveyTextCache || Array.from(
+              document.querySelectorAll("div, p, h1, h2, h3, label, span")
+            );
+            const questionEl = textNodes.find(el =>
+              el.textContent?.trim().startsWith(questionText)
+            );
+            if (!questionEl) return { clicked: false, seen: false };
+            container = questionEl.closest("section, form, div") || questionEl.parentElement;
+          }
+          if (!container) return { clicked: false, seen: false };
+
+          if (container.getAttribute("data-handled-weighted") === "1") {
+            return { clicked: false, seen: true };
+          }
+
+          const alreadySelected = container.querySelector(
+            "input[type='checkbox']:checked, input[type='radio']:checked, [aria-checked='true']"
+          );
+          if (alreadySelected) {
+            container.setAttribute("data-handled-weighted", "1");
+            return { clicked: false, seen: true };
+          }
+
+          const normalizedChoice = normalize(selectedTextValue);
+          let options = Array.from(container.querySelectorAll("div.sc-iTONeN"));
+          if (options.length === 0) {
+            options = Array.from(
+              container.querySelectorAll("label, li, .ant-checkbox-wrapper, .ant-radio-wrapper")
+            );
+          }
+
+          const match = options.find(option => {
+            const label = option.querySelector("div.sc-efBctP") ||
+              option.querySelector("span") ||
+              option;
+            const text = normalize(label.textContent || "");
+            if (!text) return false;
+            return text === normalizedChoice ||
+              text.startsWith(normalizedChoice) ||
+              text.includes(normalizedChoice);
+          });
+
+          if (!match) return { clicked: false, seen: true };
+
+          const input = match.querySelector("input[type='checkbox'], input[type='radio']");
+          const roleOption = match.querySelector("[role='checkbox'], [role='radio']");
+          if (input) {
+            input.click();
+          } else if (roleOption) {
+            roleOption.click();
+          } else {
+            match.click();
+          }
+          container.setAttribute("data-handled-weighted", "1");
+          return { clicked: true, seen: true };
+        }, q.text, choiceText);
+
+        if (result.seen && result.clicked) {
+          console.log(`INFO Weighted pick: ${q.text} -> ${choiceText}`);
+          await takeScreenshot(page, `weighted-${iteration}`);
+          didSomething = true;
+        }
       }
 
       // --- DROPDOWNS (ANT SELECTS) ---
@@ -1066,7 +1293,7 @@ async function runSurvey() {
       }
 
       // --- MENU ITEM FOLLOW-UPS ---
-      const menuResult = await page.evaluate(async () => {
+      const menuResult = await page.evaluate(async (cajunRiceChance) => {
         const sleep = (ms) => new Promise(r => setTimeout(r, ms));
         const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const map = window.__surveyQuestionMap || {};
@@ -1095,11 +1322,13 @@ async function runSurvey() {
           return questionEl.closest("section, form, div") || questionEl.parentElement;
         };
 
+        const normalize = (value) => (value || "").toLowerCase().trim();
+        const isCajunRice = (text) => normalize(text) === "cajun rice";
         const configs = [
           {
             key: "Sides",
             match: "Which of the following Sides did you order",
-            allow: () => true
+            allow: (text) => !isCajunRice(text) || Math.random() < cajunRiceChance
           },
           {
             key: "Boneless Chicken",
@@ -1284,7 +1513,7 @@ async function runSurvey() {
         }
 
         return { clicked: false, key: null };
-      });
+      }, CAJUN_RICE_PICK_CHANCE);
 
       if (menuResult.clicked) {
         console.log(`dY% Selected menu item for: ${menuResult.key}`);
@@ -1334,7 +1563,7 @@ async function runSurvey() {
       }
 
       // --- GRID SELECTION ---
-      const gridMeta = await page.evaluate((gridQuestionTexts) => {
+      const gridMeta = await page.evaluate((gridQuestionTexts, cajunRiceChance) => {
         const map = window.__surveyQuestionMap || {};
         const cssEscape = (value) =>
           (window.CSS && CSS.escape) ? CSS.escape(value) : value.replace(/["\\]/g, "\\$&");
@@ -1387,6 +1616,14 @@ async function runSurvey() {
         ).filter(el => el.textContent?.trim() === "Other Entrees");
         otherEntrees.forEach(el => el.setAttribute("data-skip-grid", "1"));
 
+        const allowCajunRice = Math.random() < cajunRiceChance;
+        if (!allowCajunRice) {
+          const cajunRiceOptions = Array.from(
+            document.querySelectorAll("div.sc-efBctP.izbzVo")
+          ).filter(el => el.textContent?.trim().toLowerCase() === "cajun rice");
+          cajunRiceOptions.forEach(el => el.setAttribute("data-skip-grid", "1"));
+        }
+
         const competitorOptions = Array.from(
           document.querySelectorAll("div.sc-efBctP.izbzVo")
         );
@@ -1421,7 +1658,7 @@ async function runSurvey() {
         }
 
         return { min: 1, max: 1 };
-      }, GRID_QUESTION_TEXTS);
+      }, GRID_QUESTION_TEXTS, CAJUN_RICE_PICK_CHANCE);
       const gridItems = await page.$$("div.sc-efBctP.izbzVo:not([data-skip-grid='1'])");
       if (gridItems.length > 0) {
         console.log("Selecting grid items...");
@@ -1572,7 +1809,12 @@ async function runMultiple() {
     console.log(`dY>> Starting batch (${batchSize} run${batchSize === 1 ? "" : "s"})`);
     for (let i = 0; i < batchSize; i++) {
       console.log(`dY>> Starting run ${runIndex} of ${runs}`);
-      await runSurvey();
+      try {
+        await connectNordVpn();
+        await runSurvey();
+      } finally {
+        disconnectNordVpn();
+      }
       runIndex += 1;
       remaining -= 1;
     }

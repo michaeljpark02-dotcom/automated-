@@ -33,6 +33,19 @@ Set environment variables to override defaults:
 - `HEADLESS` - set to `1`/`true` to run headless
 - `USER_AGENT` - custom user agent string
 - `PROXY` - proxy server URL (e.g. `http://127.0.0.1:8888`)
+- `PROXY_USERNAME` - proxy auth username (optional)
+- `PROXY_PASSWORD` - proxy auth password (optional)
+- `PROXY_BYPASS` - Chrome proxy bypass list (optional); defaults to `<-loopback>`
+- `VPN_SAFE` - set to `0` to disable; forces WebRTC non-proxied UDP off (defaults to on)
+- `NORDVPN_AUTO` - set to `1` to connect/disconnect NordVPN for each run
+- `NORDVPN_PATH` - path to `nordvpn.exe` (default `C:\Program Files\NordVPN\nordvpn.exe`)
+- `NORDVPN_SERVER_NAME` - connect to a specific server name (e.g. `United States #3710`)
+- `NORDVPN_GROUP` - connect to a server group (e.g. `Dedicated IP`)
+- `NORDVPN_COUNTRY` - connect to best server in a country (e.g. `United States`)
+- `NORDVPN_WAIT_MS` - wait after connect before launching the browser (default 8000)
+- `NORDVPN_DISCONNECT` - set to `0` to leave VPN connected after runs
+- `NORDVPN_STATUS_RETRIES` - retries to confirm `nordvpn status` shows connected (default 3)
+- `NORDVPN_STATUS_DELAY_MS` - delay between status checks in ms (default 2000)
 - `CHROME_PATH` - path to Chrome executable (defaults to common Windows paths, plus `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` on macOS)
 - `RETRY_ATTEMPTS` - retries for navigation/continue
 - `RETRY_DELAY_MS` - delay between retries in ms
