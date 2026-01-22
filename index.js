@@ -615,6 +615,11 @@ async function fillVisibleDropdowns(page) {
       crypto.getRandomValues(buf);
       return buf[0] % max;
     };
+    const randBool = (chance) => {
+      const buf = new Uint32Array(1);
+      crypto.getRandomValues(buf);
+      return (buf[0] % 1_000_000) / 1_000_000 < chance;
+    };
     const isVisible = (el) => el && el.offsetParent !== null;
     const selects = Array.from(document.querySelectorAll(".ant-select"))
       .filter(isVisible);
@@ -1328,6 +1333,7 @@ async function runSurvey() {
         };
         const rand = (min, max) => min + randInt((max - min) + 1);
         const randFloat = () => randInt(1_000_000) / 1_000_000;
+        const randBool = (chance) => randFloat() < chance;
         const shuffleInPlace = (list) => {
           for (let i = list.length - 1; i > 0; i--) {
             const j = randInt(i + 1);
@@ -1369,7 +1375,7 @@ async function runSurvey() {
           {
             key: "Sides",
             match: "Which of the following Sides did you order",
-            allow: (text) => !isCajunRice(text) || randFloat() < cajunRiceChance
+            allow: (text) => !isCajunRice(text) || randBool(cajunRiceChance)
           },
           {
             key: "Boneless Chicken",
@@ -1610,6 +1616,7 @@ async function runSurvey() {
           crypto.getRandomValues(buf);
           return (buf[0] % 1_000_000) / 1_000_000;
         };
+        const randBool = (chance) => randFloat() < chance;
         const map = window.__surveyQuestionMap || {};
         const cssEscape = (value) =>
           (window.CSS && CSS.escape) ? CSS.escape(value) : value.replace(/["\\]/g, "\\$&");
@@ -1662,7 +1669,7 @@ async function runSurvey() {
         ).filter(el => el.textContent?.trim() === "Other Entrees");
         otherEntrees.forEach(el => el.setAttribute("data-skip-grid", "1"));
 
-        const allowCajunRice = randFloat() < cajunRiceChance;
+        const allowCajunRice = randBool(cajunRiceChance);
         if (!allowCajunRice) {
           const cajunRiceOptions = Array.from(
             document.querySelectorAll("div.sc-efBctP.izbzVo")
