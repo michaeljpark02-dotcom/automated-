@@ -184,7 +184,23 @@ process.on("SIGINT", async () => {
 });
 
 function randInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  const low = Math.min(min, max);
+  const high = Math.max(min, max);
+  return randomInt(low, high + 1);
+}
+
+function randomFloat() {
+  return randomInt(1_000_000) / 1_000_000;
+}
+
+function shuffleInPlace(list) {
+  for (let i = list.length - 1; i > 0; i--) {
+    const j = randomInt(i + 1);
+    const tmp = list[i];
+    list[i] = list[j];
+    list[j] = tmp;
+  }
+  return list;
 }
 
 async function humanDelay(minMs = 200, maxMs = 900) {
@@ -201,7 +217,7 @@ async function typeHuman(page, selector, text) {
   await inputDelay(2200, 3600);
   for (const ch of text) {
     await page.type(selector, ch, { delay: randInt(60, 180) });
-    if (Math.random() < 0.08) await humanDelay(220, 700);
+    if (randomFloat() < 0.08) await humanDelay(220, 700);
   }
 }
 
@@ -412,7 +428,7 @@ function pickPersistentCompliment(list) {
 
 function pickWeighted(options) {
   const total = options.reduce((sum, opt) => sum + opt.weight, 0);
-  let roll = Math.random() * total;
+  let roll = randomFloat() * total;
   for (const opt of options) {
     roll -= opt.weight;
     if (roll <= 0) return opt.text;
@@ -422,17 +438,17 @@ function pickWeighted(options) {
 
 function randomDateTime() {
   const d = new Date();
-  d.setDate(d.getDate() - Math.floor(Math.random() * 14));
+  d.setDate(d.getDate() - randInt(0, 13));
   const date = d.toISOString().split("T")[0];
-  const hour24 = Math.floor(Math.random() * 13) + 10; // 10:00-22:59
+  const hour24 = randInt(10, 22); // 10:00-22:59
   const h = ((hour24 + 11) % 12) + 1;
-  const m = Math.floor(Math.random() * 60).toString().padStart(2, "0");
+  const m = randInt(0, 59).toString().padStart(2, "0");
   const ampm = hour24 >= 12 ? "pm" : "am";
   return { date, time: `${h}:${m} ${ampm}` };
 }
 
 function randomPrice() {
-  return (Math.random() * 20 + 5).toFixed(2);
+  return (randomFloat() * 20 + 5).toFixed(2);
 }
 
 async function withRetry(action, label) {
