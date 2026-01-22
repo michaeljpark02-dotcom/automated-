@@ -471,87 +471,87 @@ async function withRetry(action, label) {
   throw lastErr;
 }
 
-const DROPDOWN_QUESTIONS = [
+const DROPDOWN_QUESTIONS = Object.freeze([
   {
     text: "Including yourself, how many people were in your party",
-    options: [
+    options: Object.freeze([
       { text: "One", weight: 2 },
       { text: "Two", weight: 3 },
       { text: "Three", weight: 3 },
       { text: "Four", weight: 2 },
       { text: "Five or more", weight: 1 }
-    ]
+    ])
   },
   {
     text: "Including this visit, how many times have you visited this Popeyes",
-    options: [
+    options: Object.freeze([
       { text: "One", weight: 4 },
       { text: "Two", weight: 3 },
       { text: "Three", weight: 2 },
       { text: "Four", weight: 1 }
-    ]
+    ])
   },
   {
     text: "Please indicate your gender",
-    options: [
+    options: Object.freeze([
       { text: "Female", weight: 1 },
       { text: "Male", weight: 1 }
-    ]
+    ])
   },
   {
     text: "Please indicate your age",
-    options: [
+    options: Object.freeze([
       { text: "Under 18", weight: 1 },
       { text: "18 to 24", weight: 3 },
       { text: "25 to 34", weight: 4 },
       { text: "35 to 49", weight: 3 },
       { text: "50 to 64", weight: 1 }
-    ]
+    ])
   },
   {
     text: "Please indicate your annual household income",
-    options: [
+    options: Object.freeze([
       { text: "Under $25,000", weight: 1 },
       { text: "$25,000 to $44,999", weight: 1 },
       { text: "$45,000 to $59,999", weight: 1 },
       { text: "$60,000 to $74,999", weight: 1 },
       { text: "$75,000 to $99,999", weight: 1 },
       { text: "$100,000 or more", weight: 1 }
-    ]
+    ])
   },
   {
     text: "Please indicate which of the following best describes your background",
-    options: [
+    options: Object.freeze([
       { text: "White or Caucasian", weight: 6 },
       { text: "Hispanic or Latino", weight: 3 },
       { text: "Black or African American", weight: 2 },
       { text: "Asian", weight: 1 },
       { text: "American Indian or Alaska Native", weight: 1 },
       { text: "Native Hawaiian or other Pacific Islander", weight: 1 }
-    ]
+    ])
   }
-];
+]);
 
-const LIKELIHOOD_QUESTIONS = [
+const LIKELIHOOD_QUESTIONS = Object.freeze([
   "How likely are you to return to this Popeyes",
   "How likely are you to recommend this Popeyes"
-];
+]);
 
-const WEIGHTED_SINGLE_CHOICE_QUESTIONS = [
+const WEIGHTED_SINGLE_CHOICE_QUESTIONS = Object.freeze([
   {
     text: "How did you place your order",
-    options: [
+    options: Object.freeze([
       { text: "Delivery partner", weight: 1 },
       { text: "Drive-thru speaker", weight: 4 },
       { text: "Front counter", weight: 4 },
       { text: "Popeyes mobile app", weight: 2 },
       { text: "Popeyes mobile website", weight: 2 },
       { text: "Self-service kiosk", weight: 2 }
-    ]
+    ])
   }
-];
+]);
 
-const MENU_QUESTION_MATCHES = [
+const MENU_QUESTION_MATCHES = Object.freeze([
   "Which of the following Sides did you order",
   "Which of the following Boneless Chicken did you order",
   "Which of the following Seafood did you order",
@@ -560,14 +560,14 @@ const MENU_QUESTION_MATCHES = [
   "Which of the following Wraps did you order",
   "Which of the following Desserts did you order",
   "Which of the following Beverages did you order"
-];
+]);
 
-const GRID_QUESTION_TEXTS = [
+const GRID_QUESTION_TEXTS = Object.freeze([
   ...LIKELIHOOD_QUESTIONS,
   ...MENU_QUESTION_MATCHES
-];
+]);
 
-const QUESTION_TEXTS = Array.from(new Set([
+const QUESTION_TEXTS = Object.freeze(Array.from(new Set([
   ...DROPDOWN_QUESTIONS.map(q => q.text),
   ...LIKELIHOOD_QUESTIONS,
   ...WEIGHTED_SINGLE_CHOICE_QUESTIONS.map(q => q.text),
@@ -575,7 +575,7 @@ const QUESTION_TEXTS = Array.from(new Set([
   ...GRID_QUESTION_TEXTS,
   "Was your order for",
   "Which of the following menu items did you order"
-]));
+])));
 
 async function buildQuestionCache(page, questionTexts) {
   await page.evaluate((texts) => {
