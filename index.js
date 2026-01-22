@@ -615,8 +615,6 @@ async function fillVisibleDropdowns(page) {
       crypto.getRandomValues(buf);
       return buf[0] % max;
     };
-    const randFloat = () => randInt(2 ** 32) / 2 ** 32;
-    const randBool = (chance) => randFloat() < chance;
     const isVisible = (el) => el && el.offsetParent !== null;
     const selects = Array.from(document.querySelectorAll(".ant-select"))
       .filter(isVisible);
@@ -1329,7 +1327,7 @@ async function runSurvey() {
           return buf[0] % max;
         };
         const rand = (min, max) => min + randInt((max - min) + 1);
-        const randBool = (chance) => randInt(1_000_000) / 1_000_000 < chance;
+        const randBool = (chance) => randInt(2 ** 32) / 2 ** 32 < chance;
         const shuffleInPlace = (list) => {
           for (let i = list.length - 1; i > 0; i--) {
             const j = randInt(i + 1);
@@ -1610,7 +1608,7 @@ async function runSurvey() {
         const randBool = (chance) => {
           const buf = new Uint32Array(1);
           crypto.getRandomValues(buf);
-          return (buf[0] % 1_000_000) / 1_000_000 < chance;
+          return (buf[0] % 2 ** 32) / 2 ** 32 < chance;
         };
         const map = window.__surveyQuestionMap || {};
         const cssEscape = (value) =>
