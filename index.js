@@ -1327,8 +1327,7 @@ async function runSurvey() {
           return buf[0] % max;
         };
         const rand = (min, max) => min + randInt((max - min) + 1);
-        const randFloat = () => randInt(1_000_000) / 1_000_000;
-        const randBool = (chance) => randFloat() < chance;
+        const randBool = (chance) => randInt(1_000_000) / 1_000_000 < chance;
         const shuffleInPlace = (list) => {
           for (let i = list.length - 1; i > 0; i--) {
             const j = randInt(i + 1);
@@ -1606,12 +1605,11 @@ async function runSurvey() {
 
       // --- GRID SELECTION ---
       const gridMeta = await page.evaluate((gridQuestionTexts, cajunRiceChance) => {
-        const randFloat = () => {
+        const randBool = (chance) => {
           const buf = new Uint32Array(1);
           crypto.getRandomValues(buf);
-          return (buf[0] % 1_000_000) / 1_000_000;
+          return (buf[0] % 1_000_000) / 1_000_000 < chance;
         };
-        const randBool = (chance) => randFloat() < chance;
         const map = window.__surveyQuestionMap || {};
         const cssEscape = (value) =>
           (window.CSS && CSS.escape) ? CSS.escape(value) : value.replace(/["\\]/g, "\\$&");
