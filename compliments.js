@@ -791,6 +791,9 @@ module.exports = {
     "the team was chill af",
     "no cap the order was right",
     "the meal was fire and hot",
-    "yall were clutch today"
+    "yall were clutch today",
+    "no cap yall were on it",
+    "that was a W and a smooth stop",
+    "the food was fire fr"
   ]
 };
