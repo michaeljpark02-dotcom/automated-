@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
+const { randomInt } = require("crypto");
 const { execFileSync } = require("child_process");
 const { compliments } = require("./compliments");
 
@@ -315,7 +316,7 @@ async function waitForReadyToContinue(page, timeoutMs) {
 }
 
 function randomFrom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+  return arr[randomInt(arr.length)];
 }
 
 function loadUsedCompliments() {
