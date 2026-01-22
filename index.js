@@ -1681,9 +1681,8 @@ async function runSurvey() {
         console.log("Selecting grid items...");
         const maxAllowed = Math.min(gridItems.length, gridMeta.max);
         const minAllowed = Math.min(maxAllowed, gridMeta.min);
-        const totalToSelect = Math.floor(Math.random() * (maxAllowed - minAllowed + 1)) + minAllowed;
-        const indices = [...Array(gridItems.length).keys()]
-          .sort(() => 0.5 - Math.random())
+        const totalToSelect = randInt(minAllowed, maxAllowed);
+        const indices = shuffleInPlace([...Array(gridItems.length).keys()])
           .slice(0, totalToSelect);
 
         for (const i of indices) {
