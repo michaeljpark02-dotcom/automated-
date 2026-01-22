@@ -573,7 +573,7 @@ module.exports = {
     "The meal felt freshly made and the service stayed friendly.",
     "The pickup process was smooth and quick",
     "Tables were wiped down quickly and it felt easy from start to finish",
-    "The staff wore clean uniforms and it made the stop easy",
+  
     "yall had good vibes today",
     "good energy from the staff",
     "fries were hot and the pace stayed steady",
