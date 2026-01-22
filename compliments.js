@@ -779,6 +779,18 @@ module.exports = {
     "the food was fire af",
     "the drive thru was smooth no cap",
     "yall were quick no cap",
-    "that hit fr"
+    "that hit fr",
+    "yall were quick fr and i appreciate it",
+    "no cap this was a smooth visit",
+    "the drive thru was clutch and fast",
+    "lowkey loved how fast it was",
+    "good vibes and a quick pickup",
+    "the food was gas and fresh",
+    "that was a W for sure",
+    "yall made it smooth fr",
+    "the team was chill af",
+    "no cap the order was right",
+    "the meal was fire and hot",
+    "yall were clutch today"
   ]
 };
