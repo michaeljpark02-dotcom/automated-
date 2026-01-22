@@ -190,7 +190,11 @@ function randInt(min, max) {
 }
 
 function randomFloat() {
-  return randomInt(1_000_000) / 1_000_000;
+  return randomInt(2 ** 32) / 2 ** 32;
+}
+
+function randBool(chance) {
+  return randomFloat() < chance;
 }
 
 function shuffleInPlace(list) {
@@ -217,7 +221,7 @@ async function typeHuman(page, selector, text) {
   await inputDelay(2200, 3600);
   for (const ch of text) {
     await page.type(selector, ch, { delay: randInt(60, 180) });
-    if (randomFloat() < 0.08) await humanDelay(220, 700);
+    if (randBool(0.08)) await humanDelay(220, 700);
   }
 }
 
