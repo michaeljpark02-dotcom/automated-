@@ -606,6 +606,11 @@ async function buildQuestionCache(page, questionTexts) {
 
 async function fillVisibleDropdowns(page) {
   return page.evaluate(async () => {
+    const randInt = (max) => {
+      const buf = new Uint32Array(1);
+      crypto.getRandomValues(buf);
+      return buf[0] % max;
+    };
     const isVisible = (el) => el && el.offsetParent !== null;
     const selects = Array.from(document.querySelectorAll(".ant-select"))
       .filter(isVisible);
@@ -630,7 +635,7 @@ async function fillVisibleDropdowns(page) {
         .filter(opt => !opt.classList.contains("ant-select-item-option-disabled"));
       if (options.length === 0) continue;
 
-      const choice = options[Math.floor(Math.random() * options.length)];
+      const choice = options[randInt(options.length)];
       choice.click();
       selectedCount++;
       await new Promise(r => setTimeout(r, 120));
