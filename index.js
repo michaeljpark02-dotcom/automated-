@@ -575,6 +575,84 @@ function saveRecentOpeners(recentList) {
   }
 }
 
+function loadRecentLengthBands() {
+  if (recentLengthBandsCache !== null) return recentLengthBandsCache;
+  try {
+    if (!fs.existsSync(recentLengthBandsPath)) {
+      recentLengthBandsCache = [];
+      return recentLengthBandsCache;
+    }
+    const raw = fs.readFileSync(recentLengthBandsPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentLengthBandsCache = Array.isArray(parsed) ? parsed.map(String) : [];
+    return recentLengthBandsCache;
+  } catch {
+    recentLengthBandsCache = [];
+    return recentLengthBandsCache;
+  }
+}
+
+function saveRecentLengthBands(recentList) {
+  try {
+    recentLengthBandsCache = recentList;
+    fs.writeFileSync(recentLengthBandsPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
+function loadRecentConnectors() {
+  if (recentConnectorsCache !== null) return recentConnectorsCache;
+  try {
+    if (!fs.existsSync(recentConnectorsPath)) {
+      recentConnectorsCache = [];
+      return recentConnectorsCache;
+    }
+    const raw = fs.readFileSync(recentConnectorsPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentConnectorsCache = Array.isArray(parsed) ? parsed.map(Boolean) : [];
+    return recentConnectorsCache;
+  } catch {
+    recentConnectorsCache = [];
+    return recentConnectorsCache;
+  }
+}
+
+function saveRecentConnectors(recentList) {
+  try {
+    recentConnectorsCache = recentList;
+    fs.writeFileSync(recentConnectorsPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
+function loadLastSynonymKey() {
+  if (lastSynonymCache !== null) return lastSynonymCache;
+  try {
+    if (!fs.existsSync(lastSynonymPath)) {
+      lastSynonymCache = null;
+      return lastSynonymCache;
+    }
+    const raw = fs.readFileSync(lastSynonymPath, "utf8");
+    const parsed = JSON.parse(raw);
+    lastSynonymCache = parsed && typeof parsed.lastSynonym === "string" ? parsed.lastSynonym : null;
+    return lastSynonymCache;
+  } catch {
+    lastSynonymCache = null;
+    return lastSynonymCache;
+  }
+}
+
+function saveLastSynonymKey(value) {
+  try {
+    lastSynonymCache = value || null;
+    fs.writeFileSync(lastSynonymPath, JSON.stringify({ lastSynonym: lastSynonymCache }, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
 function loadRecentOpenerTypes() {
   if (recentOpenerTypesCache !== null) return recentOpenerTypesCache;
   try {
