@@ -1600,6 +1600,14 @@ async function runSurvey() {
     args: launchArgs,
     defaultViewport: null,
   });
+  recentComplimentsCache = [];
+  recentTopicsCache = [];
+  recentItemsCache = [];
+  recentOpenersCache = [];
+  recentOpenerTypesCache = [];
+  recentLengthBandsCache = [];
+  recentConnectorsCache = [];
+  recentTemplateFamiliesCache = [];
   activeBrowser = browser;
   const page = await browser.newPage();
   if (PROXY && (PROXY_USERNAME || PROXY_PASSWORD)) {
