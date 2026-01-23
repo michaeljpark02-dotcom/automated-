@@ -101,7 +101,7 @@ function buildServiceSentences() {
   for (const target of targets) {
     for (const pace of paces) {
       results.add(`The ${target} ${pace}.`);
-      results.add(`Loved how ${target} ${pace}.`);
+      results.add(`Loved how the ${target} ${pace}.`);
       for (const time of times) {
         results.add(`The ${target} ${pace} ${time}.`);
       }
