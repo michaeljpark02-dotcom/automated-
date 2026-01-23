@@ -170,7 +170,7 @@ module.exports = {
     "Tables were arranged nicely and the pace felt smooth",
     "packed drive thru but the pace was steady",
     "Would come back and the pace was steady.",
-    "quick visit and the food was hot when i got it to go",
+    "quick visit and the food was hot to go",
     "yall handled the rush like pros",
     "the dining room felt cozy and clean",
     "the meal tasted fresh and made to order",
@@ -264,7 +264,7 @@ module.exports = {
     "Food was fresh and everything was right",
     "the cashier was upbeat and polite",
     "The counter staff made eye contact and the pace was consistent.",
-    "the cajun seasoning was flavorful and the food was hot when i got it back to the car",
+    "the cajun seasoning was flavorful and the food was hot by the time i got back to the car",
     "The chicken strips were tender and moist",
     "Short line and it was a nice visit.",
     "They got my order right and the pace felt smooth.",
@@ -384,7 +384,7 @@ module.exports = {
     "service was smooth fr and the food was hot",
     "Pickup was smooth and the wait stayed light",
     "no cap yall were fast",
-    "no wait at all and the food was hot when i got it in the bag",
+    "no wait at all and the food was hot in the bag",
     "Fast service and it made things easy",
     "the mac and cheese was creamy and rich",
     "Good meal and it made it simple",
@@ -600,7 +600,7 @@ module.exports = {
     "that biscuit slapped",
     "The coleslaw was creamy and fresh",
     "Nice to see the drive thru speaker was clear",
-    "the pickup label was correct and the food was hot when i got it in hand",
+    "the pickup label was correct and the food was hot on handoff",
     "the meal was legit and hot",
     "Counter was easy today and it made it simple",
     "they were short staffed but service was still solid",
@@ -650,6 +650,7 @@ module.exports = {
     "parking lot was well lit when i left"
   ]
 };
+
 
 
 
