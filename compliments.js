@@ -272,9 +272,15 @@ function canUseCompliment(text, stemCounts, semanticCounts) {
   const semanticHits = extractSemanticHits(text);
   for (const key of semanticHits) {
     const pattern = SEMANTIC_PATTERNS.find(item => item.key === key);
-    if (!pattern) continue;
-    const current = semanticCounts.get(key) || 0;
-    if (current >= pattern.limit) return false;
+    if (pattern) {
+      const current = semanticCounts.get(key) || 0;
+      if (current >= pattern.limit) return false;
+      continue;
+    }
+    if (key.startsWith("service-pace:")) {
+      const current = semanticCounts.get(key) || 0;
+      if (current >= 10) return false;
+    }
   }
   return true;
 }
