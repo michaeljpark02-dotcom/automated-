@@ -868,8 +868,7 @@ async function selectOrderType(page) {
   const choice = pickWeighted([
     { text: "Takeout/Pickup", weight: 5 },
     { text: "Dine-In", weight: 4 },
-    { text: "Delivery", weight: 1 },
-    { text: "Catering", weight: 1 }
+    { text: "Delivery", weight: 1 }
   ]);
   console.log("ðŸ½ Order type:", choice);
 
