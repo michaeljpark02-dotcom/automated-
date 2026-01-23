@@ -497,13 +497,25 @@ function saveLastTone(tone) {
 
 function pickPersistentCompliment(list) {
   const used = loadUsedCompliments();
-  const available = list.filter(item => !used.has(item));
+  const recent = loadRecentCompliments();
+  const recentSet = new Set(recent);
+  let available = list.filter(item => !used.has(item) && !recentSet.has(item));
   if (available.length === 0) {
+    const withoutRecent = list.filter(item => !recentSet.has(item));
     used.clear();
+    available = withoutRecent.length > 0 ? withoutRecent : list;
   }
-  const pick = randomFrom(available.length > 0 ? available : list);
+  const pick = randomFrom(available);
   used.add(pick);
   saveUsedCompliments(used);
+  if (RECENT_COMPLIMENTS_LIMIT > 0) {
+    const updatedRecent = recent.filter(item => item !== pick);
+    updatedRecent.push(pick);
+    while (updatedRecent.length > RECENT_COMPLIMENTS_LIMIT) {
+      updatedRecent.shift();
+    }
+    saveRecentCompliments(updatedRecent);
+  }
   return pick;
 }
 
