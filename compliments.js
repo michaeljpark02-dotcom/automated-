@@ -271,17 +271,17 @@ function buildComplimentsForTone(shortSentences, seedSuffix) {
   const rareSentences = shuffleArray(buildRareSentences(), rng);
   const brandSentences = shuffleArray(buildBrandSentences(), rng);
 
-  addSome(compliments, serviceSentences, 25, stemCounts, semanticCounts);
-  addSome(compliments, staffSentences, 25, stemCounts, semanticCounts);
-  addSome(compliments, foodSentences, 35, stemCounts, semanticCounts);
-  addSome(compliments, cleanlinessSentences, 20, stemCounts, semanticCounts);
-  addSome(compliments, accuracySentences, 20, stemCounts, semanticCounts);
-  addSome(compliments, atmosphereSentences, 20, stemCounts, semanticCounts);
-  addSome(compliments, valueSentences, 15, stemCounts, semanticCounts);
-  addSome(compliments, pickupSentences, 15, stemCounts, semanticCounts);
-  addSome(compliments, shuffledShort, 25, stemCounts, semanticCounts);
-  addSome(compliments, rareSentences, 8, stemCounts, semanticCounts);
-  addSome(compliments, brandSentences, 6, stemCounts, semanticCounts);
+  addSome(compliments, serviceSentences, 25, stemCounts, semanticCounts, rng);
+  addSome(compliments, staffSentences, 25, stemCounts, semanticCounts, rng);
+  addSome(compliments, foodSentences, 35, stemCounts, semanticCounts, rng);
+  addSome(compliments, cleanlinessSentences, 20, stemCounts, semanticCounts, rng);
+  addSome(compliments, accuracySentences, 20, stemCounts, semanticCounts, rng);
+  addSome(compliments, atmosphereSentences, 20, stemCounts, semanticCounts, rng);
+  addSome(compliments, valueSentences, 15, stemCounts, semanticCounts, rng);
+  addSome(compliments, pickupSentences, 15, stemCounts, semanticCounts, rng);
+  addSome(compliments, shuffledShort, 25, stemCounts, semanticCounts, rng);
+  addSome(compliments, rareSentences, 8, stemCounts, semanticCounts, rng);
+  addSome(compliments, brandSentences, 6, stemCounts, semanticCounts, rng);
 
   const pairings = [
     [serviceSentences, foodSentences],
@@ -302,7 +302,7 @@ function buildComplimentsForTone(shortSentences, seedSuffix) {
   ];
 
   for (const [first, second] of pairings) {
-    addPairings(compliments, first, second, TARGET_COUNT, stemCounts, semanticCounts);
+    addPairings(compliments, first, second, TARGET_COUNT, stemCounts, semanticCounts, rng);
     if (compliments.size >= TARGET_COUNT) break;
   }
 
