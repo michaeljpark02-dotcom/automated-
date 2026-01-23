@@ -443,6 +443,32 @@ function saveUsedCompliments(usedSet) {
   }
 }
 
+function loadRecentCompliments() {
+  if (recentComplimentsCache !== null) return recentComplimentsCache;
+  try {
+    if (!fs.existsSync(recentComplimentsPath)) {
+      recentComplimentsCache = [];
+      return recentComplimentsCache;
+    }
+    const raw = fs.readFileSync(recentComplimentsPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentComplimentsCache = Array.isArray(parsed) ? parsed.map(String) : [];
+    return recentComplimentsCache;
+  } catch {
+    recentComplimentsCache = [];
+    return recentComplimentsCache;
+  }
+}
+
+function saveRecentCompliments(recentList) {
+  try {
+    recentComplimentsCache = recentList;
+    fs.writeFileSync(recentComplimentsPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
 function loadLastTone() {
   if (lastToneCache !== null) return lastToneCache;
   try {
