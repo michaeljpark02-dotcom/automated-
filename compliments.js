@@ -490,7 +490,7 @@ module.exports = {
     "they offered extra sauce and i appreciated it.",
     "glad to see good customer service and it was a smooth stop",
     "the store was easy to spot from the road",
-    "Really tasty and it was a good stop",
+    "Really tasty and it was a solid stop",
     "They got my order correct and everything was right",
     "Henry was out front and helping out",
     "the chicken was crispy and hot",
@@ -529,7 +529,7 @@ module.exports = {
     "fries were hot and the pace stayed smooth",
     "lowkey the best visit ive had here",
     "that hit fr",
-    "the order was right on and thats a W",
+    "the order was spot on and thats a W",
     "the staff was real polite and helpful",
     "meal was hot and it felt easy throughout.",
     "Micheal was very kind and helpfull",
@@ -550,7 +550,7 @@ module.exports = {
     "quick stop and it hit the spot",
     "Extra napkins were appreciated and it went smoothly start to finish",
     "it was hectic but they stayed friendly and calm",
-    "the kitchen was slammed but the order was right",
+    "the kitchen was slammed but the order was correct",
     "the tenders were juicy and not dry",
     "The sandwich was assembled neatly and everything was spot on.",
     "The food tasted like it was made to order and it was a good experience.",
@@ -630,7 +630,7 @@ module.exports = {
     "good looks on the extra sauce",
     "no cap this was a smooth visit",
     "food was fresh and the wait was short",
-    "the order was right and that was clutch",
+    "the order was accurate and that was clutch",
     "The store was easy to get in and out of",
     "the counter line moved faster than i expected",
     "counter was crowded but service was smooth",
@@ -650,6 +650,7 @@ module.exports = {
     "parking lot was well lit when i left"
   ]
 };
+
 
 
 
