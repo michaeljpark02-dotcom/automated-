@@ -9,6 +9,15 @@ const STEM_LIMITS = new Map([
   ["smooth", 24],
   ["hot and fresh", 12]
 ]);
+const SERVICE_KEYWORDS = [
+  "drive-thru",
+  "drive thru",
+  "counter",
+  "line",
+  "service",
+  "pickup",
+  "window"
+];
 
 function capitalizeFirst(value) {
   if (!value) return value;
@@ -51,6 +60,11 @@ function extractStemHits(text) {
     if (lower.includes(stem)) hits.push(stem);
   }
   return hits;
+}
+
+function isServiceLike(text) {
+  const lower = text.toLowerCase();
+  return SERVICE_KEYWORDS.some(keyword => lower.includes(keyword));
 }
 
 function canUseCompliment(text, stemCounts) {
@@ -140,6 +154,7 @@ function addPairings(set, firstList, secondList, targetCount, stemCounts) {
     const first = firstList[i];
     for (let j = 0; j < secondLen && set.size < targetCount; j += 3) {
       const second = secondList[(i * 7 + j) % secondLen];
+      if (isServiceLike(first) && isServiceLike(second)) continue;
       addIfValid(set, `${first} ${second}`, stemCounts);
     }
   }
