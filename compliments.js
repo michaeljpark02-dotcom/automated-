@@ -284,6 +284,13 @@ function buildStaffSentences() {
 
 function buildFoodSentences() {
   const results = new Set();
+  const pluralItems = new Set([
+    "nuggets",
+    "tenders",
+    "fries",
+    "cajun fries",
+    "chicken pieces"
+  ]);
   const hotItems = [
     "spicy chicken sandwich",
     "classic chicken sandwich",
@@ -352,18 +359,21 @@ function buildFoodSentences() {
     "The chicken was hot and fresh.",
     "The sandwich had great flavor."
   ];
+  const itemVerb = item => (pluralItems.has(item) ? "were" : "was");
 
   for (const item of hotItems) {
     for (const quality of hotQualities) {
-      results.add(`The ${item} was ${quality}.`);
-      results.add(`Loved the ${item}; it was ${quality}.`);
-      results.add(`My ${item} was ${quality}.`);
+      const verb = itemVerb(item);
+      results.add(`The ${item} ${verb} ${quality}.`);
+      results.add(`Loved the ${item}; it ${verb} ${quality}.`);
+      results.add(`My ${item} ${verb} ${quality}.`);
       results.add(`The ${item} came out ${quality}.`);
       results.add(`Really enjoyed the ${item} because it was ${quality}.`);
-      results.add(`${capitalizeFirst(item)} was ${quality}.`);
+      results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
     }
     for (const quality of shortQualities) {
-      results.add(`${capitalizeFirst(item)} was ${quality}.`);
+      const verb = itemVerb(item);
+      results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
       results.add(`Hot, ${quality} ${item}.`);
     }
   }
