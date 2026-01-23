@@ -359,20 +359,24 @@ function buildFoodSentences() {
     "The chicken was hot and fresh.",
     "The sandwich had great flavor."
   ];
-  const itemVerb = item => (pluralItems.has(item) ? "were" : "was");
+  const itemGrammar = item => (
+    pluralItems.has(item)
+      ? { verb: "were", pronoun: "they" }
+      : { verb: "was", pronoun: "it" }
+  );
 
   for (const item of hotItems) {
     for (const quality of hotQualities) {
-      const verb = itemVerb(item);
+      const { verb, pronoun } = itemGrammar(item);
       results.add(`The ${item} ${verb} ${quality}.`);
-      results.add(`Loved the ${item}; it ${verb} ${quality}.`);
+      results.add(`Loved the ${item}; ${pronoun} ${verb} ${quality}.`);
       results.add(`My ${item} ${verb} ${quality}.`);
       results.add(`The ${item} came out ${quality}.`);
-      results.add(`Really enjoyed the ${item} because it was ${quality}.`);
+      results.add(`Really enjoyed the ${item} because ${pronoun} ${verb} ${quality}.`);
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
     }
     for (const quality of shortQualities) {
-      const verb = itemVerb(item);
+      const { verb } = itemGrammar(item);
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
       results.add(`Hot, ${quality} ${item}.`);
     }
