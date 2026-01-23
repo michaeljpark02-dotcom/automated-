@@ -210,6 +210,19 @@ function isServiceLike(text) {
   return SERVICE_KEYWORDS.some(keyword => lower.includes(keyword));
 }
 
+function containsKeyword(text, keywords) {
+  const lower = text.toLowerCase();
+  return keywords.some(keyword => lower.includes(keyword));
+}
+
+function isPickupLike(text) {
+  return containsKeyword(text, ORDER_TYPE_KEYWORDS.pickup);
+}
+
+function isDineInLike(text) {
+  return containsKeyword(text, ORDER_TYPE_KEYWORDS.dineIn);
+}
+
 function canUseCompliment(text, stemCounts, semanticCounts) {
   if (!text || text.length > MAX_COMPLIMENT_LENGTH) return false;
   const hits = extractStemHits(text);
