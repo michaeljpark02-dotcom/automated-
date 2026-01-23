@@ -16,6 +16,20 @@ async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function withTimeout(task, timeoutMs, label) {
+  if (!timeoutMs || timeoutMs <= 0) return task;
+  let timer = null;
+  const timeoutPromise = new Promise(resolve => {
+    timer = setTimeout(() => resolve({ timedOut: true }), timeoutMs);
+  });
+  const result = await Promise.race([Promise.resolve(task), timeoutPromise]);
+  if (timer) clearTimeout(timer);
+  if (result && result.timedOut) {
+    console.log(`WARN ${label} timed out after ${timeoutMs}ms; continuing.`);
+  }
+  return result;
+}
+
 function readEnvInt(name, fallback = 0) {
   const raw = process.env[name];
   if (raw === undefined) return fallback;
@@ -60,6 +74,7 @@ const NORDVPN_DISCONNECT = readEnvBool("NORDVPN_DISCONNECT", true);
 const NORDVPN_STATUS_RETRIES = Math.max(0, readEnvInt("NORDVPN_STATUS_RETRIES", 3));
 const NORDVPN_STATUS_DELAY_MS = Math.max(0, readEnvInt("NORDVPN_STATUS_DELAY_MS", 2000));
 const NORDVPN_CMD_TIMEOUT_MS = Math.max(0, readEnvInt("NORDVPN_CMD_TIMEOUT_MS", 20000));
+const NORDVPN_TOTAL_TIMEOUT_MS = Math.max(0, readEnvInt("NORDVPN_TOTAL_TIMEOUT_MS", 30000));
 const RETRY_ATTEMPTS = readEnvInt("RETRY_ATTEMPTS", 2);
 const RETRY_DELAY_MS = readEnvInt("RETRY_DELAY_MS", 1200);
 const INPUT_DELAY_EXTRA_MS = Math.max(0, readEnvInt("INPUT_DELAY_EXTRA_MS", 0));
@@ -1864,10 +1879,14 @@ async function runMultiple() {
     for (let i = 0; i < batchSize; i++) {
       console.log(`dY>> Starting run ${runIndex} of ${runs}`);
       try {
-        await connectNordVpn();
+        await withTimeout(connectNordVpn(), NORDVPN_TOTAL_TIMEOUT_MS, "NordVPN connect");
         await runSurvey();
       } finally {
-        disconnectNordVpn();
+        await withTimeout(
+          Promise.resolve(disconnectNordVpn()),
+          NORDVPN_TOTAL_TIMEOUT_MS,
+          "NordVPN disconnect"
+        );
       }
       runIndex += 1;
       remaining -= 1;
