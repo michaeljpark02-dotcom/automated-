@@ -107,7 +107,7 @@ const AUTO_GIT_REMOTE = process.env.AUTO_GIT_REMOTE || "origin";
 const AUTO_GIT_BRANCH = process.env.AUTO_GIT_BRANCH || "main";
 const AUTO_GIT_MESSAGE = process.env.AUTO_GIT_MESSAGE || "Update compliments usage";
 const AUTO_GIT_DELAY_MS = Math.max(0, readEnvInt("AUTO_GIT_DELAY_MS", 1200));
-const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,compliments.js,last-compliment-tone.json,recent-compliments.json,recent-compliment-topics.json,recent-compliment-items.json,recent-compliment-openers.json,recent-compliment-opener-types.json,recent-compliment-length-bands.json,recent-compliment-connectors.json,last-compliment-synonym.json")
+const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,compliments.js,last-compliment-tone.json,recent-compliments.json,recent-compliment-topics.json,recent-compliment-items.json,recent-compliment-openers.json,recent-compliment-opener-types.json,recent-compliment-length-bands.json,recent-compliment-connectors.json,last-compliment-synonym.json,recent-compliment-template-families.json")
   .split(",")
   .map(item => item.trim())
   .filter(Boolean);
