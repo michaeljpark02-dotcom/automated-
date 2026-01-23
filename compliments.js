@@ -195,16 +195,28 @@ function maybePunctuate(text, rng) {
   return null;
 }
 
+function maybeConnector(text, rng) {
+  if (rng() >= CONNECTOR_RATE) return null;
+  if (CONNECTORS.some(connector => text.startsWith(connector))) return null;
+  return `${CONNECTORS[Math.floor(rng() * CONNECTORS.length)]} ${text}`;
+}
+
 function generateVariants(text, rng) {
   const variants = [];
   const synonymized = maybeSynonymize(text, rng);
   if (synonymized && synonymized !== text) variants.push(synonymized);
   const punctuated = maybePunctuate(text, rng);
   if (punctuated && punctuated !== text) variants.push(punctuated);
+  const connected = maybeConnector(text, rng);
+  if (connected && connected !== text) variants.push(connected);
   if (synonymized) {
     const punctuatedSynonym = maybePunctuate(synonymized, rng);
     if (punctuatedSynonym && punctuatedSynonym !== synonymized) {
       variants.push(punctuatedSynonym);
+    }
+    const connectedSynonym = maybeConnector(synonymized, rng);
+    if (connectedSynonym && connectedSynonym !== synonymized) {
+      variants.push(connectedSynonym);
     }
   }
   return variants;
