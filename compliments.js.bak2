@@ -77,7 +77,7 @@ function buildServiceSentences() {
     "dine-in service",
     "pickup service",
     "window line",
-    "front counter"
+    "front counter service"
   ];
   const paces = [
     "moved quickly",
