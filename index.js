@@ -891,6 +891,10 @@ async function runSurvey() {
     );
   }
   const chromePath = resolveChromePath();
+  console.log(
+    `INFO Launching Chrome (${HEADLESS ? "headless" : "headed"})`,
+    chromePath ? `path=${chromePath}` : "path=auto"
+  );
   const browser = await puppeteer.launch({
     headless: HEADLESS,
     ...(chromePath ? { executablePath: chromePath } : {}),
