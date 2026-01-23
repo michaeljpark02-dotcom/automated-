@@ -914,6 +914,40 @@ function interleaveLists(lists) {
   return result;
 }
 
+function isSameDay(dateStr) {
+  if (!dateStr) return false;
+  const today = new Date();
+  const todayStr = today.toISOString().split("T")[0];
+  return dateStr === todayStr;
+}
+
+function filterByOrderType(list, orderType) {
+  if (!orderType || typeof orderType !== "string") return list;
+  const normalized = orderType.toLowerCase();
+  let keywords = [];
+  if (normalized.includes("dine")) {
+    keywords = ORDER_TYPE_KEYWORDS.dineIn;
+  } else if (normalized.includes("takeout") || normalized.includes("pickup")) {
+    keywords = ORDER_TYPE_KEYWORDS.pickup.concat(ORDER_TYPE_KEYWORDS.driveThru);
+  } else if (normalized.includes("delivery")) {
+    return list;
+  }
+  if (keywords.length === 0) return list;
+  const filtered = list.filter(text => {
+    const lower = text.toLowerCase();
+    return keywords.some(keyword => lower.includes(keyword));
+  });
+  return filtered.length >= Math.floor(MIN_POOL_SIZE / 2) ? filtered : list;
+}
+
+function applySoftFilters(list, visitDate) {
+  let filtered = list.filter(text => !NEGATION_REGEX.test(text));
+  if (visitDate && !isSameDay(visitDate)) {
+    filtered = filtered.filter(text => !TODAY_REGEX.test(text));
+  }
+  return filtered.length >= MIN_POOL_SIZE ? filtered : list;
+}
+
 function getVisitTone(timeValue) {
   if (!timeValue || typeof timeValue !== "string") return "any";
   const match = timeValue.trim().match(/^(\d{1,2}):(\d{2})\s*(am|pm)$/i);
