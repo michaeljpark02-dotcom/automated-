@@ -403,6 +403,52 @@ async function waitForReadyToContinue(page, timeoutMs) {
   }
 }
 
+function getAdaptiveReadyTimeout(baseMs) {
+  const base = Math.max(0, baseMs || 0);
+  const target = Math.max(base, adaptiveReadyTimeoutMs);
+  return Math.min(READY_TIMEOUT_MAX_MS, Math.max(READY_TIMEOUT_MIN_MS, target));
+}
+
+function updateAdaptiveReadyTimeout(elapsedMs, timeoutMs, didTimeout) {
+  lastReadyElapsedMs = elapsedMs;
+  const safeTimeout = Math.max(READY_TIMEOUT_MIN_MS, timeoutMs || 0);
+  let next = adaptiveReadyTimeoutMs;
+
+  if (didTimeout) {
+    next = Math.min(
+      READY_TIMEOUT_MAX_MS,
+      Math.max(adaptiveReadyTimeoutMs, safeTimeout) * READY_TIMEOUT_GROW
+    );
+  } else if (safeTimeout > 0) {
+    const ratio = elapsedMs / safeTimeout;
+    if (ratio >= READY_TIMEOUT_SLOW_THRESHOLD) {
+      next = Math.min(
+        READY_TIMEOUT_MAX_MS,
+        Math.max(adaptiveReadyTimeoutMs, safeTimeout) * READY_TIMEOUT_GROW
+      );
+    } else if (ratio <= READY_TIMEOUT_FAST_THRESHOLD) {
+      next = Math.max(READY_TIMEOUT_MIN_MS, adaptiveReadyTimeoutMs * READY_TIMEOUT_SHRINK);
+    }
+  }
+
+  if (next !== adaptiveReadyTimeoutMs) readyTimeoutAdjustments += 1;
+  adaptiveReadyTimeoutMs = next;
+}
+
+async function adaptiveWaitForReady(page, baseMs, label) {
+  const timeoutMs = getAdaptiveReadyTimeout(baseMs);
+  const start = Date.now();
+  const ready = await waitForReadyToContinue(page, timeoutMs);
+  const elapsedMs = Date.now() - start;
+  updateAdaptiveReadyTimeout(elapsedMs, timeoutMs, !ready);
+  if (!ready) {
+    console.log(
+      `WARN ready timeout (${label}) after ${elapsedMs}ms (budget ${timeoutMs}ms)`
+    );
+  }
+  return { ready, timeoutMs, elapsedMs };
+}
+
 function randomFrom(arr) {
   return arr[randomInt(arr.length)];
 }
