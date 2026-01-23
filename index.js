@@ -588,11 +588,18 @@ function pickPersistentCompliment(list) {
   const recentSet = new Set(recent);
   const recentTopics = loadRecentTopics();
   const recentItems = loadRecentItems();
+  const recentOpeners = loadRecentOpeners();
   const avoidTopics = new Set(recentTopics.slice(-TOPIC_COOLDOWN));
   const avoidItems = new Set(recentItems.slice(-ITEM_COOLDOWN));
+  const avoidOpeners = new Set(recentOpeners.slice(-OPENING_COOLDOWN));
 
   let available = list.filter(item => !used.has(item) && !recentSet.has(item));
   let filtered = filterByTopicAndItem(available, avoidTopics, avoidItems);
+  filtered = filtered.filter(item => {
+    if (avoidOpeners.size === 0) return true;
+    const opener = getOpeningWord(item);
+    return opener ? !avoidOpeners.has(opener) : true;
+  });
   if (filtered.length === 0) {
     filtered = filterByTopicAndItem(available, avoidTopics, new Set());
   }
@@ -615,6 +622,17 @@ function pickPersistentCompliment(list) {
       updatedRecent.shift();
     }
     saveRecentCompliments(updatedRecent);
+  }
+  if (OPENING_COOLDOWN > 0) {
+    const opener = getOpeningWord(pick);
+    if (opener) {
+      const updatedOpeners = recentOpeners.filter(item => item !== opener);
+      updatedOpeners.push(opener);
+      while (updatedOpeners.length > Math.max(OPENING_COOLDOWN * 4, 12)) {
+        updatedOpeners.shift();
+      }
+      saveRecentOpeners(updatedOpeners);
+    }
   }
   const topic = getComplimentTopic(pick);
   if (topic) {
