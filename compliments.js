@@ -11,6 +11,7 @@ const MIN_POOL_SIZE = 300;
 const SYNONYM_RATE = 0.18;
 const EXCLAMATION_RATE = 0.06;
 const COMMA_RATE = 0.08;
+const CONNECTOR_RATE = 0.05;
 const STEM_LIMITS = new Map([
   ["kept things moving", 12],
   ["made the visit easy", 10],
@@ -54,6 +55,27 @@ const ORDER_TYPE_KEYWORDS = {
     "window"
   ]
 };
+const STAFF_NAMES = [
+  "Alex",
+  "Alexander",
+  "Michael",
+  "Henry"
+];
+const CONNECTORS = [
+  "Also,",
+  "Plus,",
+  "On top of that,"
+];
+const SERVICE_PACE_PHRASES = [
+  "moved quickly",
+  "kept a steady pace",
+  "stayed smooth",
+  "ran efficiently",
+  "kept things moving",
+  "was quick without feeling rushed",
+  "was fast and organized",
+  "kept the flow steady"
+];
 const SYNONYM_PAIRS = [
   ["quick", "fast"],
   ["smooth", "steady"],
