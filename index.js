@@ -999,6 +999,7 @@ async function runSurvey() {
 
     await page.waitForSelector("#storeId", { timeout: 15000 });
     const { date, time } = randomDateTime();
+    const visitDate = date;
     const visitTime = time;
     await typeHuman(page, "#storeId", STORE_ID);
 
@@ -1019,7 +1020,7 @@ async function runSurvey() {
     await takeScreenshot(page, "order-info");
     await withRetry(() => clickContinue(page), "clickContinue");
     await takeScreenshot(page, "order-type-screen");
-    await selectOrderType(page);
+    const orderTypeChoice = await selectOrderType(page);
 
     // ===== MAIN LOOP =====
     let more = true;
