@@ -746,6 +746,7 @@ function pickPersistentCompliment(list) {
   const recentLengthBands = loadRecentLengthBands();
   const recentConnectors = loadRecentConnectors();
   const lastSynonymKey = loadLastSynonymKey();
+  const recentTemplateFamilies = loadRecentTemplateFamilies();
   const avoidTopics = new Set(recentTopics.slice(-TOPIC_COOLDOWN));
   const avoidItems = new Set(recentItems.slice(-ITEM_COOLDOWN));
   const avoidOpeners = new Set(recentOpeners.slice(-OPENING_COOLDOWN));
@@ -757,6 +758,7 @@ function pickPersistentCompliment(list) {
     : "";
   const avoidConnector = recentConnectors.length > 0 && recentConnectors[recentConnectors.length - 1] === true;
   const theCount = countRecentValue(recentOpeners, "the", OPENING_THE_WINDOW);
+  const avoidTemplateFamilies = new Set(recentTemplateFamilies.slice(-TEMPLATE_FAMILY_WINDOW));
 
   let available = list.filter(item => !used.has(item) && !recentSet.has(item));
   let filtered = filterByTopicAndItem(available, avoidTopics, avoidItems);
@@ -785,6 +787,11 @@ function pickPersistentCompliment(list) {
   filtered = filtered.filter(item => {
     if (!lastSynonymKey) return true;
     return getSynonymKey(item) !== lastSynonymKey;
+  });
+  filtered = filtered.filter(item => {
+    if (avoidTemplateFamilies.size === 0) return true;
+    const family = getTemplateFamily(item);
+    return !avoidTemplateFamilies.has(family);
   });
   if (filtered.length === 0) {
     filtered = filterByTopicAndItem(available, avoidTopics, new Set());
@@ -838,6 +845,15 @@ function pickPersistentCompliment(list) {
   saveRecentConnectors(updatedConnectors);
   const synonymKey = getSynonymKey(pick);
   saveLastSynonymKey(synonymKey || null);
+  if (TEMPLATE_FAMILY_WINDOW > 0) {
+    const family = getTemplateFamily(pick);
+    const updatedFamilies = recentTemplateFamilies.filter(item => item !== family);
+    updatedFamilies.push(family);
+    while (updatedFamilies.length > Math.max(TEMPLATE_FAMILY_WINDOW * 4, 8)) {
+      updatedFamilies.shift();
+    }
+    saveRecentTemplateFamilies(updatedFamilies);
+  }
   if (OPENING_TYPE_COOLDOWN > 0) {
     const openerType = getOpeningType(pick);
     if (openerType) {
