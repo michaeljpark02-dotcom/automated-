@@ -4,13 +4,15 @@ const path = require("path");
 const readline = require("readline");
 const { randomInt } = require("crypto");
 const { execFileSync } = require("child_process");
-const { compliments, getComplimentPoolForTime } = require("./compliments");
+const { compliments, getComplimentPoolForVisit, getVisitTone } = require("./compliments");
 
 const screenshotFolder = path.join(__dirname, "screenshots");
 if (!fs.existsSync(screenshotFolder)) fs.mkdirSync(screenshotFolder);
 let lastScreenshotAt = 0;
 const usedComplimentsPath = path.join(__dirname, "used-compliments.json");
+const lastTonePath = path.join(__dirname, "last-compliment-tone.json");
 let usedComplimentsCache = null;
+let lastToneCache = null;
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
