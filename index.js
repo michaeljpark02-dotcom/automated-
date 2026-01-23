@@ -475,6 +475,58 @@ function saveRecentCompliments(recentList) {
   }
 }
 
+function loadRecentTopics() {
+  if (recentTopicsCache !== null) return recentTopicsCache;
+  try {
+    if (!fs.existsSync(recentTopicsPath)) {
+      recentTopicsCache = [];
+      return recentTopicsCache;
+    }
+    const raw = fs.readFileSync(recentTopicsPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentTopicsCache = Array.isArray(parsed) ? parsed.map(String) : [];
+    return recentTopicsCache;
+  } catch {
+    recentTopicsCache = [];
+    return recentTopicsCache;
+  }
+}
+
+function saveRecentTopics(recentList) {
+  try {
+    recentTopicsCache = recentList;
+    fs.writeFileSync(recentTopicsPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
+function loadRecentItems() {
+  if (recentItemsCache !== null) return recentItemsCache;
+  try {
+    if (!fs.existsSync(recentItemsPath)) {
+      recentItemsCache = [];
+      return recentItemsCache;
+    }
+    const raw = fs.readFileSync(recentItemsPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentItemsCache = Array.isArray(parsed) ? parsed.map(String) : [];
+    return recentItemsCache;
+  } catch {
+    recentItemsCache = [];
+    return recentItemsCache;
+  }
+}
+
+function saveRecentItems(recentList) {
+  try {
+    recentItemsCache = recentList;
+    fs.writeFileSync(recentItemsPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
 function loadLastTone() {
   if (lastToneCache !== null) return lastToneCache;
   try {
