@@ -1627,7 +1627,7 @@ async function selectOrderType(page) {
     if (found) found.click();
   }, choice);
 
-  await waitForReadyToContinue(page, 5000);
+  await adaptiveWaitForReady(page, 5000, "order-type");
   return choice;
 }
 
