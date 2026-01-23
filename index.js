@@ -621,9 +621,11 @@ function pickPersistentCompliment(list) {
   const recentTopics = loadRecentTopics();
   const recentItems = loadRecentItems();
   const recentOpeners = loadRecentOpeners();
+  const recentOpenerTypes = loadRecentOpenerTypes();
   const avoidTopics = new Set(recentTopics.slice(-TOPIC_COOLDOWN));
   const avoidItems = new Set(recentItems.slice(-ITEM_COOLDOWN));
   const avoidOpeners = new Set(recentOpeners.slice(-OPENING_COOLDOWN));
+  const avoidOpenerTypes = new Set(recentOpenerTypes.slice(-OPENING_TYPE_COOLDOWN));
 
   let available = list.filter(item => !used.has(item) && !recentSet.has(item));
   let filtered = filterByTopicAndItem(available, avoidTopics, avoidItems);
@@ -631,6 +633,11 @@ function pickPersistentCompliment(list) {
     if (avoidOpeners.size === 0) return true;
     const opener = getOpeningWord(item);
     return opener ? !avoidOpeners.has(opener) : true;
+  });
+  filtered = filtered.filter(item => {
+    if (avoidOpenerTypes.size === 0) return true;
+    const type = getOpeningType(item);
+    return type ? !avoidOpenerTypes.has(type) : true;
   });
   if (filtered.length === 0) {
     filtered = filterByTopicAndItem(available, avoidTopics, new Set());
@@ -664,6 +671,17 @@ function pickPersistentCompliment(list) {
         updatedOpeners.shift();
       }
       saveRecentOpeners(updatedOpeners);
+    }
+  }
+  if (OPENING_TYPE_COOLDOWN > 0) {
+    const openerType = getOpeningType(pick);
+    if (openerType) {
+      const updatedTypes = recentOpenerTypes.filter(item => item !== openerType);
+      updatedTypes.push(openerType);
+      while (updatedTypes.length > Math.max(OPENING_TYPE_COOLDOWN * 4, 8)) {
+        updatedTypes.shift();
+      }
+      saveRecentOpenerTypes(updatedTypes);
     }
   }
   const topic = getComplimentTopic(pick);
