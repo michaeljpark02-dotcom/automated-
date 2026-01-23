@@ -1024,6 +1024,13 @@ function getSynonymKey(text) {
   return "";
 }
 
+function getTemplateFamily(text) {
+  for (const family of TEMPLATE_FAMILIES) {
+    if (family.regex.test(text)) return family.key;
+  }
+  return "other";
+}
+
 function normalizeEnding(text) {
   return text.replace(/\s+$/g, "");
 }
@@ -1075,12 +1082,39 @@ function maybeAddQuirk(text) {
   return `${normalized} ${quirk}`;
 }
 
+function swapAdjacentLetters(word) {
+  if (word.length < 4) return word;
+  const idx = randInt(1, word.length - 2);
+  return word.slice(0, idx) + word[idx + 1] + word[idx] + word.slice(idx + 2);
+}
+
+function maybeApplyTypos(text) {
+  if (!randBool(TYPO_RATE)) return text;
+  const normalized = normalizeEnding(text);
+  const lower = normalized.toLowerCase();
+  for (const target of TYPO_TARGETS) {
+    if (lower.includes(target)) {
+      return normalized.replace(new RegExp(target, "i"), match => match.replace("'", ""));
+    }
+  }
+  const words = normalized.split(/\b/);
+  for (let i = 0; i < words.length; i++) {
+    const w = words[i];
+    if (/^[A-Za-z]{5,}$/.test(w)) {
+      words[i] = swapAdjacentLetters(w);
+      return words.join("");
+    }
+  }
+  return text;
+}
+
 function personalizeCompliment(text, visitTime) {
   let updated = text;
   updated = maybeAddOpenSlot(updated);
   updated = maybeAddTimeOfDay(updated, visitTime);
   updated = maybeApplyStyleNoise(updated);
   updated = maybeAddQuirk(updated);
+  updated = maybeApplyTypos(updated);
   return updated;
 }
 
