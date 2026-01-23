@@ -722,6 +722,38 @@ const MENU_ITEMS = [
   "lemonade",
   "chicken pieces"
 ];
+const OPENING_VERBS = [
+  "loved",
+  "noticed",
+  "appreciated",
+  "grabbed",
+  "ordered",
+  "brought",
+  "got",
+  "thanks",
+  "shoutout",
+  "really",
+  "quick"
+];
+
+const OPEN_SLOT_PHRASES = [
+  "on my break",
+  "before work",
+  "after work",
+  "between errands",
+  "on my lunch",
+  "before practice",
+  "after practice",
+  "on the way home",
+  "on the way to work"
+];
+
+const TIME_OF_DAY_PHRASES = [
+  { key: "morning", text: "this morning" },
+  { key: "afternoon", text: "this afternoon" },
+  { key: "evening", text: "tonight" },
+  { key: "night", text: "late tonight" }
+];
 
 function getComplimentTopic(text) {
   const lower = text.toLowerCase();
