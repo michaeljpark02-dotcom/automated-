@@ -920,6 +920,30 @@ const SYNONYM_PAIRS = [
   ["calm", "composed"],
   ["tasty", "flavorful"]
 ];
+const TEMPLATE_FAMILIES = [
+  { key: "loved-how", regex: /^Loved how\b/i },
+  { key: "noticed", regex: /^Noticed\b/i },
+  { key: "appreciated", regex: /^Appreciated\b/i },
+  { key: "quick-shoutout", regex: /^Quick shoutout\b/i },
+  { key: "shoutout", regex: /^Shoutout\b/i },
+  { key: "the", regex: /^The\b/i },
+  { key: "my", regex: /^My\b/i },
+  { key: "really", regex: /^Really\b/i },
+  { key: "even", regex: /^Even\b/i }
+];
+const TYPO_TARGETS = [
+  "dont",
+  "cant",
+  "wont",
+  "wasnt",
+  "didnt",
+  "its",
+  "im",
+  "theyre",
+  "youre",
+  "we're",
+  "it's"
+];
 
 function getComplimentTopic(text) {
   const lower = text.toLowerCase();
