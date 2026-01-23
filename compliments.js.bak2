@@ -71,13 +71,13 @@ function addPairings(set, firstList, secondList, targetCount) {
 function buildServiceSentences() {
   const results = new Set();
   const targets = [
-    "the drive-thru line",
-    "the counter line",
+    "drive-thru line",
+    "counter line",
     "counter service",
     "dine-in service",
     "pickup service",
-    "the window line",
-    "the front counter"
+    "window line",
+    "front counter"
   ];
   const paces = [
     "moved quickly",
