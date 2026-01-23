@@ -981,9 +981,18 @@ function getComplimentPoolForTime(timeValue) {
   return complimentsByTone[tone] || complimentsByTone.any;
 }
 
+function getComplimentPoolForVisit({ time, date, orderType, toneOverride } = {}) {
+  const tone = toneOverride || getVisitTone(time);
+  const base = complimentsByTone[tone] || complimentsByTone.any;
+  const softened = applySoftFilters(base, date);
+  const orderFiltered = filterByOrderType(softened, orderType);
+  return orderFiltered.length >= MIN_POOL_SIZE ? orderFiltered : softened;
+}
+
 module.exports = {
   compliments: buildCompliments(),
   complimentsByTone,
   getVisitTone,
-  getComplimentPoolForTime
+  getComplimentPoolForTime,
+  getComplimentPoolForVisit
 };
