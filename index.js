@@ -295,8 +295,42 @@ async function inputDelay(minMs = 1200, maxMs = 2600) {
   await humanDelay(min, Math.max(min, max));
 }
 
+async function maybeActionJitter(page, label = "generic") {
+  if (!page) return;
+  if (ACTION_JITTER_RATE <= 0) return;
+  if (!randBool(ACTION_JITTER_RATE)) return;
+
+  const maxScroll = Math.max(10, ACTION_JITTER_SCROLL_PX);
+  const moves = Math.max(1, ACTION_JITTER_MOVES);
+
+  try {
+    const viewport = page.viewport() || { width: 1280, height: 720 };
+    const centerX = Math.floor(viewport.width / 2);
+    const centerY = Math.floor(viewport.height / 2);
+    const startX = centerX + randInt(-120, 120);
+    const startY = centerY + randInt(-120, 120);
+    await page.mouse.move(startX, startY, { steps: randInt(2, 5) });
+
+    for (let i = 0; i < moves; i++) {
+      const dx = randInt(-90, 90);
+      const dy = randInt(-90, 90);
+      await page.mouse.move(startX + dx, startY + dy, { steps: randInt(2, 6) });
+      await humanDelay(80, 220);
+    }
+
+    const scrollBy = randInt(-maxScroll, maxScroll);
+    if (scrollBy !== 0) {
+      await page.evaluate((y) => window.scrollBy(0, y), scrollBy);
+      await humanDelay(120, 260);
+    }
+  } catch (err) {
+    console.log(`WARN jitter(${label}) failed:`, err.message);
+  }
+}
+
 async function typeHuman(page, selector, text) {
   await inputDelay(2200, 3600);
+  await maybeActionJitter(page, "typeHuman");
   for (const ch of text) {
     await page.type(selector, ch, { delay: randInt(60, 180) });
     if (randBool(0.08)) await humanDelay(220, 700);
