@@ -562,6 +562,32 @@ function saveRecentOpeners(recentList) {
   }
 }
 
+function loadRecentOpenerTypes() {
+  if (recentOpenerTypesCache !== null) return recentOpenerTypesCache;
+  try {
+    if (!fs.existsSync(recentOpenerTypesPath)) {
+      recentOpenerTypesCache = [];
+      return recentOpenerTypesCache;
+    }
+    const raw = fs.readFileSync(recentOpenerTypesPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentOpenerTypesCache = Array.isArray(parsed) ? parsed.map(String) : [];
+    return recentOpenerTypesCache;
+  } catch {
+    recentOpenerTypesCache = [];
+    return recentOpenerTypesCache;
+  }
+}
+
+function saveRecentOpenerTypes(recentList) {
+  try {
+    recentOpenerTypesCache = recentList;
+    fs.writeFileSync(recentOpenerTypesPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
 function loadLastTone() {
   if (lastToneCache !== null) return lastToneCache;
   try {
