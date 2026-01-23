@@ -1054,6 +1054,17 @@ function buildBrandSentences() {
   ];
 }
 
+function buildNamedStaffSentences() {
+  const lines = [];
+  for (const name of STAFF_NAMES) {
+    lines.push(`Shoutout to ${name} for being so helpful.`);
+    lines.push(`${name} kept the visit smooth and friendly.`);
+    lines.push(`${name} at the counter was polite and quick.`);
+    lines.push(`${name} handled my order with care.`);
+  }
+  return lines;
+}
+
 function interleaveLists(lists) {
   const result = [];
   const maxLen = Math.max(...lists.map(list => list.length));
