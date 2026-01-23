@@ -141,6 +141,10 @@ const CAJUN_RICE_PICK_CHANCE = (() => {
   return Math.min(Math.max(raw, 0), 1);
 })();
 
+let adaptiveReadyTimeoutMs = READY_TIMEOUT_BASE_MS;
+let lastReadyElapsedMs = null;
+let readyTimeoutAdjustments = 0;
+
 let activeBrowser = null;
 let shuttingDown = false;
 let gitUpdateTimer = null;
