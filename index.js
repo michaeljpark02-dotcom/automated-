@@ -1415,7 +1415,9 @@ async function runSurvey() {
           orderType: orderTypeChoice,
           toneOverride
         }) || compliments;
-        await typeHuman(page, "textarea", pickPersistentCompliment(pool));
+        const picked = pickPersistentCompliment(pool);
+        const finalText = personalizeCompliment(picked, visitTime);
+        await typeHuman(page, "textarea", finalText);
         saveLastTone(toneOverride);
         hasTypedText = true;
         summary.textareasFilled++;
