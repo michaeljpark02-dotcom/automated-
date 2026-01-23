@@ -108,7 +108,7 @@ function buildServiceSentences() {
     "Really smooth"
   ];
   const times = [
-    "even with a line",
+    "with a line",
     "during lunch",
     "this afternoon",
     "today",
