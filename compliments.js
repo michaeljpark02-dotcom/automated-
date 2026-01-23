@@ -133,6 +133,61 @@ function shuffleArray(list, rng) {
   return copy;
 }
 
+function replaceWord(text, from, to) {
+  const regex = new RegExp(`\\b${from}\\b`, "i");
+  if (!regex.test(text)) return null;
+  return text.replace(regex, match => (
+    match[0] === match[0].toUpperCase()
+      ? capitalizeFirst(to)
+      : to
+  ));
+}
+
+function swapOneSynonym(text, rng) {
+  const options = [];
+  for (const [a, b] of SYNONYM_PAIRS) {
+    if (new RegExp(`\\b${a}\\b`, "i").test(text)) options.push({ from: a, to: b });
+    if (new RegExp(`\\b${b}\\b`, "i").test(text)) options.push({ from: b, to: a });
+  }
+  if (options.length === 0) return null;
+  const choice = options[Math.floor(rng() * options.length)];
+  return replaceWord(text, choice.from, choice.to);
+}
+
+function maybeSynonymize(text, rng) {
+  if (rng() >= SYNONYM_RATE) return null;
+  return swapOneSynonym(text, rng);
+}
+
+function maybePunctuate(text, rng) {
+  const roll = rng();
+  if (roll < EXCLAMATION_RATE) {
+    if (text.endsWith(".")) return `${text.slice(0, -1)}!`;
+    return `${text}!`;
+  }
+  if (roll < EXCLAMATION_RATE + COMMA_RATE) {
+    if (text.includes(" and ") && !text.includes(",")) {
+      return text.replace(" and ", ", and ");
+    }
+  }
+  return null;
+}
+
+function generateVariants(text, rng) {
+  const variants = [];
+  const synonymized = maybeSynonymize(text, rng);
+  if (synonymized && synonymized !== text) variants.push(synonymized);
+  const punctuated = maybePunctuate(text, rng);
+  if (punctuated && punctuated !== text) variants.push(punctuated);
+  if (synonymized) {
+    const punctuatedSynonym = maybePunctuate(synonymized, rng);
+    if (punctuatedSynonym && punctuatedSynonym !== synonymized) {
+      variants.push(punctuatedSynonym);
+    }
+  }
+  return variants;
+}
+
 function extractStemHits(text) {
   const lower = text.toLowerCase();
   const hits = [];
