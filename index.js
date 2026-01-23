@@ -19,6 +19,7 @@ const recentOpenerTypesPath = path.join(__dirname, "recent-compliment-opener-typ
 const recentLengthBandsPath = path.join(__dirname, "recent-compliment-length-bands.json");
 const recentConnectorsPath = path.join(__dirname, "recent-compliment-connectors.json");
 const lastSynonymPath = path.join(__dirname, "last-compliment-synonym.json");
+const recentTemplateFamiliesPath = path.join(__dirname, "recent-compliment-template-families.json");
 let usedComplimentsCache = null;
 let lastToneCache = null;
 let recentComplimentsCache = null;
@@ -29,6 +30,7 @@ let recentOpenerTypesCache = null;
 let recentLengthBandsCache = null;
 let recentConnectorsCache = null;
 let lastSynonymCache = null;
+let recentTemplateFamiliesCache = null;
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -118,12 +120,14 @@ const OPEN_SLOT_RATE = readEnvFloat("OPEN_SLOT_RATE") ?? 0.06;
 const TIME_OF_DAY_RATE = readEnvFloat("TIME_OF_DAY_RATE") ?? 0.08;
 const STYLE_NOISE_RATE = readEnvFloat("STYLE_NOISE_RATE") ?? 0.2;
 const QUIRK_RATE = readEnvFloat("QUIRK_RATE") ?? 0.03;
+const TYPO_RATE = readEnvFloat("TYPO_RATE") ?? 0.02;
 const LENGTH_BAND_SHORT_MAX = 80;
 const LENGTH_BAND_MEDIUM_MAX = 120;
 const LENGTH_BAND_WINDOW = Math.max(0, readEnvInt("LENGTH_BAND_WINDOW", 3));
 const LENGTH_BAND_STREAK = Math.max(0, readEnvInt("LENGTH_BAND_STREAK", 2));
 const OPENING_THE_WINDOW = Math.max(0, readEnvInt("OPENING_THE_WINDOW", 5));
 const OPENING_THE_LIMIT = Math.max(0, readEnvInt("OPENING_THE_LIMIT", 2));
+const TEMPLATE_FAMILY_WINDOW = Math.max(0, readEnvInt("TEMPLATE_FAMILY_WINDOW", 3));
 const CAJUN_RICE_PICK_CHANCE = (() => {
   const raw = readEnvFloat("CAJUN_RICE_PICK_CHANCE");
   if (raw === null) return 0;
