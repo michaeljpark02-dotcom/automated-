@@ -2026,12 +2026,16 @@ function getRunArgs() {
   const runs =
     argIndex >= 0 ? parsePositiveInt(process.argv[argIndex + 1], 1) : null;
   const delayMs = parsePositiveInt(process.env.RUN_DELAY_MS || "", 0);
+  const delayMinMs = parsePositiveInt(process.env.RUN_DELAY_MIN_MS || "", 0);
+  const delayMaxMs = parsePositiveInt(process.env.RUN_DELAY_MAX_MS || "", 0);
   const envRuns = parsePositiveInt(process.env.RUNS || "", 1);
   const batchMin = parsePositiveInt(process.env.RUN_BATCH_MIN || "", 1);
   const batchMax = parsePositiveInt(process.env.RUN_BATCH_MAX || "", 1);
   return {
     runs: runs ?? envRuns,
     delayMs,
+    delayMinMs,
+    delayMaxMs,
     batchMin,
     batchMax
   };
@@ -2057,15 +2061,23 @@ async function getRunConfig() {
   const defaultRuns = args.runs ?? 1;
   const MIN_RUN_DELAY_MS = 60000;
   const defaultDelay = Math.max(args.delayMs ?? 2000, MIN_RUN_DELAY_MS);
+  const defaultDelayMin = Math.max(args.delayMinMs ?? defaultDelay, MIN_RUN_DELAY_MS);
+  const defaultDelayMax = Math.max(args.delayMaxMs ?? defaultDelayMin, defaultDelayMin);
   const defaultBatchMin = args.batchMin ?? 2;
   const defaultBatchMax = Math.max(args.batchMax ?? 3, defaultBatchMin);
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   const runs = await promptNumber(rl, `Runs? [${defaultRuns}]: `, defaultRuns, 1);
-  const delayMs = await promptNumber(
+  const delayMinMs = await promptNumber(
     rl,
-    `Delay between runs in ms? [${defaultDelay}]: `,
-    defaultDelay,
+    `Delay between runs (min ms)? [${defaultDelayMin}]: `,
+    defaultDelayMin,
     MIN_RUN_DELAY_MS
+  );
+  const delayMaxMs = await promptNumber(
+    rl,
+    `Delay between runs (max ms)? [${defaultDelayMax}]: `,
+    defaultDelayMax,
+    delayMinMs
   );
   const batchMin = await promptNumber(
     rl,
@@ -2080,7 +2092,7 @@ async function getRunConfig() {
     batchMin
   );
   rl.close();
-  return { runs, delayMs, batchMin, batchMax };
+  return { runs, delayMinMs, delayMaxMs, batchMin, batchMax };
 }
 
 async function runMultiple() {
@@ -2088,7 +2100,7 @@ async function runMultiple() {
     console.log("dY>> Auto git sync before runs...");
     runGitUpdate("startup");
   }
-  const { runs, delayMs, batchMin, batchMax } = await getRunConfig();
+  const { runs, delayMinMs, delayMaxMs, batchMin, batchMax } = await getRunConfig();
   let remaining = runs;
   let runIndex = 1;
 
@@ -2110,7 +2122,8 @@ async function runMultiple() {
       runIndex += 1;
       remaining -= 1;
     }
-    if (remaining > 0 && delayMs > 0) {
+    if (remaining > 0 && delayMaxMs > 0) {
+      const delayMs = randInt(delayMinMs, delayMaxMs);
       await sleep(delayMs);
     }
   }
