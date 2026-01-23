@@ -713,10 +713,20 @@ function pickPersistentCompliment(list) {
   const recentItems = loadRecentItems();
   const recentOpeners = loadRecentOpeners();
   const recentOpenerTypes = loadRecentOpenerTypes();
+  const recentLengthBands = loadRecentLengthBands();
+  const recentConnectors = loadRecentConnectors();
+  const lastSynonymKey = loadLastSynonymKey();
   const avoidTopics = new Set(recentTopics.slice(-TOPIC_COOLDOWN));
   const avoidItems = new Set(recentItems.slice(-ITEM_COOLDOWN));
   const avoidOpeners = new Set(recentOpeners.slice(-OPENING_COOLDOWN));
   const avoidOpenerTypes = new Set(recentOpenerTypes.slice(-OPENING_TYPE_COOLDOWN));
+  const avoidBand = LENGTH_BAND_WINDOW > 0 && LENGTH_BAND_STREAK > 0
+    ? recentLengthBands.slice(-LENGTH_BAND_WINDOW).every(band => band === recentLengthBands.slice(-1)[0])
+      ? recentLengthBands.slice(-1)[0]
+      : ""
+    : "";
+  const avoidConnector = recentConnectors.length > 0 && recentConnectors[recentConnectors.length - 1] === true;
+  const theCount = countRecentValue(recentOpeners, "the", OPENING_THE_WINDOW);
 
   let available = list.filter(item => !used.has(item) && !recentSet.has(item));
   let filtered = filterByTopicAndItem(available, avoidTopics, avoidItems);
@@ -729,6 +739,22 @@ function pickPersistentCompliment(list) {
     if (avoidOpenerTypes.size === 0) return true;
     const type = getOpeningType(item);
     return type ? !avoidOpenerTypes.has(type) : true;
+  });
+  filtered = filtered.filter(item => {
+    if (!avoidBand) return true;
+    return getLengthBand(item) !== avoidBand;
+  });
+  filtered = filtered.filter(item => {
+    if (!avoidConnector) return true;
+    return !hasConnectorPrefix(item);
+  });
+  filtered = filtered.filter(item => {
+    if (theCount < OPENING_THE_LIMIT) return true;
+    return getOpeningWord(item) !== "the";
+  });
+  filtered = filtered.filter(item => {
+    if (!lastSynonymKey) return true;
+    return getSynonymKey(item) !== lastSynonymKey;
   });
   if (filtered.length === 0) {
     filtered = filterByTopicAndItem(available, avoidTopics, new Set());
@@ -764,6 +790,24 @@ function pickPersistentCompliment(list) {
       saveRecentOpeners(updatedOpeners);
     }
   }
+  if (LENGTH_BAND_WINDOW > 0) {
+    const band = getLengthBand(pick);
+    const updatedBands = recentLengthBands.filter(item => item !== band);
+    updatedBands.push(band);
+    while (updatedBands.length > Math.max(LENGTH_BAND_WINDOW * 3, 6)) {
+      updatedBands.shift();
+    }
+    saveRecentLengthBands(updatedBands);
+  }
+  const hasConnector = hasConnectorPrefix(pick);
+  const updatedConnectors = recentConnectors.slice();
+  updatedConnectors.push(hasConnector);
+  while (updatedConnectors.length > 6) {
+    updatedConnectors.shift();
+  }
+  saveRecentConnectors(updatedConnectors);
+  const synonymKey = getSynonymKey(pick);
+  saveLastSynonymKey(synonymKey || null);
   if (OPENING_TYPE_COOLDOWN > 0) {
     const openerType = getOpeningType(pick);
     if (openerType) {
