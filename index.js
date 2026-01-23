@@ -1,4 +1,3 @@
-const puppeteer = require("puppeteer");
 ﻿const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
@@ -21,8 +20,8 @@ const recentLengthBandsPath = path.join(__dirname, "recent-compliment-length-ban
 const recentConnectorsPath = path.join(__dirname, "recent-compliment-connectors.json");
 const lastSynonymPath = path.join(__dirname, "last-compliment-synonym.json");
 const recentTemplateFamiliesPath = path.join(__dirname, "recent-compliment-template-families.json");
-const selectorHealthPath = path.join(__dirname, "selector-health.jsonl");
-const runSummaryDir = path.join(__dirname, "run-summaries");
+const selectorHealthPath = path.join(__dirname, \"selector-health.jsonl\");
+const runSummaryDir = path.join(__dirname, \"run-summaries\");
 let usedComplimentsCache = null;
 let lastToneCache = null;
 let recentComplimentsCache = null;
