@@ -314,6 +314,7 @@ function buildComplimentsForTone(shortSentences, seedSuffix) {
   const shuffledShort = shuffleArray(shortSentences, rng);
   const rareSentences = shuffleArray(buildRareSentences(), rng);
   const brandSentences = shuffleArray(buildBrandSentences(), rng);
+  const namedStaffSentences = shuffleArray(buildNamedStaffSentences(), rng);
 
   addSome(compliments, serviceSentences, 25, stemCounts, semanticCounts, rng);
   addSome(compliments, staffSentences, 25, stemCounts, semanticCounts, rng);
@@ -326,6 +327,7 @@ function buildComplimentsForTone(shortSentences, seedSuffix) {
   addSome(compliments, shuffledShort, 25, stemCounts, semanticCounts, rng);
   addSome(compliments, rareSentences, 8, stemCounts, semanticCounts, rng);
   addSome(compliments, brandSentences, 6, stemCounts, semanticCounts, rng);
+  addSome(compliments, namedStaffSentences, 6, stemCounts, semanticCounts, rng);
 
   const pairings = [
     [serviceSentences, foodSentences],
