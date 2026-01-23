@@ -615,6 +615,58 @@ function pickWeighted(options) {
   return options[options.length - 1].text;
 }
 
+const COMPLIMENT_TOPICS = [
+  { key: "food", keywords: ["sandwich", "nuggets", "tenders", "biscuits", "fries", "cajun fries", "red beans", "coleslaw", "mashed potatoes", "mac and cheese", "sweet tea", "lemonade", "meal", "food", "chicken", "combo"] },
+  { key: "service", keywords: ["service", "drive-thru", "drive thru", "line", "counter", "window", "pickup", "order", "ready"] },
+  { key: "staff", keywords: ["staff", "crew", "team", "cashier", "manager", "attendant"] },
+  { key: "cleanliness", keywords: ["clean", "tidy", "spotless", "lobby", "tables", "floors", "chairs", "restrooms", "condiment station", "pickup shelf"] },
+  { key: "accuracy", keywords: ["correct", "receipt", "sauce", "utensils", "change", "payment", "right", "accurate", "packed", "bag"] },
+  { key: "atmosphere", keywords: ["vibe", "music", "lighting", "comfortable", "cozy", "calm", "pleasant", "airy"] },
+  { key: "value", keywords: ["value", "price", "deal", "portion", "worth"] },
+  { key: "brand", keywords: ["popeyes"] }
+];
+
+const MENU_ITEMS = [
+  "spicy chicken sandwich",
+  "classic chicken sandwich",
+  "chicken sandwich combo",
+  "nuggets",
+  "tenders",
+  "biscuits",
+  "fries",
+  "cajun fries",
+  "red beans and rice",
+  "coleslaw",
+  "mashed potatoes",
+  "mac and cheese",
+  "sweet tea",
+  "lemonade",
+  "chicken pieces"
+];
+
+function getComplimentTopic(text) {
+  const lower = text.toLowerCase();
+  for (const topic of COMPLIMENT_TOPICS) {
+    if (topic.keywords.some(keyword => lower.includes(keyword))) return topic.key;
+  }
+  return "other";
+}
+
+function getComplimentItems(text) {
+  const lower = text.toLowerCase();
+  return MENU_ITEMS.filter(item => lower.includes(item));
+}
+
+function filterByTopicAndItem(list, avoidTopics, avoidItems) {
+  return list.filter(text => {
+    const topic = getComplimentTopic(text);
+    if (avoidTopics && avoidTopics.size > 0 && avoidTopics.has(topic)) return false;
+    const items = getComplimentItems(text);
+    if (avoidItems && avoidItems.size > 0 && items.some(item => avoidItems.has(item))) return false;
+    return true;
+  });
+}
+
 function randomDateTime() {
   const d = new Date();
   d.setDate(d.getDate() - randInt(0, 13));
