@@ -905,6 +905,19 @@ function buildRareSentences() {
   ];
 }
 
+function buildBrandSentences() {
+  return [
+    "Popeyes service was fast today.",
+    "Popeyes had the order ready quickly.",
+    "Popeyes handled the rush well.",
+    "Popeyes was clean and welcoming.",
+    "Popeyes staff were friendly.",
+    "Great visit at Popeyes today.",
+    "Popeyes made it quick and easy.",
+    "Food from Popeyes was hot and fresh."
+  ];
+}
+
 function interleaveLists(lists) {
   const result = [];
   const maxLen = Math.max(...lists.map(list => list.length));
