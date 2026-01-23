@@ -142,6 +142,9 @@ const READY_TIMEOUT_GROW = readEnvFloat("READY_TIMEOUT_GROW") ?? 1.25;
 const READY_TIMEOUT_SHRINK = readEnvFloat("READY_TIMEOUT_SHRINK") ?? 0.9;
 const READY_TIMEOUT_SLOW_THRESHOLD = readEnvFloat("READY_TIMEOUT_SLOW_THRESHOLD") ?? 0.75;
 const READY_TIMEOUT_FAST_THRESHOLD = readEnvFloat("READY_TIMEOUT_FAST_THRESHOLD") ?? 0.25;
+const ACTION_JITTER_RATE = readEnvFloat("ACTION_JITTER_RATE") ?? 0.18;
+const ACTION_JITTER_SCROLL_PX = Math.max(0, readEnvInt("ACTION_JITTER_SCROLL_PX", 80));
+const ACTION_JITTER_MOVES = Math.max(1, readEnvInt("ACTION_JITTER_MOVES", 3));
 const CAJUN_RICE_PICK_CHANCE = (() => {
   const raw = readEnvFloat("CAJUN_RICE_PICK_CHANCE");
   if (raw === null) return 0;
