@@ -7,6 +7,7 @@ const LENGTH_BANDS = Object.freeze({
   medium: { max: 120, ratio: 0.4 },
   long: { max: MAX_COMPLIMENT_LENGTH, ratio: 0.2 }
 });
+const MIN_POOL_SIZE = 300;
 const STEM_LIMITS = new Map([
   ["kept things moving", 12],
   ["made the visit easy", 10],
@@ -23,6 +24,33 @@ const SERVICE_KEYWORDS = [
   "pickup",
   "window"
 ];
+const NEGATION_REGEX = /\b(but|though|however|although|except|yet)\b/i;
+const TODAY_REGEX = /\btoday\b/i;
+const ORDER_TYPE_KEYWORDS = {
+  dineIn: [
+    "dine-in",
+    "dining room",
+    "lobby",
+    "tables",
+    "chairs",
+    "restrooms",
+    "condiment station",
+    "counter area"
+  ],
+  pickup: [
+    "pickup",
+    "curbside",
+    "pickup shelf",
+    "pickup area",
+    "mobile pickup"
+  ],
+  driveThru: [
+    "drive-thru",
+    "drive thru",
+    "window line",
+    "window"
+  ]
+};
 const SEMANTIC_PATTERNS = [
   {
     key: "service-pace",
