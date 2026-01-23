@@ -1036,8 +1036,17 @@ async function runSurvey() {
       const textArea = await page.$("textarea");
       if (textArea && !hasTypedText) {
         await humanDelay(200, 900);
-        const pool = getComplimentPoolForTime(visitTime) || compliments;
+        const preferredTone = getVisitTone(visitTime);
+        const lastTone = loadLastTone();
+        const toneOverride = lastTone && lastTone === preferredTone ? "any" : preferredTone;
+        const pool = getComplimentPoolForVisit({
+          time: visitTime,
+          date: visitDate,
+          orderType: orderTypeChoice,
+          toneOverride
+        }) || compliments;
         await typeHuman(page, "textarea", pickPersistentCompliment(pool));
+        saveLastTone(toneOverride);
         hasTypedText = true;
         summary.textareasFilled++;
         await takeScreenshot(page, `textarea-filled-${iteration}`);
