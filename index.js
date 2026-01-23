@@ -557,13 +557,26 @@ function pickPersistentCompliment(list) {
   const used = loadUsedCompliments();
   const recent = loadRecentCompliments();
   const recentSet = new Set(recent);
+  const recentTopics = loadRecentTopics();
+  const recentItems = loadRecentItems();
+  const avoidTopics = new Set(recentTopics.slice(-TOPIC_COOLDOWN));
+  const avoidItems = new Set(recentItems.slice(-ITEM_COOLDOWN));
+
   let available = list.filter(item => !used.has(item) && !recentSet.has(item));
-  if (available.length === 0) {
+  let filtered = filterByTopicAndItem(available, avoidTopics, avoidItems);
+  if (filtered.length === 0) {
+    filtered = filterByTopicAndItem(available, avoidTopics, new Set());
+  }
+  if (filtered.length === 0) {
+    filtered = available;
+  }
+  if (filtered.length === 0) {
     const withoutRecent = list.filter(item => !recentSet.has(item));
     used.clear();
-    available = withoutRecent.length > 0 ? withoutRecent : list;
+    filtered = withoutRecent.length > 0 ? withoutRecent : list;
   }
-  const pick = randomFrom(available);
+
+  const pick = randomFrom(filtered);
   used.add(pick);
   saveUsedCompliments(used);
   if (RECENT_COMPLIMENTS_LIMIT > 0) {
@@ -573,6 +586,21 @@ function pickPersistentCompliment(list) {
       updatedRecent.shift();
     }
     saveRecentCompliments(updatedRecent);
+  }
+  const topic = getComplimentTopic(pick);
+  if (topic) {
+    const updatedTopics = recentTopics.filter(item => item !== topic);
+    updatedTopics.push(topic);
+    saveRecentTopics(updatedTopics);
+  }
+  const items = getComplimentItems(pick);
+  if (items.length > 0) {
+    const updatedItems = recentItems.filter(item => !items.includes(item));
+    updatedItems.push(...items);
+    while (updatedItems.length > Math.max(ITEM_COOLDOWN * 4, 20)) {
+      updatedItems.shift();
+    }
+    saveRecentItems(updatedItems);
   }
   return pick;
 }
