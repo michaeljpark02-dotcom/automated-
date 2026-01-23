@@ -352,6 +352,7 @@ async function takeScreenshot(page, label) {
 async function clickContinue(page, postClickWaitMs = 1200) {
   await takeScreenshot(page, `before-continue-${Date.now()}`);
   await inputDelay(2500, 4200);
+  await maybeActionJitter(page, "click-continue");
   for (let i = 0; i < 3; i++) {
     const clicked = await page.evaluate(() => {
       const isVisible = (el) => el && el.offsetParent !== null;
