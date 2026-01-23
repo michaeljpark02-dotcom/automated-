@@ -631,6 +631,32 @@ function saveRecentConnectors(recentList) {
   }
 }
 
+function loadRecentTemplateFamilies() {
+  if (recentTemplateFamiliesCache !== null) return recentTemplateFamiliesCache;
+  try {
+    if (!fs.existsSync(recentTemplateFamiliesPath)) {
+      recentTemplateFamiliesCache = [];
+      return recentTemplateFamiliesCache;
+    }
+    const raw = fs.readFileSync(recentTemplateFamiliesPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentTemplateFamiliesCache = Array.isArray(parsed) ? parsed.map(String) : [];
+    return recentTemplateFamiliesCache;
+  } catch {
+    recentTemplateFamiliesCache = [];
+    return recentTemplateFamiliesCache;
+  }
+}
+
+function saveRecentTemplateFamilies(recentList) {
+  try {
+    recentTemplateFamiliesCache = recentList;
+    fs.writeFileSync(recentTemplateFamiliesPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
 function loadLastSynonymKey() {
   if (lastSynonymCache !== null) return lastSynonymCache;
   try {
