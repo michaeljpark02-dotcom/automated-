@@ -2,6 +2,11 @@
 
 const TARGET_COUNT = 720;
 
+function capitalizeFirst(value) {
+  if (!value) return value;
+  return value[0].toUpperCase() + value.slice(1);
+}
+
 function buildCompliments() {
   const compliments = new Set();
 
@@ -102,8 +107,14 @@ function buildServiceSentences() {
     for (const pace of paces) {
       results.add(`The ${target} ${pace}.`);
       results.add(`Loved how the ${target} ${pace}.`);
+      results.add(`Noticed the ${target} ${pace}.`);
+      results.add(`Really liked that the ${target} ${pace}.`);
+      results.add(`Appreciated how the ${target} ${pace}.`);
+      results.add(`Quick shoutout: the ${target} ${pace}.`);
       for (const time of times) {
         results.add(`The ${target} ${pace} ${time}.`);
+        results.add(`Even ${time}, the ${target} ${pace}.`);
+        results.add(`${capitalizeFirst(time)}, the ${target} ${pace}.`);
       }
     }
   }
@@ -154,9 +165,14 @@ function buildStaffSentences() {
     for (const trait of traits) {
       results.add(`The ${staff} were ${trait}.`);
       results.add(`Really appreciated how the ${staff} were ${trait}.`);
+      results.add(`The ${staff} felt ${trait} today.`);
+      results.add(`Shoutout to the ${staff} for being ${trait}.`);
+      results.add(`Super ${trait} ${staff}.`);
     }
     for (const action of actions) {
       results.add(`The ${staff} ${action}.`);
+      results.add(`It was nice that the ${staff} ${action}.`);
+      results.add(`Quick thanks to the ${staff} who ${action}.`);
     }
   }
 
@@ -164,9 +180,11 @@ function buildStaffSentences() {
     for (const trait of traits) {
       results.add(`The ${staff} was ${trait}.`);
       results.add(`Shoutout to the ${staff} for being ${trait}.`);
+      results.add(`Really appreciated the ${staff} being ${trait}.`);
     }
     for (const action of actions) {
       results.add(`The ${staff} ${action}.`);
+      results.add(`Big thanks to the ${staff} who ${action}.`);
     }
   }
 
@@ -242,6 +260,9 @@ function buildFoodSentences() {
       results.add(`The ${item} was ${quality}.`);
       results.add(`Loved the ${item}; it was ${quality}.`);
       results.add(`My ${item} was ${quality}.`);
+      results.add(`The ${item} came out ${quality}.`);
+      results.add(`Really enjoyed the ${item} because it was ${quality}.`);
+      results.add(`${capitalizeFirst(item)} was ${quality}.`);
     }
   }
 
@@ -250,6 +271,9 @@ function buildFoodSentences() {
       results.add(`The ${item} was ${quality}.`);
       results.add(`Loved the ${item}; it was ${quality}.`);
       results.add(`My ${item} was ${quality}.`);
+      results.add(`The ${item} came out ${quality}.`);
+      results.add(`Really enjoyed the ${item} because it was ${quality}.`);
+      results.add(`${capitalizeFirst(item)} was ${quality}.`);
     }
   }
 
@@ -306,12 +330,18 @@ function buildCleanlinessSentences() {
   for (const area of singularAreas) {
     for (const state of singularStates) {
       results.add(`The ${area} was ${state}.`);
+      results.add(`Noticed the ${area} was ${state}.`);
+      results.add(`The ${area} looked ${state}.`);
+      results.add(`Glad the ${area} was ${state}.`);
     }
   }
 
   for (const area of pluralAreas) {
     for (const state of pluralStates) {
       results.add(`The ${area} were ${state}.`);
+      results.add(`Noticed the ${area} were ${state}.`);
+      results.add(`The ${area} looked ${state}.`);
+      results.add(`Glad the ${area} were ${state}.`);
     }
   }
 
@@ -353,7 +383,14 @@ function buildAccuracySentences() {
     "The order was ready on time.",
     "The staff confirmed the order before closing the bag.",
     "My order was checked and accurate.",
-    "The order was called out clearly."
+    "The order was called out clearly.",
+    "Order accuracy was on point.",
+    "No issues with my order.",
+    "Everything in the bag matched what I asked for.",
+    "They got everything right on my order.",
+    "The order was accurate and complete.",
+    "Order details were handled perfectly.",
+    "Everything was packed just how I asked."
   ];
 
   return sentences;
@@ -380,7 +417,12 @@ function buildAtmosphereSentences() {
     "The lobby felt relaxed and open.",
     "The dining room felt bright and airy.",
     "The store looked sharp and organized.",
-    "The atmosphere was easygoing."
+    "The atmosphere was easygoing.",
+    "The place felt relaxed and comfortable.",
+    "The dining area felt calm and tidy.",
+    "Everything felt smooth and low-stress.",
+    "The space felt open and easy to navigate.",
+    "The overall vibe felt friendly."
   ];
 
   return sentences;
@@ -402,7 +444,10 @@ function buildValueSentences() {
     "Good portions and a fair price.",
     "The value was on point.",
     "The combo felt like a deal.",
-    "Portions were satisfying."
+    "Portions were satisfying.",
+    "Price felt fair for what I got.",
+    "Felt like a good deal for the portion size.",
+    "Great portions for the cost."
   ];
 
   return sentences;
@@ -424,7 +469,11 @@ function buildPickupSentences() {
     "Pickup felt organized and quick.",
     "Order was ready right when I got there.",
     "The pickup flow was smooth.",
-    "Pickup was quick and convenient."
+    "Pickup was quick and convenient.",
+    "The pickup handoff was easy.",
+    "Grabbed my order fast and went.",
+    "Pickup felt effortless today.",
+    "Pickup was smooth from start to finish."
   ];
 
   return sentences;
