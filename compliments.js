@@ -2,6 +2,11 @@
 
 const TARGET_COUNT = 720;
 const MAX_COMPLIMENT_LENGTH = 160;
+const LENGTH_BANDS = Object.freeze({
+  short: { max: 80, ratio: 0.4 },
+  medium: { max: 120, ratio: 0.4 },
+  long: { max: MAX_COMPLIMENT_LENGTH, ratio: 0.2 }
+});
 const STEM_LIMITS = new Map([
   ["kept things moving", 12],
   ["made the visit easy", 10],
@@ -17,6 +22,43 @@ const SERVICE_KEYWORDS = [
   "service",
   "pickup",
   "window"
+];
+const SEMANTIC_PATTERNS = [
+  {
+    key: "service-pace",
+    regex: /^The .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady)\.$/,
+    limit: 8
+  },
+  {
+    key: "service-pace-loved",
+    regex: /^Loved how the .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady)\.$/,
+    limit: 6
+  },
+  {
+    key: "service-pace-noticed",
+    regex: /^Noticed the .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady)\.$/,
+    limit: 6
+  },
+  {
+    key: "service-pace-time",
+    regex: /^The .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady) (with a line|during lunch|this afternoon|today|during the rush|at dinner time)\.$/,
+    limit: 8
+  },
+  {
+    key: "food-quality",
+    regex: /^The .+ (was|were) (hot and fresh|crispy and not greasy|seasoned just right|warm and satisfying|cooked perfectly|tasty and filling|fresh out of the fryer|full of flavor|served at a great temperature|not overcooked|nice and juicy)\.$/,
+    limit: 12
+  },
+  {
+    key: "food-loved",
+    regex: /^Loved the .+; (it|they) (was|were) (hot and fresh|crispy and not greasy|seasoned just right|warm and satisfying|cooked perfectly|tasty and filling|fresh out of the fryer|full of flavor|served at a great temperature|not overcooked|nice and juicy)\.$/,
+    limit: 8
+  }
+];
+const NGRAM_LIMIT_PROFILES = [
+  { two: 2, three: 1 },
+  { two: 3, three: 2 },
+  { two: 4, three: 3 }
 ];
 
 function capitalizeFirst(value) {
@@ -62,18 +104,33 @@ function extractStemHits(text) {
   return hits;
 }
 
+function extractSemanticHits(text) {
+  const hits = [];
+  for (const pattern of SEMANTIC_PATTERNS) {
+    if (pattern.regex.test(text)) hits.push(pattern.key);
+  }
+  return hits;
+}
+
 function isServiceLike(text) {
   const lower = text.toLowerCase();
   return SERVICE_KEYWORDS.some(keyword => lower.includes(keyword));
 }
 
-function canUseCompliment(text, stemCounts) {
+function canUseCompliment(text, stemCounts, semanticCounts) {
   if (!text || text.length > MAX_COMPLIMENT_LENGTH) return false;
   const hits = extractStemHits(text);
   for (const stem of hits) {
     const limit = STEM_LIMITS.get(stem);
     const current = stemCounts.get(stem) || 0;
     if (limit !== undefined && current >= limit) return false;
+  }
+  const semanticHits = extractSemanticHits(text);
+  for (const key of semanticHits) {
+    const pattern = SEMANTIC_PATTERNS.find(item => item.key === key);
+    if (!pattern) continue;
+    const current = semanticCounts.get(key) || 0;
+    if (current >= pattern.limit) return false;
   }
   return true;
 }
@@ -84,10 +141,17 @@ function registerStemHits(text, stemCounts) {
   }
 }
 
-function buildCompliments() {
-  const rng = mulberry32(hashString("compliments-v2"));
+function registerSemanticHits(text, semanticCounts) {
+  for (const key of extractSemanticHits(text)) {
+    semanticCounts.set(key, (semanticCounts.get(key) || 0) + 1);
+  }
+}
+
+function buildComplimentsForTone(shortSentences, seedSuffix) {
+  const rng = mulberry32(hashString(`compliments-v3-${seedSuffix}`));
   const compliments = new Set();
   const stemCounts = new Map();
+  const semanticCounts = new Map();
 
   const serviceSentences = shuffleArray(buildServiceSentences(), rng);
   const staffSentences = shuffleArray(buildStaffSentences(), rng);
@@ -97,19 +161,19 @@ function buildCompliments() {
   const atmosphereSentences = shuffleArray(buildAtmosphereSentences(), rng);
   const valueSentences = shuffleArray(buildValueSentences(), rng);
   const pickupSentences = shuffleArray(buildPickupSentences(), rng);
-  const shortSentences = shuffleArray(buildShortSentences(), rng);
+  const shuffledShort = shuffleArray(shortSentences, rng);
   const rareSentences = shuffleArray(buildRareSentences(), rng);
 
-  addSome(compliments, serviceSentences, 25, stemCounts);
-  addSome(compliments, staffSentences, 25, stemCounts);
-  addSome(compliments, foodSentences, 35, stemCounts);
-  addSome(compliments, cleanlinessSentences, 20, stemCounts);
-  addSome(compliments, accuracySentences, 20, stemCounts);
-  addSome(compliments, atmosphereSentences, 20, stemCounts);
-  addSome(compliments, valueSentences, 15, stemCounts);
-  addSome(compliments, pickupSentences, 15, stemCounts);
-  addSome(compliments, shortSentences, 25, stemCounts);
-  addSome(compliments, rareSentences, 8, stemCounts);
+  addSome(compliments, serviceSentences, 25, stemCounts, semanticCounts);
+  addSome(compliments, staffSentences, 25, stemCounts, semanticCounts);
+  addSome(compliments, foodSentences, 35, stemCounts, semanticCounts);
+  addSome(compliments, cleanlinessSentences, 20, stemCounts, semanticCounts);
+  addSome(compliments, accuracySentences, 20, stemCounts, semanticCounts);
+  addSome(compliments, atmosphereSentences, 20, stemCounts, semanticCounts);
+  addSome(compliments, valueSentences, 15, stemCounts, semanticCounts);
+  addSome(compliments, pickupSentences, 15, stemCounts, semanticCounts);
+  addSome(compliments, shuffledShort, 25, stemCounts, semanticCounts);
+  addSome(compliments, rareSentences, 8, stemCounts, semanticCounts);
 
   const pairings = [
     [serviceSentences, foodSentences],
@@ -124,30 +188,36 @@ function buildCompliments() {
     [cleanlinessSentences, atmosphereSentences],
     [serviceSentences, valueSentences],
     [pickupSentences, accuracySentences],
-    [shortSentences, foodSentences],
-    [shortSentences, staffSentences],
-    [shortSentences, serviceSentences]
+    [shuffledShort, foodSentences],
+    [shuffledShort, staffSentences],
+    [shuffledShort, serviceSentences]
   ];
 
   for (const [first, second] of pairings) {
-    addPairings(compliments, first, second, TARGET_COUNT, stemCounts);
+    addPairings(compliments, first, second, TARGET_COUNT, stemCounts, semanticCounts);
     if (compliments.size >= TARGET_COUNT) break;
   }
 
   const final = Array.from(compliments);
-  if (final.length < TARGET_COUNT) {
-    throw new Error(`Not enough unique compliments (${final.length}).`);
+  const selected = selectWithLengthBands(final, rng);
+  if (selected.length < TARGET_COUNT) {
+    throw new Error(`Not enough unique compliments (${selected.length}).`);
   }
-  return shuffleArray(final.slice(0, TARGET_COUNT), rng);
+  return shuffleArray(selected.slice(0, TARGET_COUNT), rng);
 }
 
-function addSome(set, list, max, stemCounts) {
+function buildCompliments() {
+  const byTone = buildComplimentsByTone();
+  return byTone.any;
+}
+
+function addSome(set, list, max, stemCounts, semanticCounts) {
   for (let i = 0; i < list.length && i < max; i++) {
-    addIfValid(set, list[i], stemCounts);
+    addIfValid(set, list[i], stemCounts, semanticCounts);
   }
 }
 
-function addPairings(set, firstList, secondList, targetCount, stemCounts) {
+function addPairings(set, firstList, secondList, targetCount, stemCounts, semanticCounts) {
   const secondLen = secondList.length;
   if (secondLen === 0) return;
   for (let i = 0; i < firstList.length && set.size < targetCount; i++) {
@@ -155,16 +225,127 @@ function addPairings(set, firstList, secondList, targetCount, stemCounts) {
     for (let j = 0; j < secondLen && set.size < targetCount; j += 3) {
       const second = secondList[(i * 7 + j) % secondLen];
       if (isServiceLike(first) && isServiceLike(second)) continue;
-      addIfValid(set, `${first} ${second}`, stemCounts);
+      addIfValid(set, `${first} ${second}`, stemCounts, semanticCounts);
     }
   }
 }
 
-function addIfValid(set, text, stemCounts) {
+function addIfValid(set, text, stemCounts, semanticCounts) {
   if (set.has(text)) return;
-  if (!canUseCompliment(text, stemCounts)) return;
+  if (!canUseCompliment(text, stemCounts, semanticCounts)) return;
   set.add(text);
   registerStemHits(text, stemCounts);
+  registerSemanticHits(text, semanticCounts);
+}
+
+function lengthBandFor(text) {
+  const len = text.length;
+  if (len <= LENGTH_BANDS.short.max) return "short";
+  if (len <= LENGTH_BANDS.medium.max) return "medium";
+  return "long";
+}
+
+function buildBandTargets() {
+  const shortTarget = Math.round(TARGET_COUNT * LENGTH_BANDS.short.ratio);
+  const mediumTarget = Math.round(TARGET_COUNT * LENGTH_BANDS.medium.ratio);
+  const longTarget = TARGET_COUNT - shortTarget - mediumTarget;
+  return { short: shortTarget, medium: mediumTarget, long: longTarget };
+}
+
+function tokenizeWords(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function extractNgrams(tokens, size) {
+  const grams = [];
+  for (let i = 0; i <= tokens.length - size; i++) {
+    grams.push(tokens.slice(i, i + size).join(" "));
+  }
+  return grams;
+}
+
+function canUseNgrams(text, ngramCounts, limits) {
+  const tokens = tokenizeWords(text);
+  const twos = extractNgrams(tokens, 2);
+  const threes = extractNgrams(tokens, 3);
+  for (const gram of twos) {
+    const count = ngramCounts.get(gram) || 0;
+    if (count >= limits.two) return false;
+  }
+  for (const gram of threes) {
+    const count = ngramCounts.get(gram) || 0;
+    if (count >= limits.three) return false;
+  }
+  return true;
+}
+
+function registerNgrams(text, ngramCounts) {
+  const tokens = tokenizeWords(text);
+  for (const gram of extractNgrams(tokens, 2)) {
+    ngramCounts.set(gram, (ngramCounts.get(gram) || 0) + 1);
+  }
+  for (const gram of extractNgrams(tokens, 3)) {
+    ngramCounts.set(gram, (ngramCounts.get(gram) || 0) + 1);
+  }
+}
+
+function selectWithLengthBands(candidates, rng) {
+  const bands = { short: [], medium: [], long: [] };
+  for (const text of candidates) {
+    bands[lengthBandFor(text)].push(text);
+  }
+
+  const targets = buildBandTargets();
+  for (const limits of NGRAM_LIMIT_PROFILES) {
+    const attempt = pickFromBands(bands, targets, rng, limits);
+    if (attempt.length >= TARGET_COUNT) return attempt;
+  }
+
+  return pickFromBands(bands, targets, rng, { two: Infinity, three: Infinity });
+}
+
+function pickFromBands(bands, targets, rng, ngramLimits) {
+  const selected = [];
+  const selectedSet = new Set();
+  const bandCounts = { short: 0, medium: 0, long: 0 };
+  const ngramCounts = new Map();
+
+  const bandOrder = ["short", "medium", "long"];
+  for (const band of bandOrder) {
+    const pool = shuffleArray(bands[band], rng);
+    for (const text of pool) {
+      if (bandCounts[band] >= targets[band]) break;
+      if (selectedSet.has(text)) continue;
+      if (!canUseNgrams(text, ngramCounts, ngramLimits)) continue;
+      selected.push(text);
+      selectedSet.add(text);
+      bandCounts[band]++;
+      registerNgrams(text, ngramCounts);
+    }
+  }
+
+  if (selected.length < TARGET_COUNT) {
+    const remaining = [];
+    for (const band of bandOrder) {
+      for (const text of bands[band]) {
+        if (!selectedSet.has(text)) remaining.push(text);
+      }
+    }
+    const shuffledRemaining = shuffleArray(remaining, rng);
+    for (const text of shuffledRemaining) {
+      if (selected.length >= TARGET_COUNT) break;
+      if (!canUseNgrams(text, ngramCounts, ngramLimits)) continue;
+      selected.push(text);
+      selectedSet.add(text);
+      registerNgrams(text, ngramCounts);
+    }
+  }
+
+  return selected;
 }
 
 function buildServiceSentences() {
@@ -623,7 +804,7 @@ function buildPickupSentences() {
   return sentences;
 }
 
-function buildShortSentences() {
+function buildShortSentencesByTone() {
   const casual = [
     "Super fast service.",
     "Quick and easy stop.",
@@ -669,6 +850,11 @@ function buildShortSentences() {
     "The dining area felt welcoming."
   ];
 
+  return { casual, neutral, formal };
+}
+
+function buildShortSentences() {
+  const { casual, neutral, formal } = buildShortSentencesByTone();
   return interleaveLists([casual, neutral, formal]);
 }
 
@@ -700,6 +886,42 @@ function interleaveLists(lists) {
   return result;
 }
 
+function getVisitTone(timeValue) {
+  if (!timeValue || typeof timeValue !== "string") return "any";
+  const match = timeValue.trim().match(/^(\d{1,2}):(\d{2})\s*(am|pm)$/i);
+  if (!match) return "any";
+  let hour = parseInt(match[1], 10);
+  const meridiem = match[3].toLowerCase();
+  if (meridiem === "pm" && hour !== 12) hour += 12;
+  if (meridiem === "am" && hour === 12) hour = 0;
+
+  if (hour < 12) return "morning";
+  if (hour < 17) return "afternoon";
+  if (hour < 21) return "evening";
+  return "night";
+}
+
+function buildComplimentsByTone() {
+  const tones = buildShortSentencesByTone();
+  return {
+    morning: buildComplimentsForTone(tones.formal, "morning"),
+    afternoon: buildComplimentsForTone(tones.neutral, "afternoon"),
+    evening: buildComplimentsForTone(tones.casual, "evening"),
+    night: buildComplimentsForTone(tones.neutral, "night"),
+    any: buildComplimentsForTone(buildShortSentences(), "any")
+  };
+}
+
+const complimentsByTone = buildComplimentsByTone();
+
+function getComplimentPoolForTime(timeValue) {
+  const tone = getVisitTone(timeValue);
+  return complimentsByTone[tone] || complimentsByTone.any;
+}
+
 module.exports = {
-  compliments: buildCompliments()
+  compliments: buildCompliments(),
+  complimentsByTone,
+  getVisitTone,
+  getComplimentPoolForTime
 };
