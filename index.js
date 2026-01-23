@@ -339,11 +339,15 @@ async function clickContinue(page, postClickWaitMs = 1200) {
       return false;
     });
     if (clicked) {
+      const timeoutMs = getAdaptiveReadyTimeout(postClickWaitMs);
+      const start = Date.now();
       await Promise.race([
-        page.waitForNavigation({ waitUntil: "networkidle2", timeout: postClickWaitMs })
+        page.waitForNavigation({ waitUntil: "networkidle2", timeout: timeoutMs })
           .catch(() => null),
-        waitForReadyToContinue(page, postClickWaitMs)
+        waitForReadyToContinue(page, timeoutMs)
       ]);
+      const elapsedMs = Date.now() - start;
+      updateAdaptiveReadyTimeout(elapsedMs, timeoutMs, elapsedMs >= timeoutMs);
       return;
     }
     await sleep(200);
