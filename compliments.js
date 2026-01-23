@@ -319,13 +319,13 @@ function buildCompliments() {
   return byTone.any;
 }
 
-function addSome(set, list, max, stemCounts, semanticCounts) {
+function addSome(set, list, max, stemCounts, semanticCounts, rng) {
   for (let i = 0; i < list.length && i < max; i++) {
-    addIfValid(set, list[i], stemCounts, semanticCounts);
+    addIfValid(set, list[i], stemCounts, semanticCounts, rng);
   }
 }
 
-function addPairings(set, firstList, secondList, targetCount, stemCounts, semanticCounts) {
+function addPairings(set, firstList, secondList, targetCount, stemCounts, semanticCounts, rng) {
   const secondLen = secondList.length;
   if (secondLen === 0) return;
   for (let i = 0; i < firstList.length && set.size < targetCount; i++) {
@@ -333,17 +333,29 @@ function addPairings(set, firstList, secondList, targetCount, stemCounts, semant
     for (let j = 0; j < secondLen && set.size < targetCount; j += 3) {
       const second = secondList[(i * 7 + j) % secondLen];
       if (isServiceLike(first) && isServiceLike(second)) continue;
-      addIfValid(set, `${first} ${second}`, stemCounts, semanticCounts);
+      if (isPickupLike(first) && isDineInLike(second)) continue;
+      if (isDineInLike(first) && isPickupLike(second)) continue;
+      addIfValid(set, `${first} ${second}`, stemCounts, semanticCounts, rng);
     }
   }
 }
 
-function addIfValid(set, text, stemCounts, semanticCounts) {
-  if (set.has(text)) return;
-  if (!canUseCompliment(text, stemCounts, semanticCounts)) return;
+function addIfValidBase(set, text, stemCounts, semanticCounts) {
+  if (set.has(text)) return false;
+  if (!canUseCompliment(text, stemCounts, semanticCounts)) return false;
   set.add(text);
   registerStemHits(text, stemCounts);
   registerSemanticHits(text, semanticCounts);
+  return true;
+}
+
+function addIfValid(set, text, stemCounts, semanticCounts, rng) {
+  addIfValidBase(set, text, stemCounts, semanticCounts);
+  if (!rng) return;
+  const variants = generateVariants(text, rng);
+  for (const variant of variants) {
+    addIfValidBase(set, variant, stemCounts, semanticCounts);
+  }
 }
 
 function lengthBandFor(text) {
