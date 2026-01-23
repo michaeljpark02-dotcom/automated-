@@ -236,6 +236,10 @@ function extractSemanticHits(text) {
   for (const pattern of SEMANTIC_PATTERNS) {
     if (pattern.regex.test(text)) hits.push(pattern.key);
   }
+  const lower = text.toLowerCase();
+  for (const phrase of SERVICE_PACE_PHRASES) {
+    if (lower.includes(phrase)) hits.push(`service-pace:${phrase}`);
+  }
   return hits;
 }
 
