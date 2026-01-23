@@ -175,7 +175,7 @@ function buildStaffSentences() {
 
 function buildFoodSentences() {
   const results = new Set();
-  const items = [
+  const hotItems = [
     "spicy chicken sandwich",
     "classic chicken sandwich",
     "chicken sandwich combo",
@@ -188,11 +188,13 @@ function buildFoodSentences() {
     "coleslaw",
     "mashed potatoes",
     "mac and cheese",
-    "sweet tea",
-    "lemonade",
     "chicken pieces"
   ];
-  const qualities = [
+  const drinkItems = [
+    "sweet tea",
+    "lemonade"
+  ];
+  const hotQualities = [
     "hot and fresh",
     "crispy and not greasy",
     "seasoned just right",
@@ -202,9 +204,16 @@ function buildFoodSentences() {
     "fresh out of the fryer",
     "full of flavor",
     "served at a great temperature",
-    "packed neatly",
     "not overcooked",
     "nice and juicy"
+  ];
+  const drinkQualities = [
+    "cold and refreshing",
+    "tasted fresh",
+    "not too sweet",
+    "just the right sweetness",
+    "nice and cold",
+    "hit the spot"
   ];
   const extras = [
     "The batter was crispy without being greasy.",
@@ -228,8 +237,16 @@ function buildFoodSentences() {
     "The sandwich had great flavor."
   ];
 
-  for (const item of items) {
-    for (const quality of qualities) {
+  for (const item of hotItems) {
+    for (const quality of hotQualities) {
+      results.add(`The ${item} was ${quality}.`);
+      results.add(`Loved the ${item}; it was ${quality}.`);
+      results.add(`My ${item} was ${quality}.`);
+    }
+  }
+
+  for (const item of drinkItems) {
+    for (const quality of drinkQualities) {
       results.add(`The ${item} was ${quality}.`);
       results.add(`Loved the ${item}; it was ${quality}.`);
       results.add(`My ${item} was ${quality}.`);
