@@ -14,11 +14,13 @@ const lastTonePath = path.join(__dirname, "last-compliment-tone.json");
 const recentComplimentsPath = path.join(__dirname, "recent-compliments.json");
 const recentTopicsPath = path.join(__dirname, "recent-compliment-topics.json");
 const recentItemsPath = path.join(__dirname, "recent-compliment-items.json");
+const recentOpenersPath = path.join(__dirname, "recent-compliment-openers.json");
 let usedComplimentsCache = null;
 let lastToneCache = null;
 let recentComplimentsCache = null;
 let recentTopicsCache = null;
 let recentItemsCache = null;
+let recentOpenersCache = null;
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -102,6 +104,7 @@ const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,com
 const RECENT_COMPLIMENTS_LIMIT = Math.max(0, readEnvInt("RECENT_COMPLIMENTS_LIMIT", 200));
 const TOPIC_COOLDOWN = Math.max(0, readEnvInt("TOPIC_COOLDOWN", 3));
 const ITEM_COOLDOWN = Math.max(0, readEnvInt("ITEM_COOLDOWN", 5));
+const OPENING_COOLDOWN = Math.max(0, readEnvInt("OPENING_COOLDOWN", 4));
 const CAJUN_RICE_PICK_CHANCE = (() => {
   const raw = readEnvFloat("CAJUN_RICE_PICK_CHANCE");
   if (raw === null) return 0;
