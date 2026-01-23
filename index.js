@@ -440,6 +440,32 @@ function saveUsedCompliments(usedSet) {
   }
 }
 
+function loadLastTone() {
+  if (lastToneCache !== null) return lastToneCache;
+  try {
+    if (!fs.existsSync(lastTonePath)) {
+      lastToneCache = null;
+      return lastToneCache;
+    }
+    const raw = fs.readFileSync(lastTonePath, "utf8");
+    const parsed = JSON.parse(raw);
+    lastToneCache = parsed && typeof parsed.lastTone === "string" ? parsed.lastTone : null;
+    return lastToneCache;
+  } catch {
+    lastToneCache = null;
+    return lastToneCache;
+  }
+}
+
+function saveLastTone(tone) {
+  try {
+    lastToneCache = tone || null;
+    fs.writeFileSync(lastTonePath, JSON.stringify({ lastTone: lastToneCache }, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
 function pickPersistentCompliment(list) {
   const used = loadUsedCompliments();
   const available = list.filter(item => !used.has(item));
