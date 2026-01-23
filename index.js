@@ -59,6 +59,7 @@ const NORDVPN_WAIT_MS = Math.max(0, readEnvInt("NORDVPN_WAIT_MS", 8000));
 const NORDVPN_DISCONNECT = readEnvBool("NORDVPN_DISCONNECT", true);
 const NORDVPN_STATUS_RETRIES = Math.max(0, readEnvInt("NORDVPN_STATUS_RETRIES", 3));
 const NORDVPN_STATUS_DELAY_MS = Math.max(0, readEnvInt("NORDVPN_STATUS_DELAY_MS", 2000));
+const NORDVPN_CMD_TIMEOUT_MS = Math.max(0, readEnvInt("NORDVPN_CMD_TIMEOUT_MS", 20000));
 const RETRY_ATTEMPTS = readEnvInt("RETRY_ATTEMPTS", 2);
 const RETRY_DELAY_MS = readEnvInt("RETRY_DELAY_MS", 1200);
 const INPUT_DELAY_EXTRA_MS = Math.max(0, readEnvInt("INPUT_DELAY_EXTRA_MS", 0));
@@ -112,10 +113,13 @@ function runNordVpn(args, label) {
     return false;
   }
   try {
+    console.log(`INFO NordVPN ${label}...`);
     execFileSync(nordPath, args, {
       cwd: path.dirname(nordPath),
-      stdio: "ignore"
+      stdio: "ignore",
+      timeout: NORDVPN_CMD_TIMEOUT_MS
     });
+    console.log(`INFO NordVPN ${label} done`);
     return true;
   } catch (err) {
     console.log(`WARN NordVPN ${label} failed:`, err.message);
@@ -129,7 +133,8 @@ function getNordVpnStatus() {
   try {
     const raw = execFileSync(nordPath, ["status"], {
       cwd: path.dirname(nordPath),
-      stdio: ["ignore", "pipe", "ignore"]
+      stdio: ["ignore", "pipe", "ignore"],
+      timeout: NORDVPN_CMD_TIMEOUT_MS
     }).toString();
     if (/Status:\s*Connected/i.test(raw)) return "connected";
     if (/Status:\s*Disconnected/i.test(raw)) return "disconnected";
