@@ -1639,6 +1639,8 @@ async function selectOrderType(page) {
 }
 
 async function runSurvey() {
+  const runId = `${Date.now()}-${randomInt(1000, 9999)}`;
+  const runStartedAt = Date.now();
   const launchArgs = ["--start-maximized"];
   if (process.env.USE_FAST_LAUNCH === "1") {
     launchArgs.push("--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
@@ -1706,6 +1708,26 @@ async function runSurvey() {
   const handledQuestions = new Set();
   const handledDropdowns = new Set();
   const summary = {
+    runId,
+    startedAt: new Date(runStartedAt).toISOString(),
+    finishedAt: null,
+    durationMs: null,
+    exitReason: "unknown",
+    errorMessage: null,
+    timings: {
+      pageGotoMs: null
+    },
+    picks: {
+      weighted: [],
+      dropdowns: [],
+      menu: [],
+      orderType: null,
+      visitDate: null,
+      visitTime: null,
+      orderTotal: null,
+      toneOverride: null,
+      complimentPreview: null
+    },
     pagesVisited: 0,
     textareasFilled: 0,
     emojisClicked: 0,
@@ -1718,10 +1740,12 @@ async function runSurvey() {
   };
 
   try {
+    const pageGotoStart = Date.now();
     await withRetry(
       () => page.goto(SURVEY_URL, { waitUntil: "networkidle2" }),
       "page.goto"
     );
+    summary.timings.pageGotoMs = Date.now() - pageGotoStart;
     await takeScreenshot(page, "start");
 
     await page.evaluate(() => {
@@ -1733,6 +1757,8 @@ async function runSurvey() {
     const { date, time } = randomDateTime();
     const visitDate = date;
     const visitTime = time;
+    summary.picks.visitDate = visitDate;
+    summary.picks.visitTime = visitTime;
     await typeHuman(page, "#storeId", STORE_ID);
 
     await selectVisitDate(page, date);
@@ -1740,6 +1766,7 @@ async function runSurvey() {
     await humanDelay(150, 650);
     const forcedTotal = readEnvFloat("ORDER_TOTAL");
     const totalValue = forcedTotal !== null ? forcedTotal.toFixed(2) : randomPrice();
+    summary.picks.orderTotal = totalValue;
     await page.evaluate((t, total) => {
       const inputs = Array.from(document.querySelectorAll("input"));
       if (inputs.length >= 4) {
@@ -1753,6 +1780,7 @@ async function runSurvey() {
     await withRetry(() => clickContinue(page), "clickContinue");
     await takeScreenshot(page, "order-type-screen");
     const orderTypeChoice = await selectOrderType(page);
+    summary.picks.orderType = orderTypeChoice;
 
     // ===== MAIN LOOP =====
     let more = true;
@@ -1779,6 +1807,8 @@ async function runSurvey() {
         }) || compliments;
         const picked = pickPersistentCompliment(pool);
         const finalText = personalizeCompliment(picked, visitTime);
+        summary.picks.toneOverride = toneOverride;
+        summary.picks.complimentPreview = finalText.slice(0, 140);
         await typeHuman(page, "textarea", finalText);
         saveLastTone(toneOverride);
         hasTypedText = true;
@@ -1913,6 +1943,7 @@ async function runSurvey() {
 
         if (result.seen && result.clicked) {
           console.log(`INFO Weighted pick: ${q.text} -> ${choiceText}`);
+          summary.picks.weighted.push({ question: q.text, choice: choiceText });
           await takeScreenshot(page, `weighted-${iteration}`);
           didSomething = true;
         }
@@ -1997,6 +2028,7 @@ async function runSurvey() {
 
         if (dropdownResult.seen && dropdownResult.selected) {
           handledDropdowns.add(q.text);
+          summary.picks.dropdowns.push({ question: q.text, choice: choiceText });
           summary.dropdownsPicked++;
           await takeScreenshot(page, `dropdown-${q.max}-${iteration}`);
           didSomething = true;
@@ -2356,6 +2388,7 @@ async function runSurvey() {
 
       if (menuResult.clicked) {
         console.log(`dY% Selected menu item for: ${menuResult.key}`);
+        if (menuResult.key) summary.picks.menu.push(menuResult.key);
         summary.menuPicked++;
         await takeScreenshot(page, `menu-${menuResult.key}-${iteration}`);
         didSomething = true;
@@ -2553,20 +2586,42 @@ async function runSurvey() {
         await withRetry(() => clickContinue(page), "clickContinue");
         summary.pagesVisited = iteration;
       } catch {
-        if (!didSomething) more = false;
+        if (!didSomething) {
+          more = false;
+          summary.exitReason = "no-progress";
+        }
       }
     }
 
     await takeScreenshot(page, "survey-complete");
+    if (summary.exitReason === "unknown") {
+      summary.exitReason = iteration >= 40 ? "max-iterations" : "completed";
+    }
     console.log("INFO Summary:", JSON.stringify(summary));
     console.log("ðŸŽ‰ Survey automation finished!");
   } catch (err) {
+    summary.exitReason = "error";
+    summary.errorMessage = err.message;
     console.error("âŒ Automation error:", err.message);
     await takeScreenshot(page, "fatal-error");
+  } finally {
+    summary.finishedAt = new Date().toISOString();
+    summary.durationMs = Date.now() - runStartedAt;
+    try {
+      ensureDir(runSummaryDir);
+      const summaryPath = path.join(runSummaryDir, `${runId}.json`);
+      fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
+      console.log("INFO Run summary ->", summaryPath);
+    } catch (err) {
+      console.log("WARN Failed to write run summary:", err.message);
+    }
+    try {
+      await browser.close();
+    } catch {
+      // ignore
+    }
+    activeBrowser = null;
   }
-
-  await browser.close();
-  activeBrowser = null;
 }
 
 function parsePositiveInt(value, min = 1) {
