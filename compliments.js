@@ -1110,6 +1110,39 @@ function applySoftFilters(list, visitDate) {
   return filtered.length >= MIN_POOL_SIZE ? filtered : list;
 }
 
+function applyTimeAlignmentFilters(list, timeValue) {
+  const tone = getVisitTone(timeValue);
+  if (tone === "any") return list;
+  const blockers = {
+    morning: [
+      /\btonight\b/i,
+      /\blate tonight\b/i,
+      /\bat dinner time\b/i,
+      /\bthis afternoon\b/i
+    ],
+    afternoon: [
+      /\bthis morning\b/i,
+      /\btonight\b/i,
+      /\blate tonight\b/i,
+      /\bat dinner time\b/i
+    ],
+    evening: [
+      /\bthis morning\b/i,
+      /\bthis afternoon\b/i,
+      /\bduring lunch\b/i
+    ],
+    night: [
+      /\bthis morning\b/i,
+      /\bthis afternoon\b/i,
+      /\bduring lunch\b/i
+    ]
+  };
+  const active = blockers[tone] || [];
+  if (active.length === 0) return list;
+  const filtered = list.filter(text => active.every(re => !re.test(text)));
+  return filtered.length >= MIN_POOL_SIZE ? filtered : list;
+}
+
 function getVisitTone(timeValue) {
   if (!timeValue || typeof timeValue !== "string") return "any";
   const match = timeValue.trim().match(/^(\d{1,2}):(\d{2})\s*(am|pm)$/i);
@@ -1147,8 +1180,9 @@ function getComplimentPoolForVisit({ time, date, orderType, toneOverride } = {})
   const tone = toneOverride || getVisitTone(time);
   const base = complimentsByTone[tone] || complimentsByTone.any;
   const softened = applySoftFilters(base, date);
-  const orderFiltered = filterByOrderType(softened, orderType);
-  return orderFiltered.length >= MIN_POOL_SIZE ? orderFiltered : softened;
+  const timeAligned = applyTimeAlignmentFilters(softened, time);
+  const orderFiltered = filterByOrderType(timeAligned, orderType);
+  return orderFiltered.length >= MIN_POOL_SIZE ? orderFiltered : timeAligned;
 }
 
 module.exports = {
