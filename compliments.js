@@ -1,34 +1,101 @@
 "use strict";
 
 const TARGET_COUNT = 720;
+const MAX_COMPLIMENT_LENGTH = 160;
+const STEM_LIMITS = new Map([
+  ["kept things moving", 12],
+  ["made the visit easy", 10],
+  ["felt easy", 10],
+  ["smooth", 24],
+  ["hot and fresh", 12]
+]);
 
 function capitalizeFirst(value) {
   if (!value) return value;
   return value[0].toUpperCase() + value.slice(1);
 }
 
+function hashString(value) {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i++) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function mulberry32(seed) {
+  let t = seed >>> 0;
+  return function rng() {
+    t += 0x6D2B79F5;
+    let r = t;
+    r = Math.imul(r ^ (r >>> 15), r | 1);
+    r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function shuffleArray(list, rng) {
+  const copy = list.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function extractStemHits(text) {
+  const lower = text.toLowerCase();
+  const hits = [];
+  for (const [stem] of STEM_LIMITS) {
+    if (lower.includes(stem)) hits.push(stem);
+  }
+  return hits;
+}
+
+function canUseCompliment(text, stemCounts) {
+  if (!text || text.length > MAX_COMPLIMENT_LENGTH) return false;
+  const hits = extractStemHits(text);
+  for (const stem of hits) {
+    const limit = STEM_LIMITS.get(stem);
+    const current = stemCounts.get(stem) || 0;
+    if (limit !== undefined && current >= limit) return false;
+  }
+  return true;
+}
+
+function registerStemHits(text, stemCounts) {
+  for (const stem of extractStemHits(text)) {
+    stemCounts.set(stem, (stemCounts.get(stem) || 0) + 1);
+  }
+}
+
 function buildCompliments() {
+  const rng = mulberry32(hashString("compliments-v2"));
   const compliments = new Set();
+  const stemCounts = new Map();
 
-  const serviceSentences = buildServiceSentences();
-  const staffSentences = buildStaffSentences();
-  const foodSentences = buildFoodSentences();
-  const cleanlinessSentences = buildCleanlinessSentences();
-  const accuracySentences = buildAccuracySentences();
-  const atmosphereSentences = buildAtmosphereSentences();
-  const valueSentences = buildValueSentences();
-  const pickupSentences = buildPickupSentences();
-  const shortSentences = buildShortSentences();
+  const serviceSentences = shuffleArray(buildServiceSentences(), rng);
+  const staffSentences = shuffleArray(buildStaffSentences(), rng);
+  const foodSentences = shuffleArray(buildFoodSentences(), rng);
+  const cleanlinessSentences = shuffleArray(buildCleanlinessSentences(), rng);
+  const accuracySentences = shuffleArray(buildAccuracySentences(), rng);
+  const atmosphereSentences = shuffleArray(buildAtmosphereSentences(), rng);
+  const valueSentences = shuffleArray(buildValueSentences(), rng);
+  const pickupSentences = shuffleArray(buildPickupSentences(), rng);
+  const shortSentences = shuffleArray(buildShortSentences(), rng);
+  const rareSentences = shuffleArray(buildRareSentences(), rng);
 
-  addSome(compliments, serviceSentences, 25);
-  addSome(compliments, staffSentences, 25);
-  addSome(compliments, foodSentences, 35);
-  addSome(compliments, cleanlinessSentences, 20);
-  addSome(compliments, accuracySentences, 20);
-  addSome(compliments, atmosphereSentences, 20);
-  addSome(compliments, valueSentences, 15);
-  addSome(compliments, pickupSentences, 15);
-  addSome(compliments, shortSentences, 25);
+  addSome(compliments, serviceSentences, 25, stemCounts);
+  addSome(compliments, staffSentences, 25, stemCounts);
+  addSome(compliments, foodSentences, 35, stemCounts);
+  addSome(compliments, cleanlinessSentences, 20, stemCounts);
+  addSome(compliments, accuracySentences, 20, stemCounts);
+  addSome(compliments, atmosphereSentences, 20, stemCounts);
+  addSome(compliments, valueSentences, 15, stemCounts);
+  addSome(compliments, pickupSentences, 15, stemCounts);
+  addSome(compliments, shortSentences, 25, stemCounts);
+  addSome(compliments, rareSentences, 8, stemCounts);
 
   const pairings = [
     [serviceSentences, foodSentences],
@@ -49,7 +116,7 @@ function buildCompliments() {
   ];
 
   for (const [first, second] of pairings) {
-    addPairings(compliments, first, second, TARGET_COUNT);
+    addPairings(compliments, first, second, TARGET_COUNT, stemCounts);
     if (compliments.size >= TARGET_COUNT) break;
   }
 
@@ -57,25 +124,32 @@ function buildCompliments() {
   if (final.length < TARGET_COUNT) {
     throw new Error(`Not enough unique compliments (${final.length}).`);
   }
-  return final.slice(0, TARGET_COUNT);
+  return shuffleArray(final.slice(0, TARGET_COUNT), rng);
 }
 
-function addSome(set, list, max) {
+function addSome(set, list, max, stemCounts) {
   for (let i = 0; i < list.length && i < max; i++) {
-    set.add(list[i]);
+    addIfValid(set, list[i], stemCounts);
   }
 }
 
-function addPairings(set, firstList, secondList, targetCount) {
+function addPairings(set, firstList, secondList, targetCount, stemCounts) {
   const secondLen = secondList.length;
   if (secondLen === 0) return;
   for (let i = 0; i < firstList.length && set.size < targetCount; i++) {
     const first = firstList[i];
     for (let j = 0; j < secondLen && set.size < targetCount; j += 3) {
       const second = secondList[(i * 7 + j) % secondLen];
-      set.add(`${first} ${second}`);
+      addIfValid(set, `${first} ${second}`, stemCounts);
     }
   }
+}
+
+function addIfValid(set, text, stemCounts) {
+  if (set.has(text)) return;
+  if (!canUseCompliment(text, stemCounts)) return;
+  set.add(text);
+  registerStemHits(text, stemCounts);
 }
 
 function buildServiceSentences() {
@@ -521,38 +595,80 @@ function buildPickupSentences() {
 }
 
 function buildShortSentences() {
-  return [
+  const casual = [
     "Super fast service.",
-    "Smooth visit overall.",
     "Quick and easy stop.",
     "No issues at all.",
     "Everything felt smooth.",
-    "Fast, friendly service.",
     "Great experience today.",
-    "Short wait time.",
     "Easy in and out.",
     "Nice, quick visit.",
-    "Solid service today.",
     "Really smooth stop.",
-    "Friendly vibe inside.",
     "Staff was on it.",
     "Order was spot on.",
     "Food came out hot.",
     "Great food today.",
+    "No stress, no fuss.",
+    "Good vibes all around.",
+    "Drive-thru was quick.",
+    "Easy pickup experience."
+  ];
+  const neutral = [
+    "Smooth visit overall.",
+    "Fast, friendly service.",
+    "Short wait time.",
+    "Solid service today.",
+    "Friendly vibe inside.",
     "Everything was fresh.",
     "Clean and welcoming.",
-    "No stress, no fuss.",
     "Quick turnaround.",
     "Fast and organized.",
-    "Smooth from start to finish.",
     "Happy with the visit.",
-    "Good vibes all around.",
     "Service stayed steady.",
     "Fast counter service.",
-    "Drive-thru was quick.",
-    "Easy pickup experience.",
     "Good value today."
   ];
+  const formal = [
+    "Service was efficient.",
+    "The visit was smooth and quick.",
+    "Staff were attentive.",
+    "The order was prepared promptly.",
+    "The experience was pleasant.",
+    "The visit was well organized.",
+    "Everything was handled well.",
+    "The service pace was steady.",
+    "The dining area felt welcoming."
+  ];
+
+  return interleaveLists([casual, neutral, formal]);
+}
+
+function buildRareSentences() {
+  return [
+    "Service ran like clockwork today.",
+    "Everything flowed smoothly from start to finish.",
+    "The pace felt polished and professional.",
+    "A quick, seamless stop.",
+    "Everything lined up perfectly.",
+    "Really impressed by how coordinated the team was.",
+    "The visit felt effortless.",
+    "It was a clean, tidy, and calm stop.",
+    "Order accuracy was flawless.",
+    "The meal and service were both excellent.",
+    "The team kept things steady and calm.",
+    "This was a standout visit."
+  ];
+}
+
+function interleaveLists(lists) {
+  const result = [];
+  const maxLen = Math.max(...lists.map(list => list.length));
+  for (let i = 0; i < maxLen; i++) {
+    for (const list of lists) {
+      if (list[i]) result.push(list[i]);
+    }
+  }
+  return result;
 }
 
 module.exports = {
