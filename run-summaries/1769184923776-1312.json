@@ -1,0 +1,63 @@
+{
+  "runId": "1769184923776-1312",
+  "startedAt": "2026-01-23T16:15:23.776Z",
+  "finishedAt": "2026-01-23T16:19:43.985Z",
+  "durationMs": 260209,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 6220
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "Under 18"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "Under $25,000"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Asian"
+      }
+    ],
+    "menu": [
+      "Wraps"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-14",
+    "visitTime": "4:38 pm",
+    "orderTotal": "6.06",
+    "toneOverride": "afternoon",
+    "complimentPreview": "Even with a line, the dine-in service kept things moving. The fries came out seasoned just right."
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 7,
+  "noThanksClicked": 1
+}
