@@ -911,6 +911,7 @@ async function selectOrderType(page) {
   }, choice);
 
   await waitForReadyToContinue(page, 5000);
+  return choice;
 }
 
 async function runSurvey() {
