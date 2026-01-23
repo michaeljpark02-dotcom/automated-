@@ -18,6 +18,7 @@ function buildCompliments() {
   const atmosphereSentences = buildAtmosphereSentences();
   const valueSentences = buildValueSentences();
   const pickupSentences = buildPickupSentences();
+  const shortSentences = buildShortSentences();
 
   addSome(compliments, serviceSentences, 25);
   addSome(compliments, staffSentences, 25);
@@ -27,6 +28,7 @@ function buildCompliments() {
   addSome(compliments, atmosphereSentences, 20);
   addSome(compliments, valueSentences, 15);
   addSome(compliments, pickupSentences, 15);
+  addSome(compliments, shortSentences, 25);
 
   const pairings = [
     [serviceSentences, foodSentences],
@@ -40,7 +42,10 @@ function buildCompliments() {
     [serviceSentences, staffSentences],
     [cleanlinessSentences, atmosphereSentences],
     [serviceSentences, valueSentences],
-    [pickupSentences, accuracySentences]
+    [pickupSentences, accuracySentences],
+    [shortSentences, foodSentences],
+    [shortSentences, staffSentences],
+    [shortSentences, serviceSentences]
   ];
 
   for (const [first, second] of pairings) {
@@ -94,6 +99,14 @@ function buildServiceSentences() {
     "was fast and organized",
     "kept the flow steady"
   ];
+  const quickHitStarters = [
+    "Fast",
+    "Smooth",
+    "Quick",
+    "Easy",
+    "Super quick",
+    "Really smooth"
+  ];
   const times = [
     "even with a line",
     "during lunch",
@@ -116,6 +129,10 @@ function buildServiceSentences() {
         results.add(`Even ${time}, the ${target} ${pace}.`);
         results.add(`${capitalizeFirst(time)}, the ${target} ${pace}.`);
       }
+    }
+    for (const starter of quickHitStarters) {
+      results.add(`${starter} ${target}.`);
+      results.add(`${starter} ${target} today.`);
     }
   }
 
@@ -225,6 +242,13 @@ function buildFoodSentences() {
     "not overcooked",
     "nice and juicy"
   ];
+  const shortQualities = [
+    "hot and fresh",
+    "crispy",
+    "juicy",
+    "flavorful",
+    "perfectly cooked"
+  ];
   const drinkQualities = [
     "cold and refreshing",
     "tasted fresh",
@@ -264,6 +288,10 @@ function buildFoodSentences() {
       results.add(`Really enjoyed the ${item} because it was ${quality}.`);
       results.add(`${capitalizeFirst(item)} was ${quality}.`);
     }
+    for (const quality of shortQualities) {
+      results.add(`${capitalizeFirst(item)} was ${quality}.`);
+      results.add(`Hot, ${quality} ${item}.`);
+    }
   }
 
   for (const item of drinkItems) {
@@ -274,6 +302,9 @@ function buildFoodSentences() {
       results.add(`The ${item} came out ${quality}.`);
       results.add(`Really enjoyed the ${item} because it was ${quality}.`);
       results.add(`${capitalizeFirst(item)} was ${quality}.`);
+    }
+    for (const quality of drinkQualities) {
+      results.add(`${capitalizeFirst(item)} was ${quality} today.`);
     }
   }
 
@@ -334,6 +365,8 @@ function buildCleanlinessSentences() {
       results.add(`The ${area} looked ${state}.`);
       results.add(`Glad the ${area} was ${state}.`);
     }
+    results.add(`Clean ${area}.`);
+    results.add(`Really clean ${area}.`);
   }
 
   for (const area of pluralAreas) {
@@ -343,6 +376,8 @@ function buildCleanlinessSentences() {
       results.add(`The ${area} looked ${state}.`);
       results.add(`Glad the ${area} were ${state}.`);
     }
+    results.add(`Clean ${area}.`);
+    results.add(`Really clean ${area}.`);
   }
 
   for (const extra of extras) {
@@ -447,7 +482,10 @@ function buildValueSentences() {
     "Portions were satisfying.",
     "Price felt fair for what I got.",
     "Felt like a good deal for the portion size.",
-    "Great portions for the cost."
+    "Great portions for the cost.",
+    "Solid value today.",
+    "Great deal for the price.",
+    "Worth it for the portions."
   ];
 
   return sentences;
@@ -473,10 +511,48 @@ function buildPickupSentences() {
     "The pickup handoff was easy.",
     "Grabbed my order fast and went.",
     "Pickup felt effortless today.",
-    "Pickup was smooth from start to finish."
+    "Pickup was smooth from start to finish.",
+    "Easy pickup today.",
+    "Quick pickup, no hassle.",
+    "Pickup went smoothly."
   ];
 
   return sentences;
+}
+
+function buildShortSentences() {
+  return [
+    "Super fast service.",
+    "Smooth visit overall.",
+    "Quick and easy stop.",
+    "No issues at all.",
+    "Everything felt smooth.",
+    "Fast, friendly service.",
+    "Great experience today.",
+    "Short wait time.",
+    "Easy in and out.",
+    "Nice, quick visit.",
+    "Solid service today.",
+    "Really smooth stop.",
+    "Friendly vibe inside.",
+    "Staff was on it.",
+    "Order was spot on.",
+    "Food came out hot.",
+    "Great food today.",
+    "Everything was fresh.",
+    "Clean and welcoming.",
+    "No stress, no fuss.",
+    "Quick turnaround.",
+    "Fast and organized.",
+    "Smooth from start to finish.",
+    "Happy with the visit.",
+    "Good vibes all around.",
+    "Service stayed steady.",
+    "Fast counter service.",
+    "Drive-thru was quick.",
+    "Easy pickup experience.",
+    "Good value today."
+  ];
 }
 
 module.exports = {
