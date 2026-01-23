@@ -8,6 +8,9 @@ const LENGTH_BANDS = Object.freeze({
   long: { max: MAX_COMPLIMENT_LENGTH, ratio: 0.2 }
 });
 const MIN_POOL_SIZE = 300;
+const SYNONYM_RATE = 0.18;
+const EXCLAMATION_RATE = 0.06;
+const COMMA_RATE = 0.08;
 const STEM_LIMITS = new Map([
   ["kept things moving", 12],
   ["made the visit easy", 10],
@@ -51,6 +54,13 @@ const ORDER_TYPE_KEYWORDS = {
     "window"
   ]
 };
+const SYNONYM_PAIRS = [
+  ["quick", "fast"],
+  ["smooth", "steady"],
+  ["friendly", "welcoming"],
+  ["calm", "composed"],
+  ["tasty", "flavorful"]
+];
 const SEMANTIC_PATTERNS = [
   {
     key: "service-pace",
