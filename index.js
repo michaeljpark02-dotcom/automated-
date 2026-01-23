@@ -2540,8 +2540,8 @@ async function runSurvey() {
       try {
         const ready = await isReadyToContinue(page);
         if (!ready) {
-          await waitForReadyToContinue(page, 3000);
-          continue;
+          const readyResult = await adaptiveWaitForReady(page, 3000, "loop-ready");
+          if (!readyResult.ready) continue;
         }
         await withRetry(() => clickContinue(page), "clickContinue");
         summary.pagesVisited = iteration;
