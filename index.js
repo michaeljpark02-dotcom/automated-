@@ -4,7 +4,7 @@ const path = require("path");
 const readline = require("readline");
 const { randomInt } = require("crypto");
 const { execFileSync } = require("child_process");
-const { compliments } = require("./compliments");
+const { compliments, getComplimentPoolForTime } = require("./compliments");
 
 const screenshotFolder = path.join(__dirname, "screenshots");
 if (!fs.existsSync(screenshotFolder)) fs.mkdirSync(screenshotFolder);
@@ -971,6 +971,7 @@ async function runSurvey() {
 
     await page.waitForSelector("#storeId", { timeout: 15000 });
     const { date, time } = randomDateTime();
+    const visitTime = time;
     await typeHuman(page, "#storeId", STORE_ID);
 
     await selectVisitDate(page, date);
@@ -1006,7 +1007,8 @@ async function runSurvey() {
       const textArea = await page.$("textarea");
       if (textArea && !hasTypedText) {
         await humanDelay(200, 900);
-        await typeHuman(page, "textarea", pickPersistentCompliment(compliments));
+        const pool = getComplimentPoolForTime(visitTime) || compliments;
+        await typeHuman(page, "textarea", pickPersistentCompliment(pool));
         hasTypedText = true;
         summary.textareasFilled++;
         await takeScreenshot(page, `textarea-filled-${iteration}`);
