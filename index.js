@@ -899,6 +899,33 @@ function getOpeningType(text) {
   return "other";
 }
 
+function getLengthBand(text) {
+  const len = String(text).length;
+  if (len <= LENGTH_BAND_SHORT_MAX) return "short";
+  if (len <= LENGTH_BAND_MEDIUM_MAX) return "medium";
+  return "long";
+}
+
+function countRecentValue(list, value, windowSize) {
+  if (!value || windowSize <= 0) return 0;
+  const slice = list.slice(-windowSize);
+  return slice.filter(item => item === value).length;
+}
+
+function hasConnectorPrefix(text) {
+  return CONNECTOR_PREFIXES.some(prefix => text.startsWith(prefix));
+}
+
+function getSynonymKey(text) {
+  const lower = text.toLowerCase();
+  for (const [a, b] of SYNONYM_PAIRS) {
+    if (lower.includes(a) || lower.includes(b)) {
+      return `${a}|${b}`;
+    }
+  }
+  return "";
+}
+
 function normalizeEnding(text) {
   return text.replace(/\s+$/g, "");
 }
@@ -940,11 +967,22 @@ function maybeApplyStyleNoise(text) {
   return noisy;
 }
 
+function maybeAddQuirk(text) {
+  if (!randBool(QUIRK_RATE)) return text;
+  const quirk = QUIRK_WORDS[randInt(0, QUIRK_WORDS.length - 1)];
+  const normalized = normalizeEnding(text);
+  if (/\b(lol|tbh)\b/i.test(normalized)) return text;
+  if (normalized.endsWith("!")) return `${normalized} ${quirk}`;
+  if (normalized.endsWith(".")) return `${normalized.slice(0, -1)} ${quirk}.`;
+  return `${normalized} ${quirk}`;
+}
+
 function personalizeCompliment(text, visitTime) {
   let updated = text;
   updated = maybeAddOpenSlot(updated);
   updated = maybeAddTimeOfDay(updated, visitTime);
   updated = maybeApplyStyleNoise(updated);
+  updated = maybeAddQuirk(updated);
   return updated;
 }
 
