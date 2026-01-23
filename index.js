@@ -11,8 +11,10 @@ if (!fs.existsSync(screenshotFolder)) fs.mkdirSync(screenshotFolder);
 let lastScreenshotAt = 0;
 const usedComplimentsPath = path.join(__dirname, "used-compliments.json");
 const lastTonePath = path.join(__dirname, "last-compliment-tone.json");
+const recentComplimentsPath = path.join(__dirname, "recent-compliments.json");
 let usedComplimentsCache = null;
 let lastToneCache = null;
+let recentComplimentsCache = null;
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
