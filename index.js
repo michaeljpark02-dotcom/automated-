@@ -773,6 +773,63 @@ function getOpeningWord(text) {
   return match ? match[1].toLowerCase() : "";
 }
 
+function getOpeningType(text) {
+  const opener = getOpeningWord(text);
+  if (!opener) return "other";
+  if (OPENING_VERBS.includes(opener)) return "verb";
+  if (["the", "my"].includes(opener)) return "noun";
+  return "other";
+}
+
+function normalizeEnding(text) {
+  return text.replace(/\s+$/g, "");
+}
+
+function maybeAddOpenSlot(text) {
+  if (!randBool(OPEN_SLOT_RATE)) return text;
+  const normalized = normalizeEnding(text);
+  if (/(\bon my\b|\bbefore\b|\bafter\b|\bon the way\b)/i.test(normalized)) return text;
+  const phrase = OPEN_SLOT_PHRASES[randInt(0, OPEN_SLOT_PHRASES.length - 1)];
+  if (normalized.endsWith(".")) {
+    return `${normalized.slice(0, -1)}, ${phrase}.`;
+  }
+  return `${normalized}, ${phrase}.`;
+}
+
+function maybeAddTimeOfDay(text, timeValue) {
+  if (!randBool(TIME_OF_DAY_RATE)) return text;
+  if (!timeValue) return text;
+  if (/\bthis morning\b|\bthis afternoon\b|\btonight\b|\blate tonight\b/i.test(text)) return text;
+  const tone = getVisitTone(timeValue);
+  const match = TIME_OF_DAY_PHRASES.find(item => item.key === tone);
+  if (!match) return text;
+  const normalized = normalizeEnding(text);
+  if (normalized.endsWith(".")) {
+    return `${normalized.slice(0, -1)} ${match.text}.`;
+  }
+  return `${normalized} ${match.text}.`;
+}
+
+function maybeApplyStyleNoise(text) {
+  if (!randBool(STYLE_NOISE_RATE)) return text;
+  let noisy = text;
+  if (randBool(0.6) && noisy.endsWith(".")) {
+    noisy = noisy.slice(0, -1);
+  }
+  if (randBool(0.4)) {
+    noisy = noisy.charAt(0).toLowerCase() + noisy.slice(1);
+  }
+  return noisy;
+}
+
+function personalizeCompliment(text, visitTime) {
+  let updated = text;
+  updated = maybeAddOpenSlot(updated);
+  updated = maybeAddTimeOfDay(updated, visitTime);
+  updated = maybeApplyStyleNoise(updated);
+  return updated;
+}
+
 function filterByTopicAndItem(list, avoidTopics, avoidItems) {
   return list.filter(text => {
     const topic = getComplimentTopic(text);
