@@ -686,6 +686,11 @@ function getComplimentItems(text) {
   return MENU_ITEMS.filter(item => lower.includes(item));
 }
 
+function getOpeningWord(text) {
+  const match = String(text).trim().match(/^([A-Za-z]+)/);
+  return match ? match[1].toLowerCase() : "";
+}
+
 function filterByTopicAndItem(list, avoidTopics, avoidItems) {
   return list.filter(text => {
     const topic = getComplimentTopic(text);
