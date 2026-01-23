@@ -20,6 +20,7 @@ const recentLengthBandsPath = path.join(__dirname, "recent-compliment-length-ban
 const recentConnectorsPath = path.join(__dirname, "recent-compliment-connectors.json");
 const lastSynonymPath = path.join(__dirname, "last-compliment-synonym.json");
 const recentTemplateFamiliesPath = path.join(__dirname, "recent-compliment-template-families.json");
+const runSummaryDir = path.join(__dirname, "run-summaries");
 let usedComplimentsCache = null;
 let lastToneCache = null;
 let recentComplimentsCache = null;
@@ -34,6 +35,12 @@ let recentTemplateFamiliesCache = null;
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function ensureDir(dir) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
 }
 
 async function withTimeout(task, timeoutMs, label) {
