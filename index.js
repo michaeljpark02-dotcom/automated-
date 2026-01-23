@@ -95,6 +95,7 @@ const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,com
   .split(",")
   .map(item => item.trim())
   .filter(Boolean);
+const RECENT_COMPLIMENTS_LIMIT = Math.max(0, readEnvInt("RECENT_COMPLIMENTS_LIMIT", 200));
 const CAJUN_RICE_PICK_CHANCE = (() => {
   const raw = readEnvFloat("CAJUN_RICE_PICK_CHANCE");
   if (raw === null) return 0;
