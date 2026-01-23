@@ -15,12 +15,14 @@ const recentComplimentsPath = path.join(__dirname, "recent-compliments.json");
 const recentTopicsPath = path.join(__dirname, "recent-compliment-topics.json");
 const recentItemsPath = path.join(__dirname, "recent-compliment-items.json");
 const recentOpenersPath = path.join(__dirname, "recent-compliment-openers.json");
+const recentOpenerTypesPath = path.join(__dirname, "recent-compliment-opener-types.json");
 let usedComplimentsCache = null;
 let lastToneCache = null;
 let recentComplimentsCache = null;
 let recentTopicsCache = null;
 let recentItemsCache = null;
 let recentOpenersCache = null;
+let recentOpenerTypesCache = null;
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -105,6 +107,10 @@ const RECENT_COMPLIMENTS_LIMIT = Math.max(0, readEnvInt("RECENT_COMPLIMENTS_LIMI
 const TOPIC_COOLDOWN = Math.max(0, readEnvInt("TOPIC_COOLDOWN", 3));
 const ITEM_COOLDOWN = Math.max(0, readEnvInt("ITEM_COOLDOWN", 5));
 const OPENING_COOLDOWN = Math.max(0, readEnvInt("OPENING_COOLDOWN", 4));
+const OPENING_TYPE_COOLDOWN = Math.max(0, readEnvInt("OPENING_TYPE_COOLDOWN", 2));
+const OPEN_SLOT_RATE = readEnvFloat("OPEN_SLOT_RATE") ?? 0.06;
+const TIME_OF_DAY_RATE = readEnvFloat("TIME_OF_DAY_RATE") ?? 0.08;
+const STYLE_NOISE_RATE = readEnvFloat("STYLE_NOISE_RATE") ?? 0.06;
 const CAJUN_RICE_PICK_CHANCE = (() => {
   const raw = readEnvFloat("CAJUN_RICE_PICK_CHANCE");
   if (raw === null) return 0;
