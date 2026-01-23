@@ -785,6 +785,15 @@ const TIME_OF_DAY_PHRASES = [
   { key: "evening", text: "tonight" },
   { key: "night", text: "late tonight" }
 ];
+const CONNECTOR_PREFIXES = ["Also,", "Plus,", "On top of that,"];
+const QUIRK_WORDS = ["lol", "tbh"];
+const SYNONYM_PAIRS = [
+  ["quick", "fast"],
+  ["smooth", "steady"],
+  ["friendly", "welcoming"],
+  ["calm", "composed"],
+  ["tasty", "flavorful"]
+];
 
 function getComplimentTopic(text) {
   const lower = text.toLowerCase();
