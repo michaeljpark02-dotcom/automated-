@@ -22,8 +22,38 @@ ratings, emoji rows, and free-text feedback).
   - Likelihood questions choose a "Likely" option when present.
   - Menu item grids and follow-ups select a small random subset.
   - Star ratings click the highest star.
-  - Text areas get a compliment that avoids repeats across runs.
+- Text areas get a compliment that avoids repeats across runs.
 - Screenshots are saved as the script progresses (unless disabled).
+
+## Compliments system
+Compliments are generated dynamically in `compliments.js` and then filtered and
+personalized in `index.js` before typing into the survey.
+
+Key behaviors:
+- 720 unique compliments per tone pool (short/medium/long mix 40/40/20).
+- Avoids repeats across runs using `used-compliments.json` plus a rolling
+  recent list (`recent-compliments.json`).
+- Tone shifts by visit time (morning/afternoon/evening/night) and rotates to
+  avoid repeating the same tone back-to-back.
+- Filters: avoids negations, mismatched time-of-day phrases, and pickup+dine-in
+  mix in a single compliment.
+- Adds light variation: synonym swaps, commas/exclamations, connectors,
+  optional short clauses, and low-rate style noise.
+- Cooldowns for topics, items, openers, template families, length bands, and
+  connector usage to prevent streaks.
+
+Persistence files (auto-created):
+- `used-compliments.json`
+- `recent-compliments.json`
+- `recent-compliment-topics.json`
+- `recent-compliment-items.json`
+- `recent-compliment-openers.json`
+- `recent-compliment-opener-types.json`
+- `recent-compliment-length-bands.json`
+- `recent-compliment-connectors.json`
+- `recent-compliment-template-families.json`
+- `last-compliment-synonym.json`
+- `last-compliment-tone.json`
 
 ## Configuration (optional)
 Set environment variables to override defaults:
@@ -62,7 +92,24 @@ Set environment variables to override defaults:
 - `AUTO_GIT_BRANCH` - git branch name (default `main`)
 - `AUTO_GIT_MESSAGE` - commit message for auto updates
 - `AUTO_GIT_DELAY_MS` - delay before auto git update (default `1200`)
-- `AUTO_GIT_FILES` - comma-separated files to stage (default `used-compliments.json,compliments.js`)
+- `AUTO_GIT_FILES` - comma-separated files to stage (default includes all compliment persistence files)
+
+Compliment tuning (optional):
+- `RECENT_COMPLIMENTS_LIMIT` - rolling no-repeat window (default `200`)
+- `TOPIC_COOLDOWN` - avoid recent topics (default `3`)
+- `ITEM_COOLDOWN` - avoid recent menu items (default `5`)
+- `OPENING_COOLDOWN` - avoid recent openers (default `4`)
+- `OPENING_TYPE_COOLDOWN` - avoid recent opener types (default `2`)
+- `LENGTH_BAND_WINDOW` - track recent length bands (default `3`)
+- `LENGTH_BAND_STREAK` - break length streaks (default `2`)
+- `OPENING_THE_WINDOW` - opener window for "The" (default `5`)
+- `OPENING_THE_LIMIT` - max "The" in window (default `2`)
+- `TEMPLATE_FAMILY_WINDOW` - avoid repeating template families (default `3`)
+- `OPEN_SLOT_RATE` - add extra clause (default `0.06`)
+- `TIME_OF_DAY_RATE` - inject time-of-day phrase (default `0.08`)
+- `STYLE_NOISE_RATE` - lowercase/missing period (default `0.20`)
+- `QUIRK_RATE` - add "lol"/"tbh" (default `0.03`)
+- `TYPO_RATE` - typo injection rate (default `0.07`)
 
 ## Run controls
 The script prompts for run count and delay between runs unless you provide:
