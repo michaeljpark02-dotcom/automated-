@@ -1795,6 +1795,7 @@ async function runSurvey() {
     const { date, time } = randomDateTime();
     const visitDate = date;
     const visitTime = time;
+    await maybeActionJitter(page, "store-id");
     summary.picks.visitDate = visitDate;
     summary.picks.visitTime = visitTime;
     await typeHuman(page, "#storeId", STORE_ID);
@@ -1802,6 +1803,7 @@ async function runSurvey() {
     await selectVisitDate(page, date);
 
     await humanDelay(150, 650);
+    await maybeActionJitter(page, "order-info");
     const forcedTotal = readEnvFloat("ORDER_TOTAL");
     const totalValue = forcedTotal !== null ? forcedTotal.toFixed(2) : randomPrice();
     summary.picks.orderTotal = totalValue;
@@ -1817,6 +1819,7 @@ async function runSurvey() {
     await takeScreenshot(page, "order-info");
     await withRetry(() => clickContinue(page), "clickContinue");
     await takeScreenshot(page, "order-type-screen");
+    await maybeActionJitter(page, "order-type");
     const orderTypeChoice = await selectOrderType(page);
     summary.picks.orderType = orderTypeChoice;
 
@@ -1827,6 +1830,7 @@ async function runSurvey() {
     while (more && iteration < 40) {
       iteration++;
       await takeScreenshot(page, `page-loop-${iteration}`);
+      await maybeActionJitter(page, `loop-${iteration}`);
       let didSomething = false;
       await buildQuestionCache(page, QUESTION_TEXTS);
 
