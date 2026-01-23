@@ -1,0 +1,58 @@
+{
+  "runId": "1769200175424-1893",
+  "startedAt": "2026-01-23T20:29:35.424Z",
+  "finishedAt": "2026-01-23T20:33:43.643Z",
+  "durationMs": 248219,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2682
+  },
+  "picks": {
+    "weighted": [],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$60,000 to $74,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Native Hawaiian or other Pacific Islander"
+      }
+    ],
+    "menu": [
+      "Sandwiches"
+    ],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-19",
+    "visitTime": "11:00 am",
+    "orderTotal": "18.60",
+    "toneOverride": "morning",
+    "complimentPreview": "Fair price for what I got!"
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 10,
+  "gridPicked": 11,
+  "noThanksClicked": 1
+}
