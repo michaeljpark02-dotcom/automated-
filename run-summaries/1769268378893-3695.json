@@ -1,0 +1,59 @@
+{
+  "runId": "1769268378893-3695",
+  "startedAt": "2026-01-24T15:26:18.893Z",
+  "finishedAt": "2026-01-24T15:30:29.848Z",
+  "durationMs": 250955,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2973
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-20",
+    "visitTime": "7:47 pm",
+    "orderTotal": "24.15",
+    "toneOverride": "evening",
+    "complimentPreview": "During the rush, the counter line moved quickly. Chicken sandwich combo was full of flavor"
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 10,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}
