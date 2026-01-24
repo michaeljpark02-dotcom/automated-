@@ -1,0 +1,63 @@
+{
+  "runId": "1769214180699-1223",
+  "startedAt": "2026-01-24T00:23:00.699Z",
+  "finishedAt": "2026-01-24T00:26:55.534Z",
+  "durationMs": 234835,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3273
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Self-service kiosk"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "One"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "Under $25,000"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Sandwiches"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-11",
+    "visitTime": "11:55 am",
+    "orderTotal": "10.95",
+    "toneOverride": "morning",
+    "complimentPreview": "Pickup was ready when I arrived."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 11,
+  "noThanksClicked": 0
+}
