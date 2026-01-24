@@ -1,0 +1,63 @@
+{
+  "runId": "1769262191492-5222",
+  "startedAt": "2026-01-24T13:43:11.492Z",
+  "finishedAt": "2026-01-24T13:47:12.746Z",
+  "durationMs": 241254,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 14398
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$45,000 to $59,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Beverages"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-20",
+    "visitTime": "10:46 pm",
+    "orderTotal": "14.30",
+    "toneOverride": "any",
+    "complimentPreview": "The store looked sharp and organized."
+  },
+  "pagesVisited": 18,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 7,
+  "noThanksClicked": 0
+}
