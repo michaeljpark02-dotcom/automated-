@@ -1,0 +1,59 @@
+{
+  "runId": "1769360524121-3979",
+  "startedAt": "2026-01-25T17:02:04.121Z",
+  "finishedAt": "2026-01-25T17:06:21.664Z",
+  "durationMs": 257543,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3147
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Native Hawaiian or other Pacific Islander"
+      }
+    ],
+    "menu": [
+      "Boneless Chicken"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-22",
+    "visitTime": "10:20 am",
+    "orderTotal": "22.58",
+    "toneOverride": "morning",
+    "complimentPreview": "Great value for a filling meal!"
+  },
+  "pagesVisited": 18,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 7,
+  "noThanksClicked": 1
+}
