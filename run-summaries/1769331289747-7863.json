@@ -1,0 +1,63 @@
+{
+  "runId": "1769331289747-7863",
+  "startedAt": "2026-01-25T08:54:49.747Z",
+  "finishedAt": "2026-01-25T08:59:04.386Z",
+  "durationMs": 254639,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3057
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Beverages"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-16",
+    "visitTime": "6:27 pm",
+    "orderTotal": "24.13",
+    "toneOverride": "evening",
+    "complimentPreview": "Quick window line. Cajun fries were not overcooked."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 6,
+  "noThanksClicked": 1
+}
