@@ -1,0 +1,38 @@
+{
+  "runId": "1769358942664-1932",
+  "startedAt": "2026-01-25T16:35:42.665Z",
+  "finishedAt": "2026-01-25T16:48:20.249Z",
+  "durationMs": 757584,
+  "exitReason": "error",
+  "errorMessage": "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
+  "timings": {
+    "pageGotoMs": 2746
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile app"
+      }
+    ],
+    "dropdowns": [],
+    "menu": [
+      "Beverages"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-25",
+    "visitTime": "8:07 pm",
+    "orderTotal": "11.04",
+    "toneOverride": "evening",
+    "complimentPreview": "Even at dinner time, the window line kept the flow steady. My fries were tasty and filling."
+  },
+  "pagesVisited": 13,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 0,
+  "likelihoodPicked": 0,
+  "menuPicked": 1,
+  "starsPicked": 9,
+  "gridPicked": 4,
+  "noThanksClicked": 0
+}
