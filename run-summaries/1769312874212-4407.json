@@ -1,0 +1,54 @@
+{
+  "runId": "1769312874212-4407",
+  "startedAt": "2026-01-25T03:47:54.212Z",
+  "finishedAt": "2026-01-25T03:51:56.867Z",
+  "durationMs": 242655,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2722
+  },
+  "picks": {
+    "weighted": [],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$45,000 to $59,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "American Indian or Alaska Native"
+      }
+    ],
+    "menu": [
+      "Boneless Chicken"
+    ],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-17",
+    "visitTime": "11:42 am",
+    "orderTotal": "23.85",
+    "toneOverride": "morning",
+    "complimentPreview": "The staff handled the rush well"
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 10,
+  "gridPicked": 9,
+  "noThanksClicked": 1
+}
