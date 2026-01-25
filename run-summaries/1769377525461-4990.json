@@ -1,0 +1,59 @@
+{
+  "runId": "1769377525461-4990",
+  "startedAt": "2026-01-25T21:45:25.461Z",
+  "finishedAt": "2026-01-25T21:49:42.479Z",
+  "durationMs": 257018,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2265
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$25,000 to $44,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Asian"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-13",
+    "visitTime": "2:07 pm",
+    "orderTotal": "15.90",
+    "toneOverride": "afternoon",
+    "complimentPreview": "Super patient front counter team."
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 8,
+  "noThanksClicked": 1
+}
