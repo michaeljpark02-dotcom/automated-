@@ -118,6 +118,8 @@ const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,com
   .split(",")
   .map(item => item.trim())
   .filter(Boolean);
+const PROTOCOL_TIMEOUT_MS = Math.max(0, readEnvInt("PROTOCOL_TIMEOUT_MS", 300000));
+const SCREENSHOT_TIMEOUT_MS = Math.max(0, readEnvInt("SCREENSHOT_TIMEOUT_MS", 60000));
 const RECENT_COMPLIMENTS_LIMIT = Math.max(0, readEnvInt("RECENT_COMPLIMENTS_LIMIT", 200));
 const TOPIC_COOLDOWN = Math.max(0, readEnvInt("TOPIC_COOLDOWN", 3));
 const ITEM_COOLDOWN = Math.max(0, readEnvInt("ITEM_COOLDOWN", 5));
@@ -344,9 +346,35 @@ async function takeScreenshot(page, label) {
   if (throttleMs > 0 && Date.now() - lastScreenshotAt < throttleMs) return;
   const filepath = path.join(screenshotFolder, `${Date.now()}-${label}.png`);
   const fullPage = process.env.FULLPAGE_SCREENSHOTS === "1";
-  await page.screenshot({ path: filepath, fullPage });
-  lastScreenshotAt = Date.now();
-  console.log("dY", label, "->", filepath);
+  const timeout = SCREENSHOT_TIMEOUT_MS > 0 ? SCREENSHOT_TIMEOUT_MS : undefined;
+  const isTimeoutError = (err) => /timed out/i.test(String(err?.message || ""));
+  try {
+    await page.screenshot({ path: filepath, fullPage, ...(timeout ? { timeout } : {}) });
+    lastScreenshotAt = Date.now();
+    console.log("dY", label, "->", filepath);
+    return;
+  } catch (err) {
+    if (fullPage && isTimeoutError(err)) {
+      console.log("WARN fullPage screenshot timed out; retrying with fullPage=false");
+      try {
+        await page.screenshot({ path: filepath, fullPage: false, ...(timeout ? { timeout } : {}) });
+        lastScreenshotAt = Date.now();
+        console.log("dY", label, "->", filepath);
+        return;
+      } catch (retryErr) {
+        if (isTimeoutError(retryErr)) {
+          console.log("WARN screenshot timed out; skipping", label);
+          return;
+        }
+        throw retryErr;
+      }
+    }
+    if (isTimeoutError(err)) {
+      console.log("WARN screenshot timed out; skipping", label);
+      return;
+    }
+    throw err;
+  }
 }
 
 async function clickContinue(page, postClickWaitMs = 1200) {
@@ -1707,6 +1735,7 @@ async function runSurvey() {
     ...(chromePath ? { executablePath: chromePath } : {}),
     args: launchArgs,
     defaultViewport: null,
+    protocolTimeout: PROTOCOL_TIMEOUT_MS > 0 ? PROTOCOL_TIMEOUT_MS : undefined,
   });
   recentComplimentsCache = [];
   recentTopicsCache = [];
