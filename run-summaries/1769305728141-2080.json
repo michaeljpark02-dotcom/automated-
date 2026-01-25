@@ -1,0 +1,58 @@
+{
+  "runId": "1769305728141-2080",
+  "startedAt": "2026-01-25T01:48:48.141Z",
+  "finishedAt": "2026-01-25T01:52:42.793Z",
+  "durationMs": 234652,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3228
+  },
+  "picks": {
+    "weighted": [],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Two"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "Under $25,000"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-24",
+    "visitTime": "9:23 pm",
+    "orderTotal": "17.72",
+    "toneOverride": "night",
+    "complimentPreview": "Great value for a filling meal."
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 10,
+  "gridPicked": 5,
+  "noThanksClicked": 1
+}
