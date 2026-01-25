@@ -1,0 +1,31 @@
+{
+  "runId": "1769364513717-6487",
+  "startedAt": "2026-01-25T18:08:33.717Z",
+  "finishedAt": "2026-01-25T18:09:04.443Z",
+  "durationMs": 30726,
+  "exitReason": "error",
+  "errorMessage": "Waiting for selector `.select-option-txt` failed",
+  "timings": {
+    "pageGotoMs": 2563
+  },
+  "picks": {
+    "weighted": [],
+    "dropdowns": [],
+    "menu": [],
+    "orderType": null,
+    "visitDate": "2026-01-15",
+    "visitTime": "10:27 am",
+    "orderTotal": "18.77",
+    "toneOverride": null,
+    "complimentPreview": null
+  },
+  "pagesVisited": 0,
+  "textareasFilled": 0,
+  "emojisClicked": 0,
+  "dropdownsPicked": 0,
+  "likelihoodPicked": 0,
+  "menuPicked": 0,
+  "starsPicked": 0,
+  "gridPicked": 0,
+  "noThanksClicked": 0
+}
