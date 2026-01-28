@@ -1,0 +1,63 @@
+{
+  "runId": "1769508238330-1463",
+  "startedAt": "2026-01-27T10:03:58.330Z",
+  "finishedAt": "2026-01-27T10:08:23.758Z",
+  "durationMs": 265428,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2754
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Self-service kiosk"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Two"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-19",
+    "visitTime": "1:46 pm",
+    "orderTotal": "7.25",
+    "toneOverride": "afternoon",
+    "complimentPreview": "Even during lunch, the counter line was fast without feeling rushed. Really enjoyed the classic chicken sandwich because it was seasoned jus"
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 6,
+  "noThanksClicked": 1
+}

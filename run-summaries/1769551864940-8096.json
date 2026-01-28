@@ -1,0 +1,63 @@
+{
+  "runId": "1769551864940-8096",
+  "startedAt": "2026-01-27T22:11:04.940Z",
+  "finishedAt": "2026-01-27T22:15:09.812Z",
+  "durationMs": 244872,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2614
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile app"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Boneless Chicken"
+    ],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-16",
+    "visitTime": "9:15 pm",
+    "orderTotal": "19.08",
+    "toneOverride": "night",
+    "complimentPreview": "Even with a line, the counter line stayed steady. My nuggets were cooked perfectly."
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 10,
+  "gridPicked": 9,
+  "noThanksClicked": 1
+}

@@ -1,0 +1,63 @@
+{
+  "runId": "1769573659005-3302",
+  "startedAt": "2026-01-28T04:14:19.005Z",
+  "finishedAt": "2026-01-28T04:18:44.182Z",
+  "durationMs": 265177,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2817
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Two"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "Under 18"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-16",
+    "visitTime": "5:42 pm",
+    "orderTotal": "8.33",
+    "toneOverride": "any",
+    "complimentPreview": "Fast pickup service. Classic chicken sandwich was fresh out of the fryer."
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 8,
+  "noThanksClicked": 1
+}

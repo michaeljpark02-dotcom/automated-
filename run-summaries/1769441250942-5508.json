@@ -1,0 +1,59 @@
+{
+  "runId": "1769441250942-5508",
+  "startedAt": "2026-01-26T15:27:30.942Z",
+  "finishedAt": "2026-01-26T15:31:41.731Z",
+  "durationMs": 250789,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3181
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile app"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "Under $25,000"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Boneless Chicken"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-18",
+    "visitTime": "4:48 pm",
+    "orderTotal": "11.65",
+    "toneOverride": "afternoon",
+    "complimentPreview": "It was nice that the crew kept things organized."
+  },
+  "pagesVisited": 18,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}

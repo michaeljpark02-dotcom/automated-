@@ -1,0 +1,63 @@
+{
+  "runId": "1769440938117-8627",
+  "startedAt": "2026-01-26T15:22:18.117Z",
+  "finishedAt": "2026-01-26T15:26:50.473Z",
+  "durationMs": 272356,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3109
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Sandwiches"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-15",
+    "visitTime": "7:15 pm",
+    "orderTotal": "22.13",
+    "toneOverride": "evening",
+    "complimentPreview": "Even at dinner time, the window line kept the flow smooth. Loved the fries; they were served at a great temperature."
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}

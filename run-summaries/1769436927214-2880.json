@@ -1,0 +1,63 @@
+{
+  "runId": "1769436927214-2880",
+  "startedAt": "2026-01-26T14:15:27.214Z",
+  "finishedAt": "2026-01-26T14:19:44.001Z",
+  "durationMs": 256787,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2777
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "One"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Boneless Chicken"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-25",
+    "visitTime": "6:49 pm",
+    "orderTotal": "18.70",
+    "toneOverride": "evening",
+    "complimentPreview": "Quick window line. Classic chicken sandwich was perfectly cooked."
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}

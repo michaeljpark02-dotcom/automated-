@@ -1,0 +1,63 @@
+{
+  "runId": "1769472024103-1655",
+  "startedAt": "2026-01-27T00:00:24.103Z",
+  "finishedAt": "2026-01-27T00:05:15.493Z",
+  "durationMs": 291390,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 15042
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "50 to 64"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Native Hawaiian or other Pacific Islander"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-18",
+    "visitTime": "3:34 pm",
+    "orderTotal": "17.75",
+    "toneOverride": "afternoon",
+    "complimentPreview": "During the rush, the front counter service was quick and organized. Loved the mashed potatoes; it was tasty and filling."
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 11,
+  "noThanksClicked": 1
+}

@@ -1,0 +1,54 @@
+{
+  "runId": "1769417296959-9345",
+  "startedAt": "2026-01-26T08:48:16.959Z",
+  "finishedAt": "2026-01-26T08:52:17.188Z",
+  "durationMs": 240229,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3176
+  },
+  "picks": {
+    "weighted": [],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-22",
+    "visitTime": "9:24 pm",
+    "orderTotal": "20.25",
+    "toneOverride": "night",
+    "complimentPreview": "with a line, the dine-in service kept the flow steady"
+  },
+  "pagesVisited": 18,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}

@@ -1,0 +1,63 @@
+{
+  "runId": "1769491387102-5070",
+  "startedAt": "2026-01-27T05:23:07.102Z",
+  "finishedAt": "2026-01-27T05:27:30.672Z",
+  "durationMs": 263570,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2653
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "One"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "Under $25,000"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Boneless Chicken"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-16",
+    "visitTime": "9:30 pm",
+    "orderTotal": "8.08",
+    "toneOverride": "any",
+    "complimentPreview": "The counter line was fast, and organized at dinner time. Mac and cheese was juicy, before work."
+  },
+  "pagesVisited": 18,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 9,
+  "noThanksClicked": 1
+}

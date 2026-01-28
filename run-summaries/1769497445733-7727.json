@@ -1,0 +1,63 @@
+{
+  "runId": "1769497445733-7727",
+  "startedAt": "2026-01-27T07:04:05.733Z",
+  "finishedAt": "2026-01-27T07:08:26.986Z",
+  "durationMs": 261253,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3151
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "Under 18"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Wraps"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-19",
+    "visitTime": "5:14 pm",
+    "orderTotal": "20.81",
+    "toneOverride": "any",
+    "complimentPreview": "On top of that, Pickup was ready on time."
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 6,
+  "noThanksClicked": 1
+}

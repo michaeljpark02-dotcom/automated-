@@ -1,0 +1,61 @@
+{
+  "runId": "1769567062333-2445",
+  "startedAt": "2026-01-28T02:24:22.333Z",
+  "finishedAt": "2026-01-28T02:28:15.686Z",
+  "durationMs": 233353,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3022
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Self-service kiosk"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$25,000 to $44,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-15",
+    "visitTime": "3:10 pm",
+    "orderTotal": "23.40",
+    "toneOverride": "afternoon",
+    "complimentPreview": "Even during lunch, the counter line was fast without feeling rushed. Really enjoyed the sweet tea because it was hit the spot."
+  },
+  "pagesVisited": 14,
+  "textareasFilled": 1,
+  "emojisClicked": 0,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 0,
+  "starsPicked": 9,
+  "gridPicked": 5,
+  "noThanksClicked": 1
+}

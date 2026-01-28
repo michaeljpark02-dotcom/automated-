@@ -1,0 +1,63 @@
+{
+  "runId": "1769513877197-7529",
+  "startedAt": "2026-01-27T11:37:57.197Z",
+  "finishedAt": "2026-01-27T11:42:06.582Z",
+  "durationMs": 249385,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 14184
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "One"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$60,000 to $74,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-17",
+    "visitTime": "6:20 pm",
+    "orderTotal": "22.18",
+    "toneOverride": "evening",
+    "complimentPreview": "Pickup felt organized and quick."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}

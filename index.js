@@ -14,6 +14,7 @@ const lastTonePath = path.join(__dirname, "last-compliment-tone.json");
 const recentComplimentsPath = path.join(__dirname, "recent-compliments.json");
 const recentTopicsPath = path.join(__dirname, "recent-compliment-topics.json");
 const recentItemsPath = path.join(__dirname, "recent-compliment-items.json");
+const recentItemGroupsPath = path.join(__dirname, "recent-compliment-item-groups.json");
 const recentOpenersPath = path.join(__dirname, "recent-compliment-openers.json");
 const recentOpenerTypesPath = path.join(__dirname, "recent-compliment-opener-types.json");
 const recentLengthBandsPath = path.join(__dirname, "recent-compliment-length-bands.json");
@@ -26,6 +27,7 @@ let lastToneCache = null;
 let recentComplimentsCache = null;
 let recentTopicsCache = null;
 let recentItemsCache = null;
+let recentItemGroupsCache = null;
 let recentOpenersCache = null;
 let recentOpenerTypesCache = null;
 let recentLengthBandsCache = null;
@@ -114,7 +116,7 @@ const AUTO_GIT_REMOTE = process.env.AUTO_GIT_REMOTE || "origin";
 const AUTO_GIT_BRANCH = process.env.AUTO_GIT_BRANCH || "main";
 const AUTO_GIT_MESSAGE = process.env.AUTO_GIT_MESSAGE || "Update compliments usage";
 const AUTO_GIT_DELAY_MS = Math.max(0, readEnvInt("AUTO_GIT_DELAY_MS", 1200));
-const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,compliments.js,last-compliment-tone.json,recent-compliments.json,recent-compliment-topics.json,recent-compliment-items.json,recent-compliment-openers.json,recent-compliment-opener-types.json,recent-compliment-length-bands.json,recent-compliment-connectors.json,last-compliment-synonym.json,recent-compliment-template-families.json")
+const AUTO_GIT_FILES = (process.env.AUTO_GIT_FILES || "used-compliments.json,compliments.js,last-compliment-tone.json,recent-compliments.json,recent-compliment-topics.json,recent-compliment-items.json,recent-compliment-item-groups.json,recent-compliment-openers.json,recent-compliment-opener-types.json,recent-compliment-length-bands.json,recent-compliment-connectors.json,last-compliment-synonym.json,recent-compliment-template-families.json")
   .split(",")
   .map(item => item.trim())
   .filter(Boolean);
@@ -123,6 +125,7 @@ const SCREENSHOT_TIMEOUT_MS = Math.max(0, readEnvInt("SCREENSHOT_TIMEOUT_MS", 60
 const RECENT_COMPLIMENTS_LIMIT = Math.max(0, readEnvInt("RECENT_COMPLIMENTS_LIMIT", 200));
 const TOPIC_COOLDOWN = Math.max(0, readEnvInt("TOPIC_COOLDOWN", 3));
 const ITEM_COOLDOWN = Math.max(0, readEnvInt("ITEM_COOLDOWN", 5));
+const ITEM_GROUP_COOLDOWN = Math.max(0, readEnvInt("ITEM_GROUP_COOLDOWN", 3));
 const OPENING_COOLDOWN = Math.max(0, readEnvInt("OPENING_COOLDOWN", 4));
 const OPENING_TYPE_COOLDOWN = Math.max(0, readEnvInt("OPENING_TYPE_COOLDOWN", 2));
 const OPEN_SLOT_RATE = readEnvFloat("OPEN_SLOT_RATE") ?? 0.06;
@@ -573,16 +576,20 @@ function runGitUpdate(reason) {
       cwd: __dirname,
       stdio: "ignore"
     });
+    const existingFiles = AUTO_GIT_FILES.filter(file =>
+      fs.existsSync(path.join(__dirname, file))
+    );
+    if (existingFiles.length === 0) return;
     const statusBefore = execFileSync(
       "git",
-      ["status", "--porcelain", "--", ...AUTO_GIT_FILES],
+      ["status", "--porcelain", "--", ...existingFiles],
       { cwd: __dirname, stdio: ["ignore", "pipe", "ignore"] }
     ).toString().trim();
     if (!statusBefore) return;
-    execFileSync("git", ["add", "--", ...AUTO_GIT_FILES], { cwd: __dirname, stdio: "ignore" });
+    execFileSync("git", ["add", "--", ...existingFiles], { cwd: __dirname, stdio: "ignore" });
     const statusAfter = execFileSync(
       "git",
-      ["status", "--porcelain", "--", ...AUTO_GIT_FILES],
+      ["status", "--porcelain", "--", ...existingFiles],
       { cwd: __dirname, stdio: ["ignore", "pipe", "ignore"] }
     ).toString().trim();
     if (!statusAfter) return;
@@ -682,6 +689,32 @@ function saveRecentItems(recentList) {
   try {
     recentItemsCache = recentList;
     fs.writeFileSync(recentItemsPath, JSON.stringify(recentList, null, 2));
+  } catch {
+    // Best-effort persistence; ignore write errors.
+  }
+}
+
+function loadRecentItemGroups() {
+  if (recentItemGroupsCache !== null) return recentItemGroupsCache;
+  try {
+    if (!fs.existsSync(recentItemGroupsPath)) {
+      recentItemGroupsCache = [];
+      return recentItemGroupsCache;
+    }
+    const raw = fs.readFileSync(recentItemGroupsPath, "utf8");
+    const parsed = JSON.parse(raw);
+    recentItemGroupsCache = Array.isArray(parsed) ? parsed.map(String) : [];
+    return recentItemGroupsCache;
+  } catch {
+    recentItemGroupsCache = [];
+    return recentItemGroupsCache;
+  }
+}
+
+function saveRecentItemGroups(recentList) {
+  try {
+    recentItemGroupsCache = recentList;
+    fs.writeFileSync(recentItemGroupsPath, JSON.stringify(recentList, null, 2));
   } catch {
     // Best-effort persistence; ignore write errors.
   }
@@ -875,6 +908,7 @@ function pickPersistentCompliment(list) {
   const recentSet = new Set(recent);
   const recentTopics = loadRecentTopics();
   const recentItems = loadRecentItems();
+  const recentItemGroups = loadRecentItemGroups();
   const recentOpeners = loadRecentOpeners();
   const recentOpenerTypes = loadRecentOpenerTypes();
   const recentLengthBands = loadRecentLengthBands();
@@ -883,6 +917,7 @@ function pickPersistentCompliment(list) {
   const recentTemplateFamilies = loadRecentTemplateFamilies();
   const avoidTopics = new Set(recentTopics.slice(-TOPIC_COOLDOWN));
   const avoidItems = new Set(recentItems.slice(-ITEM_COOLDOWN));
+  const avoidItemGroups = new Set(recentItemGroups.slice(-ITEM_GROUP_COOLDOWN));
   const avoidOpeners = new Set(recentOpeners.slice(-OPENING_COOLDOWN));
   const avoidOpenerTypes = new Set(recentOpenerTypes.slice(-OPENING_TYPE_COOLDOWN));
   const avoidBand = LENGTH_BAND_WINDOW > 0 && LENGTH_BAND_STREAK > 0
@@ -895,7 +930,7 @@ function pickPersistentCompliment(list) {
   const avoidTemplateFamilies = new Set(recentTemplateFamilies.slice(-TEMPLATE_FAMILY_WINDOW));
 
   let available = list.filter(item => !used.has(item) && !recentSet.has(item));
-  let filtered = filterByTopicAndItem(available, avoidTopics, avoidItems);
+  let filtered = filterByTopicAndItem(available, avoidTopics, avoidItems, avoidItemGroups);
   filtered = filtered.filter(item => {
     if (avoidOpeners.size === 0) return true;
     const opener = getOpeningWord(item);
@@ -928,7 +963,7 @@ function pickPersistentCompliment(list) {
     return !avoidTemplateFamilies.has(family);
   });
   if (filtered.length === 0) {
-    filtered = filterByTopicAndItem(available, avoidTopics, new Set());
+    filtered = filterByTopicAndItem(available, avoidTopics, new Set(), new Set());
   }
   if (filtered.length === 0) {
     filtered = available;
@@ -1014,6 +1049,15 @@ function pickPersistentCompliment(list) {
     }
     saveRecentItems(updatedItems);
   }
+  const itemGroups = getComplimentItemGroups(pick);
+  if (itemGroups.length > 0) {
+    const updatedGroups = recentItemGroups.filter(item => !itemGroups.includes(item));
+    updatedGroups.push(...itemGroups);
+    while (updatedGroups.length > Math.max(ITEM_GROUP_COOLDOWN * 4, 12)) {
+      updatedGroups.shift();
+    }
+    saveRecentItemGroups(updatedGroups);
+  }
   return pick;
 }
 
@@ -1055,6 +1099,13 @@ const MENU_ITEMS = [
   "lemonade",
   "chicken pieces"
 ];
+const ITEM_GROUPS = [
+  { key: "sandwiches", items: ["spicy chicken sandwich", "classic chicken sandwich", "chicken sandwich combo"] },
+  { key: "fried-sides", items: ["fries", "cajun fries"] },
+  { key: "chicken-bites", items: ["nuggets", "tenders", "chicken pieces"] },
+  { key: "sides", items: ["biscuits", "coleslaw", "mashed potatoes", "mac and cheese", "red beans and rice"] },
+  { key: "drinks", items: ["sweet tea", "lemonade"] }
+];
 const OPENING_VERBS = [
   "loved",
   "noticed",
@@ -1064,6 +1115,8 @@ const OPENING_VERBS = [
   "brought",
   "got",
   "thanks",
+  "props",
+  "glad",
   "shoutout",
   "really",
   "quick"
@@ -1087,7 +1140,7 @@ const TIME_OF_DAY_PHRASES = [
   { key: "evening", text: "tonight" },
   { key: "night", text: "late tonight" }
 ];
-const CONNECTOR_PREFIXES = ["Also,", "Plus,", "On top of that,"];
+const CONNECTOR_PREFIXES = ["Also,", "Plus,", "On top of that,", "Additionally,"];
 const QUIRK_WORDS = ["lol", "tbh"];
 const SYNONYM_PAIRS = [
   ["quick", "fast"],
@@ -1100,6 +1153,9 @@ const TEMPLATE_FAMILIES = [
   { key: "loved-how", regex: /^Loved how\b/i },
   { key: "noticed", regex: /^Noticed\b/i },
   { key: "appreciated", regex: /^Appreciated\b/i },
+  { key: "thanks", regex: /^Thanks\b/i },
+  { key: "props", regex: /^Props\b/i },
+  { key: "glad", regex: /^Glad\b/i },
   { key: "quick-shoutout", regex: /^Quick shoutout\b/i },
   { key: "shoutout", regex: /^Shoutout\b/i },
   { key: "the", regex: /^The\b/i },
@@ -1132,6 +1188,13 @@ function getComplimentTopic(text) {
 function getComplimentItems(text) {
   const lower = text.toLowerCase();
   return MENU_ITEMS.filter(item => lower.includes(item));
+}
+
+function getComplimentItemGroups(text) {
+  const lower = text.toLowerCase();
+  return ITEM_GROUPS
+    .filter(group => group.items.some(item => lower.includes(item)))
+    .map(group => group.key);
 }
 
 function getOpeningWord(text) {
@@ -1268,12 +1331,14 @@ function personalizeCompliment(text, visitTime) {
   return updated;
 }
 
-function filterByTopicAndItem(list, avoidTopics, avoidItems) {
+function filterByTopicAndItem(list, avoidTopics, avoidItems, avoidItemGroups) {
   return list.filter(text => {
     const topic = getComplimentTopic(text);
     if (avoidTopics && avoidTopics.size > 0 && avoidTopics.has(topic)) return false;
     const items = getComplimentItems(text);
     if (avoidItems && avoidItems.size > 0 && items.some(item => avoidItems.has(item))) return false;
+    const groups = getComplimentItemGroups(text);
+    if (avoidItemGroups && avoidItemGroups.size > 0 && groups.some(group => avoidItemGroups.has(group))) return false;
     return true;
   });
 }
@@ -1685,8 +1750,7 @@ async function selectVisitDate(page, dateStr) {
 async function selectOrderType(page) {
   const choice = pickWeighted([
     { text: "Takeout/Pickup", weight: 5 },
-    { text: "Dine-In", weight: 4 },
-    { text: "Delivery", weight: 1 }
+    { text: "Dine-In", weight: 4 }
   ]);
   console.log("ðŸ½ Order type:", choice);
 
@@ -1737,14 +1801,15 @@ async function runSurvey() {
     defaultViewport: null,
     protocolTimeout: PROTOCOL_TIMEOUT_MS > 0 ? PROTOCOL_TIMEOUT_MS : undefined,
   });
-  recentComplimentsCache = [];
-  recentTopicsCache = [];
-  recentItemsCache = [];
-  recentOpenersCache = [];
-  recentOpenerTypesCache = [];
-  recentLengthBandsCache = [];
-  recentConnectorsCache = [];
-  recentTemplateFamiliesCache = [];
+  recentComplimentsCache = null;
+  recentTopicsCache = null;
+  recentItemsCache = null;
+  recentItemGroupsCache = null;
+  recentOpenersCache = null;
+  recentOpenerTypesCache = null;
+  recentLengthBandsCache = null;
+  recentConnectorsCache = null;
+  recentTemplateFamiliesCache = null;
   activeBrowser = browser;
   const page = await browser.newPage();
   if (PROXY && (PROXY_USERNAME || PROXY_PASSWORD)) {

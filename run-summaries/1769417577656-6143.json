@@ -1,0 +1,61 @@
+{
+  "runId": "1769417577656-6143",
+  "startedAt": "2026-01-26T08:52:57.656Z",
+  "finishedAt": "2026-01-26T08:56:42.823Z",
+  "durationMs": 225167,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3158
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-22",
+    "visitTime": "1:50 pm",
+    "orderTotal": "14.66",
+    "toneOverride": "afternoon",
+    "complimentPreview": "The red beans and rice tasted hearty."
+  },
+  "pagesVisited": 14,
+  "textareasFilled": 1,
+  "emojisClicked": 0,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 0,
+  "starsPicked": 9,
+  "gridPicked": 5,
+  "noThanksClicked": 1
+}

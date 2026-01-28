@@ -1,0 +1,59 @@
+{
+  "runId": "1769507952736-9088",
+  "startedAt": "2026-01-27T09:59:12.736Z",
+  "finishedAt": "2026-01-27T10:03:17.872Z",
+  "durationMs": 245136,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3080
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$25,000 to $44,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Sandwiches"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-19",
+    "visitTime": "8:46 pm",
+    "orderTotal": "11.57",
+    "toneOverride": "any",
+    "complimentPreview": "Appreciated how the window line ran efficiently."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 4,
+  "noThanksClicked": 1
+}

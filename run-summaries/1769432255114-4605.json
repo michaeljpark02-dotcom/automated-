@@ -1,0 +1,63 @@
+{
+  "runId": "1769432255114-4605",
+  "startedAt": "2026-01-26T12:57:35.114Z",
+  "finishedAt": "2026-01-26T13:01:44.864Z",
+  "durationMs": 249750,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2752
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Delivery partner"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$60,000 to $74,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-26",
+    "visitTime": "9:44 pm",
+    "orderTotal": "17.06",
+    "toneOverride": "night",
+    "complimentPreview": "Also, The dining room felt bright and airy."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 7,
+  "noThanksClicked": 1
+}

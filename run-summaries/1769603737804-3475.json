@@ -1,0 +1,59 @@
+{
+  "runId": "1769603737804-3475",
+  "startedAt": "2026-01-28T12:35:37.804Z",
+  "finishedAt": "2026-01-28T12:39:57.424Z",
+  "durationMs": 259620,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 14962
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile app"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "Under $25,000"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Sandwiches"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-21",
+    "visitTime": "6:24 pm",
+    "orderTotal": "21.05",
+    "toneOverride": "evening",
+    "complimentPreview": "The bag was packed neatly and correctly."
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 8,
+  "noThanksClicked": 1
+}

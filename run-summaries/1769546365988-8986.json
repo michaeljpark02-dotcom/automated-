@@ -1,0 +1,63 @@
+{
+  "runId": "1769546365988-8986",
+  "startedAt": "2026-01-27T20:39:25.988Z",
+  "finishedAt": "2026-01-27T20:43:57.010Z",
+  "durationMs": 271022,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2346
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-19",
+    "visitTime": "6:19 pm",
+    "orderTotal": "13.88",
+    "toneOverride": "any",
+    "complimentPreview": "Really liked that the counter line was fast without feeling rushed. Mac and cheese was seasoned just right."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 6,
+  "noThanksClicked": 1
+}

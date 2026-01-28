@@ -1,0 +1,63 @@
+{
+  "runId": "1769437481881-8507",
+  "startedAt": "2026-01-26T14:24:41.881Z",
+  "finishedAt": "2026-01-26T14:28:54.377Z",
+  "durationMs": 252496,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3148
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Two"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$25,000 to $44,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Desserts"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-22",
+    "visitTime": "4:53 pm",
+    "orderTotal": "24.76",
+    "toneOverride": "afternoon",
+    "complimentPreview": "Also, The window line was quick and organized with a line. Chicken sandwich combo was crispy and not greasy."
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 5,
+  "noThanksClicked": 1
+}

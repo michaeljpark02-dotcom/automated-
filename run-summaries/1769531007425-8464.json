@@ -1,0 +1,63 @@
+{
+  "runId": "1769531007425-8464",
+  "startedAt": "2026-01-27T16:23:27.425Z",
+  "finishedAt": "2026-01-27T16:27:47.886Z",
+  "durationMs": 260461,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2996
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Asian"
+      }
+    ],
+    "menu": [
+      "Beverages"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-25",
+    "visitTime": "10:37 am",
+    "orderTotal": "11.50",
+    "toneOverride": "morning",
+    "complimentPreview": "quick pickup service today. The nuggets were nice and juicy"
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 11,
+  "noThanksClicked": 0
+}

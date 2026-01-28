@@ -1,0 +1,63 @@
+{
+  "runId": "1769404544976-7132",
+  "startedAt": "2026-01-26T05:15:44.976Z",
+  "finishedAt": "2026-01-26T05:19:54.538Z",
+  "durationMs": 249562,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2409
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "50 to 64"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$45,000 to $59,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-20",
+    "visitTime": "9:47 pm",
+    "orderTotal": "14.74",
+    "toneOverride": "night",
+    "complimentPreview": "The meal was filling for the cost."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 8,
+  "noThanksClicked": 1
+}

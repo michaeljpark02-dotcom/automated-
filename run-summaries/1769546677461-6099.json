@@ -1,0 +1,59 @@
+{
+  "runId": "1769546677461-6099",
+  "startedAt": "2026-01-27T20:44:37.461Z",
+  "finishedAt": "2026-01-27T20:49:05.996Z",
+  "durationMs": 268535,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3377
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$45,000 to $59,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-22",
+    "visitTime": "10:06 am",
+    "orderTotal": "7.41",
+    "toneOverride": "morning",
+    "complimentPreview": "The window attendant was patient."
+  },
+  "pagesVisited": 18,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 7,
+  "noThanksClicked": 1
+}

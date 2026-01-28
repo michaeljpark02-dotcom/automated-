@@ -1,0 +1,63 @@
+{
+  "runId": "1769514464573-5670",
+  "startedAt": "2026-01-27T11:47:44.573Z",
+  "finishedAt": "2026-01-27T11:52:11.069Z",
+  "durationMs": 266496,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3086
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "Under 18"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Native Hawaiian or other Pacific Islander"
+      }
+    ],
+    "menu": [
+      "Sandwiches"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-21",
+    "visitTime": "6:11 pm",
+    "orderTotal": "23.27",
+    "toneOverride": "evening",
+    "complimentPreview": "loved how the drive-thru line stayed steady. Loved the cajun fries; they were seasoned just right! tonight"
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 7,
+  "noThanksClicked": 1
+}

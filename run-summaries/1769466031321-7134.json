@@ -1,0 +1,57 @@
+{
+  "runId": "1769466031321-7134",
+  "startedAt": "2026-01-26T22:20:31.321Z",
+  "finishedAt": "2026-01-26T22:24:28.692Z",
+  "durationMs": 237371,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2933
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-24",
+    "visitTime": "10:04 pm",
+    "orderTotal": "13.79",
+    "toneOverride": "night",
+    "complimentPreview": "With a line, the dine-in srevice kept the flow steady!"
+  },
+  "pagesVisited": 14,
+  "textareasFilled": 1,
+  "emojisClicked": 0,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 0,
+  "starsPicked": 9,
+  "gridPicked": 8,
+  "noThanksClicked": 1
+}

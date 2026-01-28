@@ -1,0 +1,63 @@
+{
+  "runId": "1769579422196-9198",
+  "startedAt": "2026-01-28T05:50:22.196Z",
+  "finishedAt": "2026-01-28T05:54:38.322Z",
+  "durationMs": 256126,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3082
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-18",
+    "visitTime": "9:04 pm",
+    "orderTotal": "23.91",
+    "toneOverride": "any",
+    "complimentPreview": "My order was checked and accurate late tonight."
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 4,
+  "noThanksClicked": 1
+}

@@ -1,0 +1,63 @@
+{
+  "runId": "1769503442015-6157",
+  "startedAt": "2026-01-27T08:44:02.015Z",
+  "finishedAt": "2026-01-27T08:48:18.317Z",
+  "durationMs": 256302,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2457
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$75,000 to $99,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-19",
+    "visitTime": "10:28 pm",
+    "orderTotal": "24.95",
+    "toneOverride": "night",
+    "complimentPreview": "really enjoyed the chicken pieces because they were warm and satisfying"
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 5,
+  "noThanksClicked": 1
+}

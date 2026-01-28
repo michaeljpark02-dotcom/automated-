@@ -1,0 +1,63 @@
+{
+  "runId": "1769437224449-3347",
+  "startedAt": "2026-01-26T14:20:24.449Z",
+  "finishedAt": "2026-01-26T14:24:01.436Z",
+  "durationMs": 216987,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2401
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile app"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$60,000 to $74,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-25",
+    "visitTime": "5:43 pm",
+    "orderTotal": "12.84",
+    "toneOverride": "any",
+    "complimentPreview": "Noticed the pickup shelf was well kept tbh."
+  },
+  "pagesVisited": 14,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 10,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}

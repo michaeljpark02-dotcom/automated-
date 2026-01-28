@@ -1,0 +1,63 @@
+{
+  "runId": "1769409973693-8811",
+  "startedAt": "2026-01-26T06:46:13.693Z",
+  "finishedAt": "2026-01-26T06:50:37.449Z",
+  "durationMs": 263756,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2865
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile app"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Three"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Sides"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-16",
+    "visitTime": "1:54 pm",
+    "orderTotal": "18.38",
+    "toneOverride": "afternoon",
+    "complimentPreview": "Appreciated how the drive-thru line was fast, and organized. Really enjoyed the cajun fries because they were warm and satisfying."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 5,
+  "noThanksClicked": 1
+}

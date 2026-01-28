@@ -1,0 +1,59 @@
+{
+  "runId": "1769592155795-7672",
+  "startedAt": "2026-01-28T09:22:35.795Z",
+  "finishedAt": "2026-01-28T09:26:50.534Z",
+  "durationMs": 254739,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 13891
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Self-service kiosk"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Beverages"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-24",
+    "visitTime": "7:15 pm",
+    "orderTotal": "24.21",
+    "toneOverride": "evening",
+    "complimentPreview": "noticed the tables were wiped down."
+  },
+  "pagesVisited": 15,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 7,
+  "noThanksClicked": 1
+}

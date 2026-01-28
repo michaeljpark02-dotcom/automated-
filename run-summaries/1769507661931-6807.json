@@ -1,0 +1,63 @@
+{
+  "runId": "1769507661931-6807",
+  "startedAt": "2026-01-27T09:54:21.931Z",
+  "finishedAt": "2026-01-27T09:58:32.254Z",
+  "durationMs": 250323,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2810
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Drive-thru speaker"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "25 to 34"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$25,000 to $44,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Native Hawaiian or other Pacific Islander"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-18",
+    "visitTime": "7:48 pm",
+    "orderTotal": "11.82",
+    "toneOverride": "evening",
+    "complimentPreview": "Quick window line. The mac and cheese was served at a great temperature, before practice tonight."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 6,
+  "noThanksClicked": 1
+}

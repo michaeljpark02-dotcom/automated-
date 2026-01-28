@@ -1,0 +1,36 @@
+{
+  "runId": "1769568113932-2271",
+  "startedAt": "2026-01-28T02:41:53.933Z",
+  "finishedAt": "2026-01-28T02:44:05.634Z",
+  "durationMs": 131701,
+  "exitReason": "error",
+  "errorMessage": "Attempted to use detached Frame 'E8966FED0B6AF21C312418D285A957C3'.",
+  "timings": {
+    "pageGotoMs": 2807
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [],
+    "menu": [],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-17",
+    "visitTime": "1:12 pm",
+    "orderTotal": "12.27",
+    "toneOverride": "afternoon",
+    "complimentPreview": "the portions felt just right, on the way to work."
+  },
+  "pagesVisited": 3,
+  "textareasFilled": 1,
+  "emojisClicked": 0,
+  "dropdownsPicked": 0,
+  "likelihoodPicked": 0,
+  "menuPicked": 0,
+  "starsPicked": 7,
+  "gridPicked": 1,
+  "noThanksClicked": 0
+}

@@ -1,0 +1,31 @@
+{
+  "runId": "1769567336160-2904",
+  "startedAt": "2026-01-28T02:28:56.160Z",
+  "finishedAt": "2026-01-28T02:29:51.789Z",
+  "durationMs": 55629,
+  "exitReason": "error",
+  "errorMessage": "Attempted to use detached Frame '342E3BDD9636C6D8371C55D8E9BA3E25'.",
+  "timings": {
+    "pageGotoMs": 3178
+  },
+  "picks": {
+    "weighted": [],
+    "dropdowns": [],
+    "menu": [],
+    "orderType": "Delivery",
+    "visitDate": "2026-01-27",
+    "visitTime": "3:49 pm",
+    "orderTotal": "12.45",
+    "toneOverride": "any",
+    "complimentPreview": "loved the sweet tea; it was hit the spot"
+  },
+  "pagesVisited": 1,
+  "textareasFilled": 1,
+  "emojisClicked": 0,
+  "dropdownsPicked": 0,
+  "likelihoodPicked": 0,
+  "menuPicked": 0,
+  "starsPicked": 2,
+  "gridPicked": 0,
+  "noThanksClicked": 0
+}
