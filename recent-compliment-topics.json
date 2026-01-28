@@ -2,9 +2,9 @@
   "accuracy",
   "atmosphere",
   "brand",
-  "cleanliness",
   "service",
   "staff",
   "food",
-  "other"
+  "other",
+  "cleanliness"
 ]
