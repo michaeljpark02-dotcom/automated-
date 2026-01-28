@@ -3,9 +3,9 @@
   "brand",
   "cleanliness",
   "food",
-  "other",
   "accuracy",
   "staff",
   "service",
-  "value"
+  "value",
+  "other"
 ]
