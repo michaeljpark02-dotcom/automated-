@@ -64,7 +64,8 @@ const STAFF_NAMES = [
 const CONNECTORS = [
   "Also,",
   "Plus,",
-  "On top of that,"
+  "On top of that,",
+  "Additionally,"
 ];
 const SERVICE_PACE_PHRASES = [
   "moved quickly",
@@ -74,7 +75,8 @@ const SERVICE_PACE_PHRASES = [
   "kept things moving",
   "was quick without feeling rushed",
   "was fast and organized",
-  "kept the flow steady"
+  "kept the flow steady",
+  "stayed organized and steady"
 ];
 const SYNONYM_PAIRS = [
   ["quick", "fast"],
@@ -86,22 +88,22 @@ const SYNONYM_PAIRS = [
 const SEMANTIC_PATTERNS = [
   {
     key: "service-pace",
-    regex: /^The .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady)\.$/,
+    regex: /^The .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady|stayed organized and steady)\.$/,
     limit: 8
   },
   {
     key: "service-pace-loved",
-    regex: /^Loved how the .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady)\.$/,
+    regex: /^Loved how the .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady|stayed organized and steady)\.$/,
     limit: 6
   },
   {
     key: "service-pace-noticed",
-    regex: /^Noticed the .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady)\.$/,
+    regex: /^Noticed the .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady|stayed organized and steady)\.$/,
     limit: 6
   },
   {
     key: "service-pace-time",
-    regex: /^The .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady) (with a line|during lunch|this afternoon|today|during the rush|at dinner time)\.$/,
+    regex: /^The .+ (moved quickly|kept a steady pace|stayed smooth|ran efficiently|kept things moving|was quick without feeling rushed|was fast and organized|kept the flow steady|stayed organized and steady) (with a line|during lunch|this afternoon|today|during the rush|at dinner time)\.$/,
     limit: 8
   },
   {
@@ -523,7 +525,8 @@ function buildServiceSentences() {
     "dine-in service",
     "pickup service",
     "window line",
-    "front counter service"
+    "front counter service",
+    "drive-thru window"
   ];
   const paces = [
     "moved quickly",
@@ -533,7 +536,8 @@ function buildServiceSentences() {
     "kept things moving",
     "was quick without feeling rushed",
     "was fast and organized",
-    "kept the flow steady"
+    "kept the flow steady",
+    "stayed organized and steady"
   ];
   const quickHitStarters = [
     "Fast",
@@ -546,10 +550,12 @@ function buildServiceSentences() {
   const times = [
     "with a line",
     "during lunch",
+    "this morning",
     "this afternoon",
     "today",
     "during the rush",
-    "at dinner time"
+    "at dinner time",
+    "late tonight"
   ];
 
   for (const target of targets) {
@@ -560,10 +566,13 @@ function buildServiceSentences() {
       results.add(`Really liked that the ${target} ${pace}.`);
       results.add(`Appreciated how the ${target} ${pace}.`);
       results.add(`Quick shoutout: the ${target} ${pace}.`);
+      results.add(`Thanks for how the ${target} ${pace}.`);
+      results.add(`Props for how the ${target} ${pace}.`);
       for (const time of times) {
         results.add(`The ${target} ${pace} ${time}.`);
         results.add(`Even ${time}, the ${target} ${pace}.`);
         results.add(`${capitalizeFirst(time)}, the ${target} ${pace}.`);
+        results.add(`Despite ${time}, the ${target} ${pace}.`);
       }
     }
     for (const starter of quickHitStarters) {
@@ -601,7 +610,9 @@ function buildStaffSentences() {
     "calm under pressure",
     "focused",
     "kind",
-    "professional"
+    "professional",
+    "quick",
+    "attentive"
   ];
   const actions = [
     "greeted me with a smile",
@@ -611,7 +622,11 @@ function buildStaffSentences() {
     "made the visit easy",
     "kept the line moving",
     "checked that everything was correct",
-    "made sure I had what I needed"
+    "made sure I had what I needed",
+    "kept things moving without rushing",
+    "called out orders clearly",
+    "double-checked the bag",
+    "made pickup easy"
   ];
 
   for (const staff of pluralStaff) {
@@ -621,11 +636,13 @@ function buildStaffSentences() {
       results.add(`The ${staff} felt ${trait} today.`);
       results.add(`Shoutout to the ${staff} for being ${trait}.`);
       results.add(`Super ${trait} ${staff}.`);
+      results.add(`Thanks to the ${staff} for being ${trait}.`);
     }
     for (const action of actions) {
       results.add(`The ${staff} ${action}.`);
       results.add(`It was nice that the ${staff} ${action}.`);
       results.add(`Quick thanks to the ${staff} who ${action}.`);
+      results.add(`Really liked that the ${staff} ${action}.`);
     }
   }
 
@@ -634,10 +651,12 @@ function buildStaffSentences() {
       results.add(`The ${staff} was ${trait}.`);
       results.add(`Shoutout to the ${staff} for being ${trait}.`);
       results.add(`Really appreciated the ${staff} being ${trait}.`);
+      results.add(`Thanks to the ${staff} for being ${trait}.`);
     }
     for (const action of actions) {
       results.add(`The ${staff} ${action}.`);
       results.add(`Big thanks to the ${staff} who ${action}.`);
+      results.add(`Glad the ${staff} ${action}.`);
     }
   }
 
@@ -651,7 +670,10 @@ function buildFoodSentences() {
     "tenders",
     "fries",
     "cajun fries",
-    "chicken pieces"
+    "chicken pieces",
+    "biscuits",
+    "mashed potatoes",
+    "red beans and rice"
   ]);
   const hotItems = [
     "spicy chicken sandwich",
@@ -683,14 +705,18 @@ function buildFoodSentences() {
     "full of flavor",
     "served at a great temperature",
     "not overcooked",
-    "nice and juicy"
+    "nice and juicy",
+    "crisp and hot",
+    "flavorful and filling",
+    "fresh and satisfying"
   ];
   const shortQualities = [
     "hot and fresh",
     "crispy",
     "juicy",
     "flavorful",
-    "perfectly cooked"
+    "perfectly cooked",
+    "well seasoned"
   ];
   const drinkQualities = [
     "cold and refreshing",
@@ -698,7 +724,8 @@ function buildFoodSentences() {
     "not too sweet",
     "just the right sweetness",
     "nice and cold",
-    "hit the spot"
+    "hit the spot",
+    "cold and smooth"
   ];
   const extras = [
     "The batter was crispy without being greasy.",
@@ -719,7 +746,10 @@ function buildFoodSentences() {
     "The tenders were cooked perfectly.",
     "The combo was a satisfying meal.",
     "The chicken was hot and fresh.",
-    "The sandwich had great flavor."
+    "The sandwich had great flavor.",
+    "The fries stayed crisp on the drive home.",
+    "The sandwich was hot and held up well.",
+    "The sides were portioned nicely."
   ];
   const itemGrammar = item => (
     pluralItems.has(item)
@@ -736,11 +766,15 @@ function buildFoodSentences() {
       results.add(`The ${item} came out ${quality}.`);
       results.add(`Really enjoyed the ${item} because ${pronoun} ${verb} ${quality}.`);
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
+      results.add(`The ${item} tasted ${quality} today.`);
+      results.add(`Glad the ${item} ${verb} ${quality}.`);
+      results.add(`The ${item} ${verb} ${quality} and packed neatly.`);
     }
     for (const quality of shortQualities) {
       const { verb } = itemGrammar(item);
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
       results.add(`Hot, ${quality} ${item}.`);
+      results.add(`Really ${quality} ${item}.`);
     }
   }
 
@@ -752,6 +786,7 @@ function buildFoodSentences() {
       results.add(`The ${item} came out ${quality}.`);
       results.add(`Really enjoyed the ${item} because it was ${quality}.`);
       results.add(`${capitalizeFirst(item)} was ${quality}.`);
+      results.add(`Glad the ${item} was ${quality}.`);
     }
     for (const quality of drinkQualities) {
       results.add(`${capitalizeFirst(item)} was ${quality} today.`);
@@ -780,7 +815,8 @@ function buildCleanlinessSentences() {
     "well kept",
     "neat and organized",
     "comfortable and clean",
-    "fresh and bright"
+    "fresh and bright",
+    "tidy and welcoming"
   ];
   const pluralAreas = [
     "tables",
@@ -796,7 +832,8 @@ function buildCleanlinessSentences() {
     "spotless",
     "well kept",
     "not sticky",
-    "stocked and clean"
+    "stocked and clean",
+    "freshly cleaned"
   ];
   const extras = [
     "The floor was dry and not slippery.",
@@ -805,7 +842,8 @@ function buildCleanlinessSentences() {
     "The tables were still clean even with a few people.",
     "The pickup shelf area was neat and uncluttered.",
     "The front door and windows looked clean.",
-    "The store looked tidy and welcoming."
+    "The store looked tidy and welcoming.",
+    "The counter area looked clean and ready."
   ];
 
   for (const area of singularAreas) {
@@ -875,7 +913,10 @@ function buildAccuracySentences() {
     "They got everything right on my order.",
     "The order was accurate and complete.",
     "Order details were handled perfectly.",
-    "Everything was packed just how I asked."
+    "Everything was packed just how I asked.",
+    "The bag was packed neatly and correctly.",
+    "They verified the order before handing it over.",
+    "Everything was packed neatly and secure."
   ];
 
   return sentences;
@@ -907,7 +948,11 @@ function buildAtmosphereSentences() {
     "The dining area felt calm and tidy.",
     "Everything felt smooth and low-stress.",
     "The space felt open and easy to navigate.",
-    "The overall vibe felt friendly."
+    "The overall vibe felt friendly.",
+    "The lobby felt light and comfortable.",
+    "The dining area felt neat and orderly.",
+    "The store felt calm even with some traffic.",
+    "The space felt clean and welcoming."
   ];
 
   return sentences;
@@ -935,7 +980,9 @@ function buildValueSentences() {
     "Great portions for the cost.",
     "Solid value today.",
     "Great deal for the price.",
-    "Worth it for the portions."
+    "Worth it for the portions.",
+    "The value matched the portion size.",
+    "Good deal for the amount of food."
   ];
 
   return sentences;
@@ -964,7 +1011,9 @@ function buildPickupSentences() {
     "Pickup was smooth from start to finish.",
     "Easy pickup today.",
     "Quick pickup, no hassle.",
-    "Pickup went smoothly."
+    "Pickup went smoothly.",
+    "The pickup handoff was quick and clear.",
+    "Pickup moved along without any issues."
   ];
 
   return sentences;
@@ -987,7 +1036,9 @@ function buildShortSentencesByTone() {
     "No stress, no fuss.",
     "Good vibes all around.",
     "Drive-thru was quick.",
-    "Easy pickup experience."
+    "Easy pickup experience.",
+    "Solid visit today.",
+    "Quick service and hot food."
   ];
   const neutral = [
     "Smooth visit overall.",
@@ -1002,7 +1053,8 @@ function buildShortSentencesByTone() {
     "Happy with the visit.",
     "Service stayed steady.",
     "Fast counter service.",
-    "Good value today."
+    "Good value today.",
+    "Efficient visit overall."
   ];
   const formal = [
     "Service was efficient.",
@@ -1013,7 +1065,8 @@ function buildShortSentencesByTone() {
     "The visit was well organized.",
     "Everything was handled well.",
     "The service pace was steady.",
-    "The dining area felt welcoming."
+    "The dining area felt welcoming.",
+    "The visit was well paced."
   ];
 
   return { casual, neutral, formal };
@@ -1037,7 +1090,8 @@ function buildRareSentences() {
     "Order accuracy was flawless.",
     "The meal and service were both excellent.",
     "The team kept things steady and calm.",
-    "This was a standout visit."
+    "This was a standout visit.",
+    "Everything felt dialed in."
   ];
 }
 
@@ -1050,7 +1104,8 @@ function buildBrandSentences() {
     "Popeyes staff were friendly.",
     "Great visit at Popeyes today.",
     "Popeyes made it quick and easy.",
-    "Food from Popeyes was hot and fresh."
+    "Food from Popeyes was hot and fresh.",
+    "Popeyes kept things moving smoothly."
   ];
 }
 
