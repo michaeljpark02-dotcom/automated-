@@ -4,8 +4,8 @@
   "value",
   "staff",
   "brand",
-  "cleanliness",
   "food",
   "other",
-  "service"
+  "service",
+  "cleanliness"
 ]
