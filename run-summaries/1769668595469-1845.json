@@ -1,0 +1,58 @@
+{
+  "runId": "1769668595469-1845",
+  "startedAt": "2026-01-29T06:36:35.469Z",
+  "finishedAt": "2026-01-29T06:40:33.241Z",
+  "durationMs": 237772,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3644
+  },
+  "picks": {
+    "weighted": [],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Two"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Asian"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-21",
+    "visitTime": "6:30 pm",
+    "orderTotal": "6.89",
+    "toneOverride": "any",
+    "complimentPreview": "Nothing was missing."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 8,
+  "noThanksClicked": 1
+}
