@@ -1,0 +1,63 @@
+{
+  "runId": "1769644882518-8104",
+  "startedAt": "2026-01-29T00:01:22.518Z",
+  "finishedAt": "2026-01-29T00:05:34.631Z",
+  "durationMs": 252113,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2557
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Front counter"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Two"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "18 to 24"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$45,000 to $59,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Boneless Chicken"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-26",
+    "visitTime": "7:27 pm",
+    "orderTotal": "19.71",
+    "toneOverride": "evening",
+    "complimentPreview": "Noticed the dining room was clean and tidy."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 10,
+  "noThanksClicked": 1
+}
