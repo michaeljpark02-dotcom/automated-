@@ -4,8 +4,8 @@
   "accuracy",
   "value",
   "food",
-  "service",
   "cleanliness",
   "staff",
-  "other"
+  "other",
+  "service"
 ]
