@@ -1,0 +1,63 @@
+{
+  "runId": "1769676389549-5093",
+  "startedAt": "2026-01-29T08:46:29.549Z",
+  "finishedAt": "2026-01-29T08:50:55.070Z",
+  "durationMs": 265521,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 14306
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Self-service kiosk"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Four"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Two"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "50 to 64"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$25,000 to $44,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Black or African American"
+      }
+    ],
+    "menu": [
+      "Desserts"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-20",
+    "visitTime": "10:06 am",
+    "orderTotal": "16.79",
+    "toneOverride": "morning",
+    "complimentPreview": "Glad the chairs were well kept."
+  },
+  "pagesVisited": 17,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 11,
+  "noThanksClicked": 1
+}
