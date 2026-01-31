@@ -128,6 +128,11 @@ function capitalizeFirst(value) {
   return value[0].toUpperCase() + value.slice(1);
 }
 
+function lowercaseFirst(value) {
+  if (!value) return value;
+  return value[0].toLowerCase() + value.slice(1);
+}
+
 function hashString(value) {
   let hash = 2166136261;
   for (let i = 0; i < value.length; i++) {
@@ -200,7 +205,13 @@ function maybePunctuate(text, rng) {
 function maybeConnector(text, rng) {
   if (rng() >= CONNECTOR_RATE) return null;
   if (CONNECTORS.some(connector => text.startsWith(connector))) return null;
-  return `${CONNECTORS[Math.floor(rng() * CONNECTORS.length)]} ${text}`;
+  const sentenceMatch = text.match(/^(.+?[.!?])\s+(.+)$/);
+  if (!sentenceMatch) return null;
+  const connector = CONNECTORS[Math.floor(rng() * CONNECTORS.length)];
+  const firstSentence = sentenceMatch[1];
+  const secondSentence = sentenceMatch[2];
+  if (CONNECTORS.some(conn => secondSentence.startsWith(conn))) return null;
+  return `${firstSentence} ${connector} ${lowercaseFirst(secondSentence)}`;
 }
 
 function generateVariants(text, rng) {
