@@ -1,5 +1,4 @@
 [
-  "accuracy",
   "value",
   "staff",
   "atmosphere",
@@ -7,5 +6,6 @@
   "brand",
   "food",
   "service",
-  "other"
+  "other",
+  "accuracy"
 ]
