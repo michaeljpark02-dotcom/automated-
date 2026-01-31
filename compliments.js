@@ -526,7 +526,11 @@ function buildServiceSentences() {
     "pickup service",
     "window line",
     "front counter service",
-    "drive-thru window"
+    "drive-thru window",
+    "mobile pickup",
+    "curbside pickup",
+    "pickup counter",
+    "lobby line"
   ];
   const paces = [
     "moved quickly",
@@ -537,7 +541,11 @@ function buildServiceSentences() {
     "was quick without feeling rushed",
     "was fast and organized",
     "kept the flow steady",
-    "stayed organized and steady"
+    "stayed organized and steady",
+    "was quick and steady",
+    "kept a smooth pace",
+    "kept the line moving",
+    "handled the rush well"
   ];
   const quickHitStarters = [
     "Fast",
@@ -545,7 +553,9 @@ function buildServiceSentences() {
     "Quick",
     "Easy",
     "Super quick",
-    "Really smooth"
+    "Really smooth",
+    "Steady",
+    "Well-paced"
   ];
   const times = [
     "with a line",
@@ -555,7 +565,8 @@ function buildServiceSentences() {
     "today",
     "during the rush",
     "at dinner time",
-    "late tonight"
+    "late tonight",
+    "during peak hours"
   ];
 
   for (const target of targets) {
@@ -592,13 +603,16 @@ function buildStaffSentences() {
     "team",
     "window staff",
     "front counter team",
-    "dining room staff"
+    "dining room staff",
+    "pickup team",
+    "kitchen team"
   ];
   const singularStaff = [
     "cashier",
     "manager",
     "window attendant",
-    "counter attendant"
+    "counter attendant",
+    "shift lead"
   ];
   const traits = [
     "friendly",
@@ -612,7 +626,9 @@ function buildStaffSentences() {
     "kind",
     "professional",
     "quick",
-    "attentive"
+    "attentive",
+    "courteous",
+    "efficient"
   ];
   const actions = [
     "greeted me with a smile",
@@ -626,7 +642,10 @@ function buildStaffSentences() {
     "kept things moving without rushing",
     "called out orders clearly",
     "double-checked the bag",
-    "made pickup easy"
+    "made pickup easy",
+    "kept the handoff smooth",
+    "confirmed the order before I left",
+    "moved the line along smoothly"
   ];
 
   for (const staff of pluralStaff) {
@@ -673,14 +692,17 @@ function buildFoodSentences() {
     "chicken pieces",
     "biscuits",
     "mashed potatoes",
-    "red beans and rice"
+    "red beans and rice",
+    "chicken tenders"
   ]);
   const hotItems = [
     "spicy chicken sandwich",
     "classic chicken sandwich",
     "chicken sandwich combo",
+    "blackened chicken sandwich",
     "nuggets",
     "tenders",
+    "chicken tenders",
     "biscuits",
     "fries",
     "cajun fries",
@@ -688,11 +710,13 @@ function buildFoodSentences() {
     "coleslaw",
     "mashed potatoes",
     "mac and cheese",
-    "chicken pieces"
+    "chicken pieces",
+    "popcorn shrimp"
   ];
   const drinkItems = [
     "sweet tea",
-    "lemonade"
+    "lemonade",
+    "unsweet tea"
   ];
   const hotQualities = [
     "hot and fresh",
@@ -708,7 +732,10 @@ function buildFoodSentences() {
     "nice and juicy",
     "crisp and hot",
     "flavorful and filling",
-    "fresh and satisfying"
+    "fresh and satisfying",
+    "hot and well seasoned",
+    "tender and juicy",
+    "crunchy and fresh"
   ];
   const shortQualities = [
     "hot and fresh",
@@ -716,7 +743,9 @@ function buildFoodSentences() {
     "juicy",
     "flavorful",
     "perfectly cooked",
-    "well seasoned"
+    "well seasoned",
+    "tender",
+    "fresh"
   ];
   const drinkQualities = [
     "cold and refreshing",
@@ -725,7 +754,9 @@ function buildFoodSentences() {
     "just the right sweetness",
     "nice and cold",
     "hit the spot",
-    "cold and smooth"
+    "cold and smooth",
+    "refreshing and crisp",
+    "cool and smooth"
   ];
   const extras = [
     "The batter was crispy without being greasy.",
@@ -749,7 +780,13 @@ function buildFoodSentences() {
     "The sandwich had great flavor.",
     "The fries stayed crisp on the drive home.",
     "The sandwich was hot and held up well.",
-    "The sides were portioned nicely."
+    "The sides were portioned nicely.",
+    "The breading was light and crispy.",
+    "The mac and cheese was creamy and hot.",
+    "The mashed potatoes were smooth and warm.",
+    "The biscuits tasted buttery and fresh.",
+    "The shrimp were crispy and hot.",
+    "The sandwich had a great crunch."
   ];
   const itemGrammar = item => (
     pluralItems.has(item)
@@ -808,7 +845,8 @@ function buildCleanlinessSentences() {
     "pickup shelf",
     "condiment station",
     "front door",
-    "counter area"
+    "counter area",
+    "ordering area"
   ];
   const singularStates = [
     "clean and tidy",
@@ -816,7 +854,9 @@ function buildCleanlinessSentences() {
     "neat and organized",
     "comfortable and clean",
     "fresh and bright",
-    "tidy and welcoming"
+    "tidy and welcoming",
+    "clean and inviting",
+    "fresh and tidy"
   ];
   const pluralAreas = [
     "tables",
@@ -824,7 +864,8 @@ function buildCleanlinessSentences() {
     "trash bins",
     "chairs",
     "windows",
-    "restrooms"
+    "restrooms",
+    "high chairs"
   ];
   const pluralStates = [
     "clean",
@@ -833,7 +874,8 @@ function buildCleanlinessSentences() {
     "well kept",
     "not sticky",
     "stocked and clean",
-    "freshly cleaned"
+    "freshly cleaned",
+    "neat and orderly"
   ];
   const extras = [
     "The floor was dry and not slippery.",
@@ -843,7 +885,10 @@ function buildCleanlinessSentences() {
     "The pickup shelf area was neat and uncluttered.",
     "The front door and windows looked clean.",
     "The store looked tidy and welcoming.",
-    "The counter area looked clean and ready."
+    "The counter area looked clean and ready.",
+    "The dining room looked neat and organized.",
+    "The restrooms smelled clean.",
+    "The lobby looked bright and clean."
   ];
 
   for (const area of singularAreas) {
@@ -916,7 +961,12 @@ function buildAccuracySentences() {
     "Everything was packed just how I asked.",
     "The bag was packed neatly and correctly.",
     "They verified the order before handing it over.",
-    "Everything was packed neatly and secure."
+    "Everything was packed neatly and secure.",
+    "They read back the order and it was correct.",
+    "My add-ons were included in the bag.",
+    "The sauces were packed correctly.",
+    "The order was packed with care.",
+    "The drinks were sealed and secure."
   ];
 
   return sentences;
@@ -952,7 +1002,12 @@ function buildAtmosphereSentences() {
     "The lobby felt light and comfortable.",
     "The dining area felt neat and orderly.",
     "The store felt calm even with some traffic.",
-    "The space felt clean and welcoming."
+    "The space felt clean and welcoming.",
+    "The dining room felt airy and relaxed.",
+    "The lobby felt bright and open.",
+    "The atmosphere felt calm and welcoming.",
+    "The space felt comfortable and tidy.",
+    "The dining area felt peaceful."
   ];
 
   return sentences;
@@ -982,7 +1037,11 @@ function buildValueSentences() {
     "Great deal for the price.",
     "Worth it for the portions.",
     "The value matched the portion size.",
-    "Good deal for the amount of food."
+    "Good deal for the amount of food.",
+    "Solid portions for the price.",
+    "The price felt right for what I got.",
+    "The meal felt worth the cost.",
+    "Great value for the portion size."
   ];
 
   return sentences;
@@ -1013,7 +1072,11 @@ function buildPickupSentences() {
     "Quick pickup, no hassle.",
     "Pickup went smoothly.",
     "The pickup handoff was quick and clear.",
-    "Pickup moved along without any issues."
+    "Pickup moved along without any issues.",
+    "Pickup was easy and well organized.",
+    "The pickup area was clean and simple to navigate.",
+    "The pickup handoff was smooth and quick.",
+    "Mobile pickup was ready when I arrived."
   ];
 
   return sentences;
@@ -1038,7 +1101,9 @@ function buildShortSentencesByTone() {
     "Drive-thru was quick.",
     "Easy pickup experience.",
     "Solid visit today.",
-    "Quick service and hot food."
+    "Quick service and hot food.",
+    "Fast, friendly stop.",
+    "Easy visit today."
   ];
   const neutral = [
     "Smooth visit overall.",
@@ -1054,7 +1119,9 @@ function buildShortSentencesByTone() {
     "Service stayed steady.",
     "Fast counter service.",
     "Good value today.",
-    "Efficient visit overall."
+    "Efficient visit overall.",
+    "Service was well paced.",
+    "Order was ready quickly."
   ];
   const formal = [
     "Service was efficient.",
@@ -1066,7 +1133,8 @@ function buildShortSentencesByTone() {
     "Everything was handled well.",
     "The service pace was steady.",
     "The dining area felt welcoming.",
-    "The visit was well paced."
+    "The visit was well paced.",
+    "The service was prompt and courteous."
   ];
 
   return { casual, neutral, formal };
@@ -1091,7 +1159,9 @@ function buildRareSentences() {
     "The meal and service were both excellent.",
     "The team kept things steady and calm.",
     "This was a standout visit.",
-    "Everything felt dialed in."
+    "Everything felt dialed in.",
+    "The visit felt easy and well managed.",
+    "The whole experience felt polished."
   ];
 }
 
