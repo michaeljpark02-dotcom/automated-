@@ -4,8 +4,8 @@
   "brand",
   "accuracy",
   "cleanliness",
-  "food",
   "staff",
   "service",
-  "other"
+  "other",
+  "food"
 ]
