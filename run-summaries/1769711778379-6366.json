@@ -1,0 +1,63 @@
+{
+  "runId": "1769711778379-6366",
+  "startedAt": "2026-01-29T18:36:18.379Z",
+  "finishedAt": "2026-01-29T18:40:45.237Z",
+  "durationMs": 266858,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 2891
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile app"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "Three"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Male"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "35 to 49"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$100,000 or more"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "Hispanic or Latino"
+      }
+    ],
+    "menu": [
+      "Wraps"
+    ],
+    "orderType": "Dine-In",
+    "visitDate": "2026-01-23",
+    "visitTime": "6:10 pm",
+    "orderTotal": "15.16",
+    "toneOverride": "evening",
+    "complimentPreview": "The front counter team were welcoming."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 9,
+  "noThanksClicked": 1
+}

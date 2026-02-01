@@ -1,0 +1,63 @@
+{
+  "runId": "1769786091235-3491",
+  "startedAt": "2026-01-30T15:14:51.235Z",
+  "finishedAt": "2026-01-30T15:19:15.027Z",
+  "durationMs": 263792,
+  "exitReason": "no-progress",
+  "errorMessage": null,
+  "timings": {
+    "pageGotoMs": 3052
+  },
+  "picks": {
+    "weighted": [
+      {
+        "question": "How did you place your order",
+        "choice": "Popeyes mobile website"
+      }
+    ],
+    "dropdowns": [
+      {
+        "question": "Including yourself, how many people were in your party",
+        "choice": "Five or more"
+      },
+      {
+        "question": "Including this visit, how many times have you visited this Popeyes",
+        "choice": "One"
+      },
+      {
+        "question": "Please indicate your gender",
+        "choice": "Female"
+      },
+      {
+        "question": "Please indicate your age",
+        "choice": "50 to 64"
+      },
+      {
+        "question": "Please indicate your annual household income",
+        "choice": "$25,000 to $44,999"
+      },
+      {
+        "question": "Please indicate which of the following best describes your background",
+        "choice": "White or Caucasian"
+      }
+    ],
+    "menu": [
+      "Seafood"
+    ],
+    "orderType": "Takeout/Pickup",
+    "visitDate": "2026-01-29",
+    "visitTime": "7:31 pm",
+    "orderTotal": "7.12",
+    "toneOverride": "evening",
+    "complimentPreview": "Loved how the front counter service was quick and organized. Loved the spicy chicken sandwich; it was full of flavor."
+  },
+  "pagesVisited": 16,
+  "textareasFilled": 1,
+  "emojisClicked": 8,
+  "dropdownsPicked": 6,
+  "likelihoodPicked": 2,
+  "menuPicked": 1,
+  "starsPicked": 11,
+  "gridPicked": 6,
+  "noThanksClicked": 1
+}
