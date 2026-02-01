@@ -1,11 +1,11 @@
 [
   "value",
   "brand",
-  "staff",
   "atmosphere",
   "accuracy",
   "cleanliness",
   "food",
   "service",
-  "other"
+  "other",
+  "staff"
 ]
