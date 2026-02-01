@@ -12,6 +12,7 @@ const SYNONYM_RATE = 0.18;
 const EXCLAMATION_RATE = 0.06;
 const COMMA_RATE = 0.08;
 const CONNECTOR_RATE = 0.05;
+const LOWERCASE_RATE = 0.04;
 const STEM_LIMITS = new Map([
   ["kept things moving", 12],
   ["made the visit easy", 10],
@@ -133,6 +134,40 @@ function lowercaseFirst(value) {
   return value[0].toLowerCase() + value.slice(1);
 }
 
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+const PLURAL_VERB_FIXES = [
+  "biscuits",
+  "fries",
+  "cajun fries",
+  "nuggets",
+  "tenders",
+  "chicken tenders",
+  "chicken pieces",
+  "mashed potatoes",
+  "red beans and rice",
+  "popcorn shrimp",
+  "wings"
+];
+
+function normalizeComplimentText(text) {
+  if (!text) return text;
+  let output = text;
+  const pluralPattern = new RegExp(
+    `\\b(${PLURAL_VERB_FIXES.map(escapeRegex).join("|")})\\s+was\\b`,
+    "gi"
+  );
+  output = output.replace(pluralPattern, (_, item) => `${item} were`);
+  output = output.replace(/\bmac and cheese was juicy\b/i, "mac and cheese was creamy");
+  output = output.replace(
+    /\bmashed potatoes was crispy and not greasy\b/i,
+    "mashed potatoes were smooth and warm"
+  );
+  return output;
+}
+
 function hashString(value) {
   let hash = 2166136261;
   for (let i = 0; i < value.length; i++) {
@@ -202,6 +237,13 @@ function maybePunctuate(text, rng) {
   return null;
 }
 
+function maybeLowercase(text, rng) {
+  if (rng() >= LOWERCASE_RATE) return null;
+  if (!text) return null;
+  const lower = text.toLowerCase();
+  return lower === text ? null : lower;
+}
+
 function maybeConnector(text, rng) {
   if (rng() >= CONNECTOR_RATE) return null;
   if (CONNECTORS.some(connector => text.startsWith(connector))) return null;
@@ -220,12 +262,18 @@ function generateVariants(text, rng) {
   if (synonymized && synonymized !== text) variants.push(synonymized);
   const punctuated = maybePunctuate(text, rng);
   if (punctuated && punctuated !== text) variants.push(punctuated);
+  const lowercased = maybeLowercase(text, rng);
+  if (lowercased && lowercased !== text) variants.push(lowercased);
   const connected = maybeConnector(text, rng);
   if (connected && connected !== text) variants.push(connected);
   if (synonymized) {
     const punctuatedSynonym = maybePunctuate(synonymized, rng);
     if (punctuatedSynonym && punctuatedSynonym !== synonymized) {
       variants.push(punctuatedSynonym);
+    }
+    const lowercasedSynonym = maybeLowercase(synonymized, rng);
+    if (lowercasedSynonym && lowercasedSynonym !== synonymized) {
+      variants.push(lowercasedSynonym);
     }
     const connectedSynonym = maybeConnector(synonymized, rng);
     if (connectedSynonym && connectedSynonym !== synonymized) {
@@ -409,11 +457,12 @@ function addIfValidBase(set, text, stemCounts, semanticCounts) {
 }
 
 function addIfValid(set, text, stemCounts, semanticCounts, rng) {
-  addIfValidBase(set, text, stemCounts, semanticCounts);
+  const normalized = normalizeComplimentText(text);
+  addIfValidBase(set, normalized, stemCounts, semanticCounts);
   if (!rng) return;
-  const variants = generateVariants(text, rng);
+  const variants = generateVariants(normalized, rng);
   for (const variant of variants) {
-    addIfValidBase(set, variant, stemCounts, semanticCounts);
+    addIfValidBase(set, normalizeComplimentText(variant), stemCounts, semanticCounts);
   }
 }
 
@@ -579,6 +628,14 @@ function buildServiceSentences() {
     "late tonight",
     "during peak hours"
   ];
+  const outcomes = [
+    "The handoff was quick and clear.",
+    "The pickup handoff was smooth and easy to follow.",
+    "The drive-thru speaker was clear and easy to hear.",
+    "The order callout was clear.",
+    "The counter line was managed well.",
+    "The drive-thru window kept things organized."
+  ];
 
   for (const target of targets) {
     for (const pace of paces) {
@@ -601,6 +658,10 @@ function buildServiceSentences() {
       results.add(`${starter} ${target}.`);
       results.add(`${starter} ${target} today.`);
     }
+  }
+
+  for (const outcome of outcomes) {
+    results.add(outcome);
   }
 
   return Array.from(results);
@@ -696,7 +757,7 @@ function buildStaffSentences() {
 function buildFoodSentences() {
   const results = new Set();
   const pluralItems = new Set([
-    "nuggets",
+    "boneless wings",
     "tenders",
     "fries",
     "cajun fries",
@@ -704,25 +765,37 @@ function buildFoodSentences() {
     "biscuits",
     "mashed potatoes",
     "red beans and rice",
-    "chicken tenders"
+    "chicken tenders",
+    "wings"
+  ]);
+  const softItems = new Set([
+    "coleslaw",
+    "mac and cheese",
+    "mashed potatoes",
+    "red beans and rice"
   ]);
   const hotItems = [
     "spicy chicken sandwich",
     "classic chicken sandwich",
     "chicken sandwich combo",
     "blackened chicken sandwich",
-    "nuggets",
+    "bone-in chicken",
+    "signature chicken",
+    "boneless wings",
     "tenders",
     "chicken tenders",
+    "blackened tenders",
     "biscuits",
     "fries",
     "cajun fries",
+    "wings",
     "red beans and rice",
     "coleslaw",
     "mashed potatoes",
     "mac and cheese",
     "chicken pieces",
-    "popcorn shrimp"
+    "butterfly shrimp",
+    "apple pie"
   ];
   const drinkItems = [
     "sweet tea",
@@ -746,7 +819,9 @@ function buildFoodSentences() {
     "fresh and satisfying",
     "hot and well seasoned",
     "tender and juicy",
-    "crunchy and fresh"
+    "crunchy and fresh",
+    "savory and satisfying",
+    "nicely seasoned"
   ];
   const shortQualities = [
     "hot and fresh",
@@ -756,7 +831,8 @@ function buildFoodSentences() {
     "perfectly cooked",
     "well seasoned",
     "tender",
-    "fresh"
+    "fresh",
+    "savory"
   ];
   const drinkQualities = [
     "cold and refreshing",
@@ -767,7 +843,8 @@ function buildFoodSentences() {
     "hit the spot",
     "cold and smooth",
     "refreshing and crisp",
-    "cool and smooth"
+    "cool and smooth",
+    "crisp and refreshing"
   ];
   const extras = [
     "The batter was crispy without being greasy.",
@@ -784,7 +861,7 @@ function buildFoodSentences() {
     "The meal tasted made to order.",
     "The food smelled great on the way home.",
     "The spicy sandwich had a solid kick.",
-    "The nuggets were crisp and tender.",
+    "The boneless wings were crisp and tender.",
     "The tenders were cooked perfectly.",
     "The combo was a satisfying meal.",
     "The chicken was hot and fresh.",
@@ -796,9 +873,20 @@ function buildFoodSentences() {
     "The mac and cheese was creamy and hot.",
     "The mashed potatoes were smooth and warm.",
     "The biscuits tasted buttery and fresh.",
-    "The shrimp were crispy and hot.",
-    "The sandwich had a great crunch."
+    "The butterfly shrimp were crispy and hot.",
+    "The sandwich had a great crunch.",
+    "The apple pie was warm and flaky.",
+    "The wings were crispy and flavorful.",
+    "The blackened tenders had great seasoning."
   ];
+  const fryerQualities = new Set([
+    "crispy and not greasy",
+    "crisp and hot",
+    "fresh out of the fryer",
+    "crunchy and fresh",
+    "crispy",
+    "crunchy"
+  ]);
   const itemGrammar = item => (
     pluralItems.has(item)
       ? { verb: "were", pronoun: "they" }
@@ -807,6 +895,7 @@ function buildFoodSentences() {
 
   for (const item of hotItems) {
     for (const quality of hotQualities) {
+      if (softItems.has(item) && fryerQualities.has(quality)) continue;
       const { verb, pronoun } = itemGrammar(item);
       results.add(`The ${item} ${verb} ${quality}.`);
       results.add(`Loved the ${item}; ${pronoun} ${verb} ${quality}.`);
@@ -819,6 +908,7 @@ function buildFoodSentences() {
       results.add(`The ${item} ${verb} ${quality} and packed neatly.`);
     }
     for (const quality of shortQualities) {
+      if (softItems.has(item) && fryerQualities.has(quality)) continue;
       const { verb } = itemGrammar(item);
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
       results.add(`Hot, ${quality} ${item}.`);
@@ -977,7 +1067,10 @@ function buildAccuracySentences() {
     "My add-ons were included in the bag.",
     "The sauces were packed correctly.",
     "The order was packed with care.",
-    "The drinks were sealed and secure."
+    "The drinks were sealed and secure.",
+    "My name was on the bag.",
+    "The order name was called clearly.",
+    "The bags were labeled clearly."
   ];
 
   return sentences;
@@ -1018,7 +1111,8 @@ function buildAtmosphereSentences() {
     "The lobby felt bright and open.",
     "The atmosphere felt calm and welcoming.",
     "The space felt comfortable and tidy.",
-    "The dining area felt peaceful."
+    "The dining area felt peaceful.",
+    "The vibe felt easy and inviting."
   ];
 
   return sentences;
@@ -1114,7 +1208,10 @@ function buildShortSentencesByTone() {
     "Solid visit today.",
     "Quick service and hot food.",
     "Fast, friendly stop.",
-    "Easy visit today."
+    "Easy visit today.",
+    "Great experience this morning.",
+    "Great experience this afternoon.",
+    "Great experience this evening."
   ];
   const neutral = [
     "Smooth visit overall.",
@@ -1132,7 +1229,10 @@ function buildShortSentencesByTone() {
     "Good value today.",
     "Efficient visit overall.",
     "Service was well paced.",
-    "Order was ready quickly."
+    "Order was ready quickly.",
+    "Smooth visit this morning.",
+    "Smooth visit this afternoon.",
+    "Smooth visit this evening."
   ];
   const formal = [
     "Service was efficient.",
@@ -1145,7 +1245,8 @@ function buildShortSentencesByTone() {
     "The service pace was steady.",
     "The dining area felt welcoming.",
     "The visit was well paced.",
-    "The service was prompt and courteous."
+    "The service was prompt and courteous.",
+    "The visit was calm and efficient."
   ];
 
   return { casual, neutral, formal };
