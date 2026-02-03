@@ -2,10 +2,10 @@
   "brand",
   "accuracy",
   "value",
-  "staff",
   "atmosphere",
   "other",
   "cleanliness",
   "food",
-  "service"
+  "service",
+  "staff"
 ]
