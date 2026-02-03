@@ -4,8 +4,8 @@
   "value",
   "atmosphere",
   "food",
-  "service",
   "staff",
   "cleanliness",
-  "other"
+  "other",
+  "service"
 ]
