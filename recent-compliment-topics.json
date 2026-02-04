@@ -3,9 +3,9 @@
   "atmosphere",
   "value",
   "accuracy",
-  "staff",
   "cleanliness",
   "other",
   "service",
-  "food"
+  "food",
+  "staff"
 ]
