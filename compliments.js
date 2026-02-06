@@ -77,7 +77,11 @@ const SERVICE_PACE_PHRASES = [
   "was quick without feeling rushed",
   "was fast and organized",
   "kept the flow steady",
-  "stayed organized and steady"
+  "stayed organized and steady",
+  "kept things on track",
+  "moved along smoothly",
+  "kept the line moving",
+  "handled the rush well"
 ];
 const SYNONYM_PAIRS = [
   ["quick", "fast"],
@@ -605,7 +609,9 @@ function buildServiceSentences() {
     "was quick and steady",
     "kept a smooth pace",
     "kept the line moving",
-    "handled the rush well"
+    "handled the rush well",
+    "kept things on track",
+    "moved along smoothly"
   ];
   const quickHitStarters = [
     "Fast",
@@ -647,6 +653,9 @@ function buildServiceSentences() {
       results.add(`Quick shoutout: the ${target} ${pace}.`);
       results.add(`Thanks for how the ${target} ${pace}.`);
       results.add(`Props for how the ${target} ${pace}.`);
+      results.add(`Stopped by and the ${target} ${pace}.`);
+      results.add(`Came in and the ${target} ${pace}.`);
+      results.add(`Pulled up and the ${target} ${pace}.`);
       for (const time of times) {
         results.add(`The ${target} ${pace} ${time}.`);
         results.add(`Even ${time}, the ${target} ${pace}.`);
@@ -658,6 +667,8 @@ function buildServiceSentences() {
       results.add(`${starter} ${target}.`);
       results.add(`${starter} ${target} today.`);
     }
+    results.add(`Stopped by and ${target} was easy to handle.`);
+    results.add(`Came in and ${target} was easy to handle.`);
   }
 
   for (const outcome of outcomes) {
@@ -717,7 +728,14 @@ function buildStaffSentences() {
     "made pickup easy",
     "kept the handoff smooth",
     "confirmed the order before I left",
-    "moved the line along smoothly"
+    "moved the line along smoothly",
+    "kept the pace steady",
+    "pointed me to the pickup shelf",
+    "checked in to make sure everything was right",
+    "handled a quick request without fuss",
+    "made sure sauces were included",
+    "kept the counter area flowing",
+    "stayed calm and friendly"
   ];
 
   for (const staff of pluralStaff) {
@@ -759,6 +777,8 @@ function buildFoodSentences() {
   const pluralItems = new Set([
     "boneless wings",
     "tenders",
+    "classic tenders",
+    "spicy tenders",
     "fries",
     "cajun fries",
     "chicken pieces",
@@ -766,74 +786,122 @@ function buildFoodSentences() {
     "mashed potatoes",
     "red beans and rice",
     "chicken tenders",
-    "wings"
-  ]);
-  const softItems = new Set([
-    "coleslaw",
-    "mac and cheese",
-    "mashed potatoes",
-    "red beans and rice"
+    "wings",
+    "bbq wings",
+    "signature hot wings",
+    "sweet and spicy wings"
   ]);
   const hotItems = [
     "spicy chicken sandwich",
     "classic chicken sandwich",
     "chicken sandwich combo",
-    "blackened chicken sandwich",
+    "ghost pepper sandwich",
     "bone-in chicken",
     "signature chicken",
     "boneless wings",
     "tenders",
+    "classic tenders",
+    "spicy tenders",
     "chicken tenders",
     "blackened tenders",
     "biscuits",
     "fries",
     "cajun fries",
     "wings",
+    "bbq wings",
+    "signature hot wings",
+    "sweet and spicy wings",
     "red beans and rice",
     "coleslaw",
     "mashed potatoes",
     "mac and cheese",
     "chicken pieces",
-    "butterfly shrimp",
-    "apple pie"
+    "apple pie",
+    "strawberry pie",
+    "chicken family bundle"
   ];
   const drinkItems = [
     "sweet tea",
     "lemonade",
     "unsweet tea"
   ];
-  const hotQualities = [
+  const genericQualities = [
     "hot and fresh",
-    "crispy and not greasy",
-    "seasoned just right",
-    "warm and satisfying",
-    "cooked perfectly",
-    "tasty and filling",
-    "fresh out of the fryer",
-    "full of flavor",
-    "served at a great temperature",
-    "not overcooked",
-    "nice and juicy",
-    "crisp and hot",
-    "flavorful and filling",
-    "fresh and satisfying",
-    "hot and well seasoned",
-    "tender and juicy",
-    "crunchy and fresh",
-    "savory and satisfying",
-    "nicely seasoned"
-  ];
-  const shortQualities = [
-    "hot and fresh",
-    "crispy",
-    "juicy",
-    "flavorful",
-    "perfectly cooked",
     "well seasoned",
-    "tender",
+    "full of flavor",
+    "tasty and filling",
+    "cooked perfectly",
+    "not overcooked",
+    "warm and satisfying",
+    "fresh and satisfying"
+  ];
+  const genericShortQualities = [
+    "hot",
     "fresh",
+    "flavorful",
+    "well seasoned",
+    "perfectly cooked",
+    "tasty",
     "savory"
   ];
+  const itemQualities = new Map([
+    ["spicy chicken sandwich", ["hot and fresh", "full of flavor", "well seasoned", "tasty and filling", "cooked perfectly", "hot and well seasoned"]],
+    ["classic chicken sandwich", ["hot and fresh", "full of flavor", "well seasoned", "tasty and filling", "cooked perfectly", "nicely seasoned"]],
+    ["chicken sandwich combo", ["hot and fresh", "full of flavor", "well seasoned", "tasty and filling", "cooked perfectly", "hot and well seasoned"]],
+    ["ghost pepper sandwich", ["hot and fresh", "full of flavor", "spicy and well seasoned", "cooked perfectly", "tasty and filling"]],
+    ["bone-in chicken", ["hot and fresh", "juicy and flavorful", "well seasoned", "cooked perfectly", "crispy and hot"]],
+    ["signature chicken", ["hot and fresh", "juicy and flavorful", "well seasoned", "cooked perfectly", "crispy and hot"]],
+    ["boneless wings", ["crispy and hot", "tender and juicy", "well seasoned", "hot and fresh", "crispy and not greasy"]],
+    ["wings", ["crispy and flavorful", "hot and fresh", "well seasoned", "crispy and hot"]],
+    ["bbq wings", ["saucy and flavorful", "hot and fresh", "well seasoned", "tender and juicy"]],
+    ["signature hot wings", ["spicy and well seasoned", "hot and fresh", "full of flavor", "crispy and hot"]],
+    ["sweet and spicy wings", ["sweet and spicy", "well seasoned", "hot and fresh", "full of flavor"]],
+    ["tenders", ["crispy and not greasy", "tender and juicy", "hot and fresh", "well seasoned", "crispy and hot"]],
+    ["classic tenders", ["crispy and not greasy", "tender and juicy", "hot and fresh", "well seasoned", "crispy and hot"]],
+    ["spicy tenders", ["crispy and not greasy", "spicy and well seasoned", "hot and fresh", "tender and juicy", "full of flavor"]],
+    ["chicken tenders", ["crispy and not greasy", "tender and juicy", "hot and fresh", "well seasoned", "crispy and hot"]],
+    ["blackened tenders", ["full of flavor", "well seasoned", "tender and juicy", "hot and fresh", "nicely seasoned"]],
+    ["chicken pieces", ["hot and fresh", "juicy and flavorful", "well seasoned", "cooked perfectly", "crispy and hot"]],
+    ["fries", ["crispy and not greasy", "crisp and hot", "well seasoned", "hot and fresh", "not too greasy", "fresh and hot"]],
+    ["cajun fries", ["crispy and not greasy", "crisp and hot", "spicy and well seasoned", "hot and fresh", "not too greasy", "boldly seasoned"]],
+    ["biscuits", ["warm and buttery", "soft and warm", "flaky and warm", "fresh and warm", "warm and soft"]],
+    ["coleslaw", ["cool and crisp", "fresh and crisp", "crisp and fresh", "cool and fresh"]],
+    ["mac and cheese", ["creamy and hot", "cheesy and warm", "rich and creamy", "creamy and warm"]],
+    ["mashed potatoes", ["smooth and warm", "creamy and warm", "well seasoned", "hot and fresh", "smooth and creamy"]],
+    ["red beans and rice", ["hearty and warm", "well seasoned", "hot and fresh", "hearty and hot"]],
+    ["apple pie", ["warm and flaky", "crisp and hot", "fresh and warm", "warm and sweet"]],
+    ["strawberry pie", ["warm and sweet", "fresh and warm", "sweet and satisfying", "warm and flaky"]],
+    ["chicken family bundle", ["hot and fresh", "well seasoned", "filling and satisfying", "fresh and satisfying"]]
+  ]);
+  const itemShortQualities = new Map([
+    ["fries", ["hot", "crispy", "well seasoned", "fresh", "salty"]],
+    ["cajun fries", ["hot", "crispy", "well seasoned", "fresh", "spicy"]],
+    ["tenders", ["crispy", "tender", "hot", "fresh", "well seasoned"]],
+    ["classic tenders", ["crispy", "tender", "hot", "fresh", "well seasoned"]],
+    ["spicy tenders", ["crispy", "tender", "hot", "fresh", "spicy"]],
+    ["chicken tenders", ["crispy", "tender", "hot", "fresh", "well seasoned"]],
+    ["boneless wings", ["crispy", "hot", "fresh", "flavorful"]],
+    ["wings", ["crispy", "hot", "fresh", "flavorful"]],
+    ["bbq wings", ["hot", "saucy", "fresh", "flavorful"]],
+    ["signature hot wings", ["hot", "spicy", "fresh", "flavorful"]],
+    ["sweet and spicy wings", ["hot", "sweet", "spicy", "fresh"]],
+    ["biscuits", ["warm", "soft", "fresh", "buttery"]],
+    ["mac and cheese", ["creamy", "hot", "cheesy", "rich"]],
+    ["mashed potatoes", ["warm", "smooth", "creamy", "well seasoned"]],
+    ["red beans and rice", ["warm", "hearty", "well seasoned", "fresh"]],
+    ["coleslaw", ["cool", "crisp", "fresh", "light"]],
+    ["apple pie", ["warm", "crisp", "fresh", "sweet"]],
+    ["strawberry pie", ["warm", "sweet", "fresh", "flaky"]],
+    ["spicy chicken sandwich", ["hot", "flavorful", "fresh", "well seasoned"]],
+    ["classic chicken sandwich", ["hot", "flavorful", "fresh", "well seasoned"]],
+    ["chicken sandwich combo", ["hot", "flavorful", "fresh", "well seasoned"]],
+    ["ghost pepper sandwich", ["hot", "flavorful", "fresh", "spicy"]],
+    ["bone-in chicken", ["hot", "juicy", "fresh", "well seasoned"]],
+    ["signature chicken", ["hot", "juicy", "fresh", "well seasoned"]],
+    ["blackened tenders", ["hot", "tender", "fresh", "well seasoned"]],
+    ["chicken pieces", ["hot", "juicy", "fresh", "well seasoned"]],
+    ["chicken family bundle", ["hot", "fresh", "filling", "well seasoned"]]
+  ]);
   const drinkQualities = [
     "cold and refreshing",
     "tasted fresh",
@@ -873,29 +941,27 @@ function buildFoodSentences() {
     "The mac and cheese was creamy and hot.",
     "The mashed potatoes were smooth and warm.",
     "The biscuits tasted buttery and fresh.",
-    "The butterfly shrimp were crispy and hot.",
     "The sandwich had a great crunch.",
     "The apple pie was warm and flaky.",
     "The wings were crispy and flavorful.",
-    "The blackened tenders had great seasoning."
+    "The blackened tenders had great seasoning.",
+    "The ghost pepper sandwich had a nice kick.",
+    "The bbq wings were saucy and flavorful.",
+    "The sweet and spicy wings had great flavor.",
+    "The signature hot wings were hot and fresh.",
+    "The strawberry pie was sweet and warm.",
+    "The family bundle was hot and ready to go."
   ];
-  const fryerQualities = new Set([
-    "crispy and not greasy",
-    "crisp and hot",
-    "fresh out of the fryer",
-    "crunchy and fresh",
-    "crispy",
-    "crunchy"
-  ]);
   const itemGrammar = item => (
     pluralItems.has(item)
       ? { verb: "were", pronoun: "they" }
       : { verb: "was", pronoun: "it" }
   );
+  const getQualities = item => itemQualities.get(item) || genericQualities;
+  const getShortQualities = item => itemShortQualities.get(item) || genericShortQualities;
 
   for (const item of hotItems) {
-    for (const quality of hotQualities) {
-      if (softItems.has(item) && fryerQualities.has(quality)) continue;
+    for (const quality of getQualities(item)) {
       const { verb, pronoun } = itemGrammar(item);
       results.add(`The ${item} ${verb} ${quality}.`);
       results.add(`Loved the ${item}; ${pronoun} ${verb} ${quality}.`);
@@ -907,11 +973,12 @@ function buildFoodSentences() {
       results.add(`Glad the ${item} ${verb} ${quality}.`);
       results.add(`The ${item} ${verb} ${quality} and packed neatly.`);
     }
-    for (const quality of shortQualities) {
-      if (softItems.has(item) && fryerQualities.has(quality)) continue;
+    for (const quality of getShortQualities(item)) {
       const { verb } = itemGrammar(item);
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
-      results.add(`Hot, ${quality} ${item}.`);
+      if (!/\b(hot|cool|cold)\b/i.test(quality)) {
+        results.add(`Hot, ${quality} ${item}.`);
+      }
       results.add(`Really ${quality} ${item}.`);
     }
   }
@@ -1070,7 +1137,22 @@ function buildAccuracySentences() {
     "The drinks were sealed and secure.",
     "My name was on the bag.",
     "The order name was called clearly.",
-    "The bags were labeled clearly."
+    "The bags were labeled clearly.",
+    "The bag was sealed properly.",
+    "The receipt matched what I ordered.",
+    "They asked if I needed anything else.",
+    "They repeated my order before handing it over.",
+    "My sauces were packed correctly.",
+    "Everything was separated neatly in the bag.",
+    "The hot items were kept separate.",
+    "The extras I asked for were included.",
+    "The order was packed carefully and cleanly.",
+    "Everything came together smoothly.",
+    "The handoff was clear and quick.",
+    "The handoff was smooth and simple.",
+    "The order came together without issues.",
+    "The pickup handoff felt organized.",
+    "Everything was ready and easy to grab."
   ];
 
   return sentences;
@@ -1112,7 +1194,16 @@ function buildAtmosphereSentences() {
     "The atmosphere felt calm and welcoming.",
     "The space felt comfortable and tidy.",
     "The dining area felt peaceful.",
-    "The vibe felt easy and inviting."
+    "The vibe felt easy and inviting.",
+    "The seating felt comfortable.",
+    "The seating area was tidy.",
+    "The lighting was soft and easy on the eyes.",
+    "The music level was just right.",
+    "The flow inside felt smooth.",
+    "The dining area had a calm flow.",
+    "The space felt airy and open.",
+    "The room felt bright and comfortable.",
+    "The dining area felt relaxed and open."
   ];
 
   return sentences;
@@ -1211,7 +1302,10 @@ function buildShortSentencesByTone() {
     "Easy visit today.",
     "Great experience this morning.",
     "Great experience this afternoon.",
-    "Great experience this evening."
+    "Great experience this evening.",
+    "Stopped by and it was easy.",
+    "Pulled up and things moved fast.",
+    "Came in for a quick bite and it was smooth."
   ];
   const neutral = [
     "Smooth visit overall.",
@@ -1232,7 +1326,10 @@ function buildShortSentencesByTone() {
     "Order was ready quickly.",
     "Smooth visit this morning.",
     "Smooth visit this afternoon.",
-    "Smooth visit this evening."
+    "Smooth visit this evening.",
+    "Stopped by and the service stayed steady.",
+    "Came in and the visit was easy.",
+    "Pulled up and everything flowed smoothly."
   ];
   const formal = [
     "Service was efficient.",
@@ -1246,7 +1343,10 @@ function buildShortSentencesByTone() {
     "The dining area felt welcoming.",
     "The visit was well paced.",
     "The service was prompt and courteous.",
-    "The visit was calm and efficient."
+    "The visit was calm and efficient.",
+    "Stopped by and service was well organized.",
+    "Came in and everything was handled smoothly.",
+    "Pulled up and the service remained steady."
   ];
 
   return { casual, neutral, formal };
