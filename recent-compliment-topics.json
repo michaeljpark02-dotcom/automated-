@@ -5,7 +5,7 @@
   "value",
   "atmosphere",
   "cleanliness",
-  "food",
   "other",
-  "service"
+  "service",
+  "food"
 ]
