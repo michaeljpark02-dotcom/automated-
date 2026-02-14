@@ -1,9 +1,7 @@
 [
   "coleslaw",
-  "cajun fries",
   "mashed potatoes",
   "biscuits",
-  "fries",
   "signature hot wings",
   "mac and cheese",
   "classic chicken sandwich",
@@ -18,5 +16,7 @@
   "ghost pepper sandwich",
   "sweet tea",
   "tenders",
-  "classic tenders"
+  "classic tenders",
+  "fries",
+  "cajun fries"
 ]
