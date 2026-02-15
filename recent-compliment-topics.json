@@ -4,8 +4,8 @@
   "atmosphere",
   "accuracy",
   "cleanliness",
-  "service",
   "food",
   "staff",
-  "other"
+  "other",
+  "service"
 ]
