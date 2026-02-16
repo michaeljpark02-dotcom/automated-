@@ -4,7 +4,6 @@
   "signature hot wings",
   "classic chicken sandwich",
   "spicy chicken sandwich",
-  "wings",
   "bbq wings",
   "red beans and rice",
   "ghost pepper sandwich",
@@ -18,5 +17,6 @@
   "fries",
   "mac and cheese",
   "tenders",
-  "classic tenders"
+  "classic tenders",
+  "wings"
 ]
