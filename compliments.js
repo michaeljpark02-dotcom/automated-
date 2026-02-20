@@ -18,7 +18,10 @@ const STEM_LIMITS = new Map([
   ["made the visit easy", 10],
   ["felt easy", 10],
   ["smooth", 24],
-  ["hot and fresh", 12]
+  ["hot and fresh", 12],
+  ["alexander", 2],
+  ["michael", 2],
+  ["henry", 2]
 ]);
 const SERVICE_KEYWORDS = [
   "drive-thru",
@@ -57,7 +60,6 @@ const ORDER_TYPE_KEYWORDS = {
   ]
 };
 const STAFF_NAMES = [
-  "Alex",
   "Alexander",
   "Michael",
   "Henry"
@@ -122,6 +124,11 @@ const NGRAM_LIMIT_PROFILES = [
   { two: 2, three: 2 },
   { two: 3, three: 3 }
 ];
+const SEED_ROTATION_DAYS = (() => {
+  const raw = parseInt(process.env.COMPLIMENT_SEED_ROTATION_DAYS || "7", 10);
+  if (Number.isNaN(raw) || raw <= 0) return 7;
+  return raw;
+})();
 
 function capitalizeFirst(value) {
   if (!value) return value;
@@ -171,6 +178,13 @@ function hashString(value) {
   return hash >>> 0;
 }
 
+function getSeedEpochKey() {
+  const override = process.env.COMPLIMENT_SEED_EPOCH;
+  if (override && override.trim()) return override.trim();
+  const bucketMs = SEED_ROTATION_DAYS * 24 * 60 * 60 * 1000;
+  return `bucket-${Math.floor(Date.now() / bucketMs)}`;
+}
+
 function mulberry32(seed) {
   let t = seed >>> 0;
   return function rng() {
@@ -180,6 +194,40 @@ function mulberry32(seed) {
     r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
     return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+const QUALITY_GATE_RULES = [
+  /\b(?:was|were)\s+(?:tasted|hit the spot)\b/i,
+  /\b(?:also|plus|additionally|on top of that),\s*[a-z]/,
+  /,\s*,/,
+  /\.\s*\./
+];
+
+function hasWordRun(text, maxRun = 3) {
+  const words = text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+  let run = 1;
+  for (let i = 1; i < words.length; i++) {
+    if (words[i] === words[i - 1]) {
+      run += 1;
+      if (run >= maxRun) return true;
+    } else {
+      run = 1;
+    }
+  }
+  return false;
+}
+
+function passesQualityGate(text) {
+  if (!text) return false;
+  const normalized = String(text).replace(/\s+/g, " ").trim();
+  if (!normalized) return false;
+  if (/^[^a-zA-Z0-9]+$/.test(normalized)) return false;
+  if (hasWordRun(normalized, 3)) return false;
+  return QUALITY_GATE_RULES.every(rule => !rule.test(normalized));
 }
 
 function shuffleArray(list, rng) {
@@ -258,8 +306,6 @@ function generateVariants(text, rng) {
   if (punctuated && punctuated !== text) variants.push(punctuated);
   const lowercased = maybeLowercase(text, rng);
   if (lowercased && lowercased !== text) variants.push(lowercased);
-  const connected = maybeConnector(text, rng);
-  if (connected && connected !== text) variants.push(connected);
   if (synonymized) {
     const punctuatedSynonym = maybePunctuate(synonymized, rng);
     if (punctuatedSynonym && punctuatedSynonym !== synonymized) {
@@ -268,10 +314,6 @@ function generateVariants(text, rng) {
     const lowercasedSynonym = maybeLowercase(synonymized, rng);
     if (lowercasedSynonym && lowercasedSynonym !== synonymized) {
       variants.push(lowercasedSynonym);
-    }
-    const connectedSynonym = maybeConnector(synonymized, rng);
-    if (connectedSynonym && connectedSynonym !== synonymized) {
-      variants.push(connectedSynonym);
     }
   }
   return variants;
@@ -318,6 +360,7 @@ function isDineInLike(text) {
 
 function canUseCompliment(text, stemCounts, semanticCounts) {
   if (!text || text.length > MAX_COMPLIMENT_LENGTH) return false;
+  if (!passesQualityGate(text)) return false;
   const hits = extractStemHits(text);
   for (const stem of hits) {
     const limit = STEM_LIMITS.get(stem);
@@ -353,7 +396,7 @@ function registerSemanticHits(text, semanticCounts) {
 }
 
 function buildComplimentsForTone(shortSentences, seedSuffix) {
-  const rng = mulberry32(hashString(`compliments-v3-${seedSuffix}`));
+  const rng = mulberry32(hashString(`compliments-v4-${seedSuffix}-${getSeedEpochKey()}`));
   const compliments = new Set();
   const stemCounts = new Map();
   const semanticCounts = new Map();
@@ -382,7 +425,7 @@ function buildComplimentsForTone(shortSentences, seedSuffix) {
   addSome(compliments, shuffledShort, 25, stemCounts, semanticCounts, rng);
   addSome(compliments, rareSentences, 8, stemCounts, semanticCounts, rng);
   addSome(compliments, brandSentences, 6, stemCounts, semanticCounts, rng);
-  addSome(compliments, namedStaffSentences, 6, stemCounts, semanticCounts, rng);
+  addSome(compliments, namedStaffSentences, 2, stemCounts, semanticCounts, rng);
 
   const pairings = [
     [serviceSentences, foodSentences],
@@ -436,9 +479,25 @@ function addPairings(set, firstList, secondList, targetCount, stemCounts, semant
       if (isServiceLike(first) && isServiceLike(second)) continue;
       if (isPickupLike(first) && isDineInLike(second)) continue;
       if (isDineInLike(first) && isPickupLike(second)) continue;
-      addIfValid(set, `${first} ${second}`, stemCounts, semanticCounts, rng);
+      addIfValid(set, combinePairingSentences(first, second, rng), stemCounts, semanticCounts, rng);
     }
   }
+}
+
+function stripTerminalPunctuation(text) {
+  if (!text) return "";
+  return text.replace(/[.!?]+$/, "");
+}
+
+function combinePairingSentences(first, second, rng) {
+  if (!rng || rng() < 0.6) return `${first} ${second}`;
+  const firstCore = stripTerminalPunctuation(first);
+  const secondCore = stripTerminalPunctuation(second);
+  if (!firstCore || !secondCore) return `${first} ${second}`;
+  const firstHasVerb = /\b(is|are|was|were|be|been|being|feels?|felt|keeps?|kept|moves?|moved|runs?|ran|stays?|stayed|handles?|handled|looks?|looked|smells?|smelled|comes?|came|makes?|made|had|has|have)\b/i
+    .test(firstCore);
+  if (!firstHasVerb) return `${first} ${second}`;
+  return `${firstCore}, and ${lowercaseFirst(secondCore)}.`;
 }
 
 function addIfValidBase(set, text, stemCounts, semanticCounts) {
@@ -803,22 +862,6 @@ function buildFoodSentences() {
     "lemonade",
     "unsweet tea"
   ];
-  const genericQualities = [
-    "hot and fresh",
-    "well seasoned",
-    "cooked perfectly",
-    "not overcooked",
-    "warm and satisfying"
-  ];
-  const genericShortQualities = [
-    "hot",
-    "fresh",
-    "flavorful",
-    "well seasoned",
-    "perfectly cooked",
-    "tasty",
-    "savory"
-  ];
   const itemQualities = new Map([
     ["spicy chicken sandwich", ["hot and fresh", "well seasoned", "cooked perfectly", "hot and well seasoned"]],
     ["classic chicken sandwich", ["hot and fresh", "well seasoned", "cooked perfectly", "nicely seasoned"]],
@@ -879,11 +922,11 @@ function buildFoodSentences() {
   ]);
   const drinkQualities = [
     "cold and refreshing",
-    "tasted fresh",
+    "fresh and crisp",
     "not too sweet",
     "just the right sweetness",
     "nice and cold",
-    "hit the spot",
+    "really refreshing",
     "cold and smooth",
     "refreshing and crisp",
     "cool and smooth",
@@ -935,11 +978,14 @@ function buildFoodSentences() {
       ? { verb: "were", pronoun: "they" }
       : { verb: "was", pronoun: "it" }
   );
-  const getQualities = item => itemQualities.get(item) || genericQualities;
-  const getShortQualities = item => itemShortQualities.get(item) || genericShortQualities;
+  const getQualities = item => itemQualities.get(item);
+  const getShortQualities = item => itemShortQualities.get(item);
 
   for (const item of hotItems) {
-    for (const quality of getQualities(item)) {
+    const qualities = getQualities(item);
+    const shortQualities = getShortQualities(item);
+    if (!qualities || !shortQualities) continue;
+    for (const quality of qualities) {
       const { verb, pronoun } = itemGrammar(item);
       results.add(`The ${item} ${verb} ${quality}.`);
       results.add(`My ${item} ${verb} ${quality}.`);
@@ -948,13 +994,9 @@ function buildFoodSentences() {
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
       results.add(`Glad the ${item} ${verb} ${quality}.`);
     }
-    for (const quality of getShortQualities(item)) {
+    for (const quality of shortQualities) {
       const { verb } = itemGrammar(item);
       results.add(`${capitalizeFirst(item)} ${verb} ${quality}.`);
-      if (!/\b(hot|cool|cold)\b/i.test(quality)) {
-        results.add(`Nice and ${quality} ${item}.`);
-        results.add(`Hot, ${quality} ${item}.`);
-      }
       results.add(`${capitalizeFirst(item)} hit the spot.`);
     }
     results.add(`Went with the ${item} and it hit the spot.`);
@@ -1396,9 +1438,7 @@ function buildBrandSentences() {
 function buildNamedStaffSentences() {
   const lines = [];
   for (const name of STAFF_NAMES) {
-    lines.push(`Shoutout to ${name} for being so helpful.`);
-    lines.push(`${name} kept the visit smooth and friendly.`);
-    lines.push(`${name} at the counter was polite and quick.`);
+    lines.push(`Shoutout to ${name} for being helpful.`);
     lines.push(`${name} handled my order with care.`);
   }
   return lines;
